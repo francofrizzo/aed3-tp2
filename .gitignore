@@ -26,9 +26,9 @@
 *.exe
 *.out
 *.app
-KaioKenSolver
-GenkidamaSolver
-KamehamehaSolver
+UnaNuevaEsperanzaSolver
+ElImperioContraatacaSolver
+ElRetornoDelJediSolver
 
 # Latex
 *.aux
