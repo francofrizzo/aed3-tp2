@@ -6,6 +6,7 @@
 #include <fstream>       // open, close, <<
 #include <iomanip>       // stoi
 #include <unistd.h>      // getopt
+#include <vector>        // vector
 
 // Medición de tiempos
 static std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
@@ -20,5 +21,20 @@ extern bool verbose;
 void correr_solucion();
 void correr_tests_unitarios();
 void correr_pruebas_performance();
+
+// Compara dos vectores
+template <typename T>
+bool compararVectores(const std::vector<T> calculado, const std::vector<T> esperado) {
+    if (calculado.size() != esperado.size()) {
+        return false;
+    } else {
+        for (unsigned int i = 0; i < calculado.size(); i++) {
+            if (calculado[i] != esperado[i]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 #endif
