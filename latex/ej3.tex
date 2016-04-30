@@ -3,6 +3,47 @@
     % Describir detalladamente el problema a resolver dando ejemplos del mismo y sus soluciones.
     \subsection{Descripción del problema}
 
+	Luke debe enfrentar a su padre. Para ello debe moverse por una grilla,
+	arrancando en la esquina superior izquierda para terminar en la opuesta,
+	donde aguarda Darth Vader. Cada casilla de la grilla tiene una altura
+	asociada, donde dependiendo de la diferencia en altura entre el casillero
+	actual de Luke y su destino le costará más o menos energía moverse. Además
+	se tiene la condición de que Luke únicamente puede avanzar hacia abajo o
+	hacia la derecha, dado que considera un acto de cobardía retroceder sobre
+	sus pasos. El objetivo es encontrar y devolver el camino donde Luke gasta la
+	menor cantidad de energía en alcanzar su destino.
+
+	Formalizando el problema, se tiene una grilla $G$ rectangular de dimensiones $N \times
+	M$ donde Luke comienza en la posición $(1, 1)$ y desea llegar a $(N, M)$.
+	Sea $G_{ij}$ con $1 \leq i \leq N$ y $1 \leq j \leq M$ la altura de cada
+	casillero, $H$ el nivel de entrenamiento de Luke y $\Delta$ la
+	diferencia de altura entre el casillero actual y el próximo, el costo de
+	energía para cada movimiento se calcula de la siguiente manera: nulo si $|\Delta|
+	\leq H$, $|\Delta| - H$ en caso contrario. La condición de que Luke no pueda
+	retroceder es equivalente a decir que únicamente puede moverse de forma
+	creciente en $i$ o $j$.
+
+	El formato de entrada para el problema es el siguiente, donde la primer
+	línea posée las dimensiones de la grilla y el nivel de entrenamiento de
+	Luke, y las siguientes $N$ entradas contienen $M$ elementos donde cada uno
+	representa la altura del casillero correspondiente.
+
+	~
+
+	\begin{tabular}{cccc}
+		$N$ & $M$ & $H$ & \\
+		$G_{11}$ & $G_{12}$ & $\dots$ & $G_{1M}$ \\
+		$G_{21}$ & $G_{22}$ & $\dots$ & $G_{2M}$ \\
+		$\vdots$ & & & \\
+		$G_{N1}$ & $G_{N2}$ & $\dots$ & $G_{NM}$ \\
+	\end{tabular}
+
+	~
+
+	La salida está compuesta por una primer línea con el costo del camino
+	seleccionado y $j$ líneas con la dirección ($X$ o $Y$) a tomar en cada paso para
+	realizar el mismo.
+
     % Explicar de forma clara, sencilla, estructurada y concisa, las ideas desarrolladas para la resolución del problema. Utilizar pseudocódigo y lenguaje coloquial (no código fuente). Justificar por qué el procedimiento resuelve efectivamente el problema.
     \subsection{Solución propuesta}
 
