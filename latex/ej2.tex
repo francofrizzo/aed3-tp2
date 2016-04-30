@@ -3,6 +3,72 @@
     % Describir detalladamente el problema a resolver dando ejemplos del mismo y sus soluciones.
     \subsection{Descripción del problema}
 
+    \begin{figure}[ht]
+        \begin{center}
+            \includegraphics[width=1\columnwidth]{imagenes/el_imperio_contraataca.jpg}
+            \caption{Prestame atención a mi, soy tu padre!}
+        \end{center}
+    \end{figure}
+
+    Luke debe informarle a todos sus aliados para que estén al tanto del contraataque del imperio. Parte del planeta Hoth, conocido como planeta 0, y quiere que la noticia llegue a todos los planetas.
+
+    En cada planeta hay infinitos halcones milenarios. Los halcones milenarios consumen una determinada de combustible cada un millón de kilómetros.
+
+    Una vez que un halcón milenario llega a un planeta, de éste pueden salir cualquier cantidad de halcones para seguir advirtiendo a los rebeldes de otros planetas.
+
+    Los halcones milenarios no pueden viajar por cualquier lado, sólo por las rutas espaciales. Cada ruta conecta exactamente dos planetas. Esto nos permite ver el problema como uno de grafos, en donde cada planeta es un vértice y cada ruta es un eje.
+
+    Sabemos que existe al menos una forma de llegar desde cualquier planeta a cualquier otro a través de rutas espaciales. Por lo que sabemos que el grafo es conexo.
+
+    Lo que se pide es encontrar cuál es la mínima cantidad de combustible necesaria para entregar el mensaje en todos los planetas. Además, se debe indicar de qué planeta proviene la nave que entrega el mensaje, para cada planeta, excepto el 0.
+
+    Las rutas tienen largos distintos, por lo que podemos pensar nuestro grafo como un grafo ponderado.
+
+    Se pide que el algoritmo tenga una complejidad temporal $\ord(M$ log $M)$. \\
+
+    \textbf{Formato de entrada}: La primera línea consta de un entero positivo N, que indica la cantidad de planetas, y un entero positivo M, que indica la cantidad de rutas espaciales. A continuación de esta línea siguen M líneas con enteros Ai, Bi y Li, siendo Ai y Bi los extremos de la ruta y Li la cantidad de litros que se gastan al recorrer esa ruta (0 $\leq$ Ai $\neq$ Bi $\leq$ N-1). La entrada contará con el siguiente formato:
+
+    \begin{verbatim}
+    N M
+    A0 B0 L0 
+    A1 B1 L1 
+    ...
+    AM-1 BM-1 LM-1
+    \end{verbatim}
+
+    \textbf{Formato de salida}: La primera línea debe contener la cantidad mínima de litros L necesarios para informar a toda la alianza sobre esta noticia, seguida de N-1 líneas que indican desde qué planeta se viaja para informar de la situación a cada planeta (el vecino inmediato desde el cual se viaja). El formato debe ser el siguiente:
+    
+    \begin{verbatim}
+    L
+    I1
+    I2
+    ...
+    IN-1
+    \end{verbatim}
+
+    indicando que al planeta i se le informa de la situación con una nave que parte del planeta Ii.
+
+    Por ejemplo, si tuviésemos la siguiente entrada:
+
+    \begin{verbatim}
+    4 4
+    0 1 1
+    1 2 2
+    1 3 5
+    2 3 1
+    \end{verbatim}
+
+    Una salida correcta sería la siguiente:
+
+    \begin{verbatim}
+    4
+    0
+    1
+    2
+    \end{verbatim}
+
+    Es necesario observar que pueden haber más de una salida distinta válida.
+
     % Explicar de forma clara, sencilla, estructurada y concisa, las ideas desarrolladas para la resolución del problema. Utilizar pseudocódigo y lenguaje coloquial (no código fuente). Justificar por qué el procedimiento resuelve efectivamente el problema.
     \subsection{Solución propuesta}
 
