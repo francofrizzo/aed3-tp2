@@ -9,6 +9,7 @@ using namespace std;
 
 bool verbose = false;
 
+
 int main (int argc, char* argv[]) {
     // Configuración de la ejecución
     // bool verbose = false;
