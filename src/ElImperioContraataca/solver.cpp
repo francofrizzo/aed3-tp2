@@ -11,7 +11,110 @@
 using namespace std;
 
 void correr_solucion() {
-    std::cout << "Acá todavía no hay nada" << std::endl;
+
+    // Leer los datos de entrada
+    uint N, M;
+    vector<vector<pair<int, int>>> rutas;
+
+    cin >> N;
+    cin >> M;
+
+    rutas = vector<vector<pair<int, int>>>(N);
+
+    int planeta1;
+    int planeta2;
+    int longitud;
+
+    for (uint i = 0; i < M; i++) {  // crear de listas de adyacencia
+        cin >> planeta1;
+        cin >> planeta2;
+        cin >> longitud;
+
+        rutas[planeta1].push_back(pair<int, int>(planeta2, longitud));
+        rutas[planeta2].push_back(pair<int, int>(planeta1, longitud));
+    }
+
+    // Resolver el problema
+    vector<int> agm = prim(rutas);
+
+    // Calcular el total de combustible utilizado
+    int total_combustible = peso_arbol_generador(agm, rutas);
+
+    // Imprimir la solución
+    cout << total_combustible << endl;
+
+    for (uint i = 1; i < N; i++) {
+        cout << agm[i] << endl;
+    }
+
+}
+
+vector<int> prim(const vector<vector<pair<int, int>>>& vecinos) {
+    uint N = vecinos.size();
+
+    // Crear una cola de prioridad que contiene a todos los nodos
+    cola_prioridad vertices(N);
+
+    // Establecer en 0 la prioridad del primer vértice y en (prácticamente)
+    // infinito las demás
+    vertices.setear_prioridad(0, 0);
+    for (uint i = 1; i < N; i++) {
+        vertices.setear_prioridad(i, numeric_limits<int>::max());
+    }
+
+    // En este vector se registrarán los nodos que ya no deben procesarse
+    vector<bool> vertices_marcados(N, false);
+
+    // Aquí se irá formando la solución del problema
+    vector<int> predecesores(N, 0);
+    
+    // Iterar hasta que la cola esté vacía
+    while (! vertices.vacia()) {
+        // Desencolar el vértice con menor prioridad (esto representa al
+        // vértice unido al árbol generado hasta el momento por la arista
+        // más corta posible). Marcarlo como visitado
+        int vert_actual = vertices.min_indice();
+        vertices.desencolar();
+        vertices_marcados[vert_actual] = true;
+
+        // Iterar sobre los vecinos no marcados del nodo seleccionado
+        for (uint j = 0; j < vecinos[vert_actual].size(); j++) {
+            int ind_vecino  = vecinos[vert_actual][j].first;
+            
+            if (! vertices_marcados[ind_vecino]) {
+                int long_arista = vecinos[vert_actual][j].second;
+
+                // Comparar la longitud de la arista recién examinada con
+                // el valor almacenado como prioridad del vecino, y en caso
+                // de que sea necesario, actualizar este valor
+                if (long_arista < vertices.prioridad(ind_vecino) ||
+                    vertices.prioridad(ind_vecino) == -1) {
+                    vertices.setear_prioridad(ind_vecino, long_arista);
+                    predecesores[ind_vecino] = vert_actual;
+                }
+            }
+        }
+    }
+
+    return predecesores;
+}
+
+int peso_arbol_generador(
+    vector<int>& arbol,
+    const vector<vector<pair<int, int>>>& vecinos
+) {
+    int peso = 0;
+    for (uint i = 0; i < vecinos.size(); i++) {
+        uint j;
+        for (j = 0; j < vecinos[i].size(); j++) {
+            if (vecinos[i][j].first == arbol[i]) {
+                break;
+            }
+        }
+        peso += vecinos[i][j].second;
+    }
+
+    return peso;
 }
 
 
