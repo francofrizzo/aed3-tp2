@@ -20,7 +20,9 @@
 
     Se pide encontrar cuál es la mínima cantidad de combustible necesaria para entregar el mensaje en todos los planetas. Además, se debe indicar de qué planeta proviene la nave que entrega el mensaje, para cada planeta excepto el 0.
 
-    Se pide que el algoritmo tenga una complejidad temporal $\ord(M$ log $M)$. \\
+    Se pide que el algoritmo tenga una complejidad temporal $\ord(M$ log $M)$.
+
+    \vspace{1.25em}
 
     \textbf{Formato de entrada}: La primera línea consta de un entero positivo \texttt{N}, que indica la cantidad de planetas, y un entero positivo M, que indica la cantidad de rutas espaciales. A continuación de esta línea siguen \texttt{M} líneas con enteros \texttt{Ai}, \texttt{Bi} y \texttt{Li}, siendo \texttt{Ai} y \texttt{Bi} los extremos de la ruta y \texttt{Li} la cantidad de litros que se gastan al recorrer esa ruta ($0 \leq \mathtt{Ai} \neq \mathtt{Bi} \leq N-1$). La entrada contará con el siguiente formato:
 
@@ -29,8 +31,9 @@
     A0 B0 L0 
     A1 B1 L1 
     ...
-    AM-1 BM-1 LM-1
-    \end{verbatim}
+    AM-1 BM-1 LM-1\end{verbatim}
+
+    \vspace{.8em}
 
     \textbf{Formato de salida}: La primera línea debe contener la cantidad mínima de litros \texttt{L} necesarios para informar a toda la alianza sobre esta noticia, seguida de $N-1$ líneas que indican desde qué planeta se viaja para informar de la situación a cada planeta (el vecino inmediato desde el cual se viaja). El formato debe ser el siguiente:
     
@@ -39,15 +42,17 @@
     I1
     I2
     ...
-    IN-1
-    \end{verbatim}
+    IN-1\end{verbatim}
 
     indicando que al planeta \texttt{i} se le informa de la situación con una nave que parte del planeta \texttt{Ii}.
+
+    \vspace{.8em}
 
     A continuación se incluyen, a modo de ejemplo, una posible entrada y una
     salida correcta para la misma:
 
-    \begin{tabular}{ll}
+    \vspace{.5em}
+    \begin{tabular}{l @{\hskip 4em} l}
     \textbf{Entrada} & \textbf{Salida} \\
     \texttt{4 4}     & \texttt{4}      \\
     \texttt{0 1 1}   & \texttt{0}      \\
@@ -55,6 +60,7 @@
     \texttt{1 3 5}   & \texttt{2}      \\
     \texttt{2 3 1}   &                 \\
     \end{tabular}
+    \vspace{.5em}
 
     Es importante observar que pueden haber más de una salida distinta válida.
 
@@ -76,25 +82,47 @@
     viajar entre dos planetas equivale a decir que el grafo es conexo.
 
     Sea $G$ el grafo cuyo conjunto de vértices son los planetas y su conjunto
-    de aristas, las rutas espaciales. Bajo este modelo, el problema que busca
-    resolverse es hallar un subgrafo $T$ de $G$, de forma tal que:
-    \begin{itemize}
+    de aristas, las rutas espaciales. Notar que $G$ es un grafo conexo y
+    sus aristas tienen pesos no negativos. Bajo este modelo, el problema que
+    busca resolverse se traduce en hallar un subgrafo $T$ de $G$, de forma tal
+    que:
+    \begin{enumerate}
         \item Todos los nodos de $G$ sean nodos de $T$.
-        \item Llamando $v_0 \in V(G)$ al planeta Hoth, exista en $T$ un camino
-        entre $v_0$ y cualquier otro planeta. Dado que $T$ es un grafo no
-        dirigido, esto equivale a pedir que $T$ sea conexo.
+        \item Para algún nodo $v_0 \in V(G)$ (representando al planeta Hoth),
+        exista en $T$ un camino entre $v_0$ y cualquier otro nodo. Dado que
+        $T$ es un grafo no dirigido, esto equivale a pedir que $T$ sea conexo.
         \item La suma de los pesos de todos los ejes $T$ sea mínima con
         respecto a todos los subgrafos de $G$ que cumplen los dos puntos
         anteriores.
-    \end{itemize}
+    \end{enumerate}
 
 
     \begin{lema}
-    Todo subgrafo $T \subseteq G$ que cumpla con los tres puntos anteriores
-    es un árbol generador mínimo de $G$.
+    Sea $G$ un grafo con pesos no negativos, y $T \subseteq G$ un árbol
+    generador mínimo de $G$. Entonces $T$ cumple las tres propiedades recién
+    enunciadas.
     \end{lema}
     \begin{proof}
+    Sabemos que $T$ cumple los dos primeros ítems, por definición de árbol
+    generador mínimo.
+    Supongamos ahora que no se cumple el tercer punto, es decir, que existe
+    otro subgrafo de $G$, $H$, que también cumple las primeras dos propiedades
+    y tal que el peso total de sus aristas es estrictamente menor que el de
+    $T$.
 
+    Por el segundo punto, sabemos que $H$ es conexo, por lo que tiene al menos
+    un árbol generador mínimo $\tilde{H}$ que también cumple las primeras dos
+    propiedades enunciadas. Por el primer punto, $H$ contiene todos los
+    nodos de $G$, así que $\tilde{H}$ también es árbol generador de $G$.
+    Dado que las aristas de $H$ tienen pesos no negativos, y todas las aristas
+    de $\tilde{H}$ están en $H$, el peso total de las aristas de $\tilde{H}$
+    es menor o igual que la de $H$ y, por transitividad, también que el de
+    $T$. Es decir, $H$ es un árbol generador de $G$ cuyo peso total es menor
+    que el de $T$, lo cual cual contradice el hecho de que que $T$ es un árbol
+    generador mínimo de $G$.
+
+    Esto prueba que no puede existir tal subgrafo $H$, es decir, que $T$
+    cumple también con la tercer propiedad.
     \end{proof}
 
     % Deducir una cota de complejidad temporal del algoritmo propuesto (en
