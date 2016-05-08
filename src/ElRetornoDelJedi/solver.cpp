@@ -26,37 +26,37 @@ int calcularEnergiaGastada(int xDsd ,int yDsd , int xHst, int yHst, int H , vect
 
 pair< int, vector<char>  > resolver( int N, int M ,int H, vector < vector <int> > &E ,
 	vector < vector < pair < int, char > > > &DP ) {
-	// cout << " Strat resolver" << endl;
+	//cout << " Strat resolver" << endl;
 	// Instacio el DP
-	DP = vector< vector< pair < int, char > > >(N, vector < pair < int, char > > (M, make_pair (-1,'X')));
+	DP = vector< vector< pair < int, char > > >(N, vector < pair < int, char > > (M, make_pair (-1,'Z')));
 	DP[0][0] = pair<int,char>(0,'I');
 
-	// cout << " Calculo la primera columnas. " << endl;
+	//cout << " Calculo la primera columna. " << endl;
 	for (int i = 1; i < N; ++i){
 		// cout << "i : " << i << " j : " << 0 << endl;
-		int X = DP[i - 1][0].first + calcularEnergiaGastada(i-1,0,i,0,H,E);
-		DP[i][0] = pair<int,char>(X,'Y');
+		int Y = DP[i - 1][0].first + calcularEnergiaGastada(i-1,0,i,0,H,E);
+		DP[i][0] = pair<int,char>(Y,'Y');
 		
 	}
-	// cout << " Calculo la primera filas. " << endl;
+	//cout << " Calculo la primera Fila. " << endl;
 	for (int j = 1; j < M; ++j){
 		// cout << "i : " << 0 << " j : " << j << endl;
-		int Y = DP[0][j - 1].first + calcularEnergiaGastada(0,j-1,0,j,H,E);
-		DP[0][j] =  pair<int,char>(Y,'X');
+		int X = DP[0][j - 1].first + calcularEnergiaGastada(0,j-1,0,j,H,E);
+		DP[0][j] =  pair<int,char>(X,'X');
 	}
 
-	// cout << " LLeno la matriz ;) " << endl;
+	//cout << " LLeno la matriz ;) " << endl;
 	for (int i = 1; i < N; ++i){
 		for (int j = 1; j < M; ++j){
 			// cout << "i : " << i << " j : " << j << endl;
 			// si me moveria por el eje X
-			int X = DP[i-1][j].first + calcularEnergiaGastada(i-1,j,i,j,H,E);
+			int Y = DP[i-1][j].first + calcularEnergiaGastada(i-1,j,i,j,H,E);
 			// si me moveria por el eje Y
-			int Y = DP[i][j-1].first + calcularEnergiaGastada(i,j-1,i,j,H,E);
+			int X = DP[i][j-1].first + calcularEnergiaGastada(i,j-1,i,j,H,E);
 			if (X > Y){
-				DP[i][j] = pair<int,char>(Y,'X');
+				DP[i][j] = pair<int,char>(Y,'Y');
 			}else{
-				DP[i][j] = pair<int,char>(X,'Y');
+				DP[i][j] = pair<int,char>(X,'X');
 			}
 
 		}

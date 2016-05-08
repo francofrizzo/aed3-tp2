@@ -10,28 +10,39 @@
 
 
 void test_fila() {
-	int N = 1;
-	int M = 3;
-	int H = 666;
-	vector < vector <int> > E = vector < vector <int> >(N, vector <int> (M,700));
+	int N = 3;
+	int M = 1;
+	int H = 5;
+	vector < vector <int> > E = vector < vector <int> >(N, vector <int> (M,0));
+	//  0  
+	//  10 
+	//  100
+	E[0][0] = 100;
+	E[1][0] = 10;
+	E[2][0] = 100;
+	
 	vector < vector < pair < int, char > > > DP;
 	pair < int, vector <char>  > solucion = resolver(N,M,H,E,DP);
-	vector <char> camino ; camino.push_back('X'); camino.push_back('X');
-	pair < int, vector <char>  > esperado = make_pair(0,camino);
-	ASSERT_EQ(esperado.first, solucion.first);
+	vector <char> camino ; camino.push_back('Y'); camino.push_back('Y');
+	pair < int, vector <char>  > esperado = make_pair(170,camino);
+	ASSERT_EQ(solucion.first, esperado.first);
 	ASSERT(compararVectores(solucion.second, esperado.second));
 
 }
 
 void test_columna() {
-	int N = 3;
-	int M = 1;
-	int H = 666;
-	vector < vector <int> > E = vector < vector <int> >(N, vector <int> (M,700));
+
+	int N = 1;
+	int M = 3;
+	int H = 0;
+	
+	vector < vector <int> > E = vector < vector <int> >(N, vector <int> (M,0));
+	//   0 |  10 | 100
+	E[0][0] = 0; E[0][1] = 10; E[0][2] = 100;
 	vector < vector < pair < int, char > > > DP;
 	pair < int, vector <char>  > solucion = resolver(N,M,H,E,DP);
-	vector <char> camino ; camino.push_back('Y'); camino.push_back('Y');
-	pair < int, vector <char>  > esperado = make_pair(0,camino);
+	vector <char> camino ; camino.push_back('X'); camino.push_back('X');
+	pair < int, vector <char>  > esperado = make_pair(100,camino);
 	ASSERT_EQ(esperado.first, solucion.first);
 	ASSERT(compararVectores(solucion.second, esperado.second));
 
@@ -41,7 +52,7 @@ void test_unico() {
 	int N = 1;
 	int M = 1;
 	int H = 666;
-	vector < vector <int> > E = vector < vector <int> >(N, vector <int> (M,700));
+	vector < vector <int> > E = vector < vector <int> >(N, vector <int> (M,0));
 	vector < vector < pair < int, char > > > DP;
 	pair < int, vector <char>  > solucion = resolver(N,M,H,E,DP);
 	pair < int, vector <char>  > esperado = make_pair(0,vector <char> ());
