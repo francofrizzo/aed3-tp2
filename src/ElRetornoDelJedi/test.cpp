@@ -23,7 +23,7 @@ void test_fila() {
 	
 	vector < vector < pair < int, char > > > DP;
 	pair < int, vector <char>  > solucion = resolver(N,M,H,E,DP);
-	vector <char> camino ; camino.push_back('Y'); camino.push_back('Y');
+	vector <char> camino ; camino.push_back('X'); camino.push_back('X');
 	pair < int, vector <char>  > esperado = make_pair(170,camino);
 	ASSERT_EQ(solucion.first, esperado.first);
 	ASSERT(compararVectores(solucion.second, esperado.second));
@@ -41,7 +41,7 @@ void test_columna() {
 	E[0][0] = 0; E[0][1] = 10; E[0][2] = 100;
 	vector < vector < pair < int, char > > > DP;
 	pair < int, vector <char>  > solucion = resolver(N,M,H,E,DP);
-	vector <char> camino ; camino.push_back('X'); camino.push_back('X');
+	vector <char> camino ; camino.push_back('Y'); camino.push_back('Y');
 	pair < int, vector <char>  > esperado = make_pair(100,camino);
 	ASSERT_EQ(esperado.first, solucion.first);
 	ASSERT(compararVectores(solucion.second, esperado.second));
@@ -75,7 +75,7 @@ void test_3x3() {
 	vector < vector < pair < int, char > > > DP;
 	pair < int, vector <char>  > solucion = resolver(N,M,H,E,DP);
 	vector <char> camino ; 
-	camino.push_back('X'); camino.push_back('Y');camino.push_back('Y'); camino.push_back('X');
+	camino.push_back('Y'); camino.push_back('X');camino.push_back('X'); camino.push_back('Y');
 	pair < int, vector <char>  > esperado = make_pair(10,camino);
 	ASSERT_EQ(esperado.first, solucion.first);
 	// imprimirCamino(solucion.second);
@@ -97,7 +97,7 @@ void test_3x3_informe() {
 	vector < vector < pair < int, char > > > DP;
 	pair < int, vector <char>  > solucion = resolver(N,M,H,E,DP);
 	vector <char> camino ;
-	camino.push_back('Y'); camino.push_back('X');camino.push_back('Y'); camino.push_back('X');
+	camino.push_back('X'); camino.push_back('Y');camino.push_back('X'); camino.push_back('Y');
 	pair < int, vector <char>  > esperado = make_pair(4, camino);
 	ASSERT_EQ(esperado.first, solucion.first);
 	// imprimirCamino(solucion.second);

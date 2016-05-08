@@ -36,14 +36,14 @@ pair< int, vector<char>  > resolver( int N, int M ,int H, vector < vector <int> 
 	for (int i = 1; i < N; ++i){
 		// cout << "i : " << i << " j : " << 0 << endl;
 		costoY = DP[i - 1][0].first + calcularEnergiaGastada(0, i-1, 0, i, H, E);
-		DP[i][0] = pair<int,char>(costoY,'Y');
+		DP[i][0] = pair<int,char>(costoY,'X');
 		
 	}
 	//cout << " Calculo la primera Fila. " << endl;
 	for (int j = 1; j < M; ++j){
 		// cout << "i : " << 0 << " j : " << j << endl;
 		costoX = DP[0][j - 1].first + calcularEnergiaGastada(j-1, 0, j, 0, H, E);
-		DP[0][j] =  pair<int,char>(costoX,'X');
+		DP[0][j] =  pair<int,char>(costoX,'Y');
 	}
 
 	//cout << " LLeno la matriz ;) " << endl;
@@ -55,9 +55,9 @@ pair< int, vector<char>  > resolver( int N, int M ,int H, vector < vector <int> 
 			// si me moviera por el eje X
 			int costoX = DP[i][j-1].first + calcularEnergiaGastada(j-1, i, j, i, H, E);
 			if (costoX > costoY){
-				DP[i][j] = pair<int,char>(costoY,'Y');
+				DP[i][j] = pair<int,char>(costoY,'X');
 			}else{
-				DP[i][j] = pair<int,char>(costoX,'X');
+				DP[i][j] = pair<int,char>(costoX,'Y');
 			}
 
 		}
@@ -73,7 +73,7 @@ pair< int, vector<char>  > resolver( int N, int M ,int H, vector < vector <int> 
 		// cout << "i : " << i << " j : " << j << endl;
 		// cout << "DP[i][j].second : " << DP[i][j].second << endl;
 		camino.push_back(DP[i][j].second);
-		if (DP[i][j].second == 'X'){
+		if (DP[i][j].second == 'Y'){
 			j--;
 		}else{
 			i--;
