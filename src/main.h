@@ -6,6 +6,7 @@
 #include <fstream>       // open, close, <<
 #include <iomanip>       // stoi
 #include <unistd.h>      // getopt
+#include <vector>        // vector
 
 // Medición de tiempos
 static std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
