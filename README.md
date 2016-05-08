@@ -3,9 +3,9 @@ Trabajo práctico 2
 
 **Fecha de entrega:** lunes 16 de mayo, hasta las 18:00 hs.
 
-Este trabajo práctico consta de varios problemas y para aprobar el mismo se requiere aprobar todos los problemas. La nota final será un promedio ponderado de las notas finales de los ejercicios y el trabajo práctico se aprobará con una nota de 5 (_cinco_) o superior. De ser necesario (o si el grupo lo desea), el trabajo podrá reentregarse una vez corregido por los docentes y en ese caso la reentrega deberá estar acompañada por un _informe de modificaciones_. Este informe deberá detallar brevemente las diferencias entre las dos entregas, especificando los cambios, agregados y/o partes eliminadas. Cualquier cambio que no se encuentre en dicho informe podrá no ser tenido en cuenta en la corrección de la reentrega. Para la reentrega del trabajo práctico **podrı́an pedirse ejercicios adicionales**.
+Este trabajo práctico consta de varios problemas y para aprobar el mismo se requiere aprobar todos los problemas. La nota final será un promedio ponderado de las notas finales de los ejercicios y el trabajo práctico se aprobará con una nota de 5 (_cinco_) o superior. De ser necesario (o si el grupo lo desea), el trabajo podrá reentregarse una vez corregido por los docentes y en ese caso la reentrega deberá estar acompañada por un _informe de modificaciones_. Este informe deberá detallar brevemente las diferencias entre las dos entregas, especificando los cambios, agregados y/o partes eliminadas. Cualquier cambio que no se encuentre en dicho informe podrá no ser tenido en cuenta en la corrección de la reentrega. Para la reentrega del trabajo práctico **podrían pedirse ejercicios adicionales**.
 
-Para cada ejercicio se pide encontrar una solución algorı́tmica al problema propuesto y desarrollar los siguientes puntos:
+Para cada ejercicio se pide encontrar una solución algorítmica al problema propuesto y desarrollar los siguientes puntos:
   
   1. Describir detalladamente el problema a resolver dando ejemplos del mismo y sus soluciones.
   
@@ -26,15 +26,15 @@ Deberá entregarse un informe impreso que desarrolle los puntos mencionados. Por
 Problema 1: Una nueva esperanza
 -------------------------------
 
-Luke Skywalker está entrenando con el maestro Yoda para aprender a manejar la fuerza y ası́ enfrentar al poderoso Darth Vader. Para eso, Yoda le ha encargado que recorra un planeta del sistema Dagobah que está lleno de cuevas y pasadizos. Cada pasadizo conecta exactamente dos dos cuevas entre sı́. No hay forma de pasar de un pasadizo a otro sin pasar por una cueva, ni pasar de una cueva a otra sin pasar por un pasadizo. Es bien conocido que desde cualquier cueva se puede llegar a cualquier otra moviéndose por pasadizos (posiblemente pasando en el camino por otras cuevas). Además, se sabe que en el planeta hay _N_ cuevas, numeradas de 0 a _N_ − 1.
+Luke Skywalker está entrenando con el maestro Yoda para aprender a manejar la fuerza y así enfrentar al poderoso Darth Vader. Para eso, Yoda le ha encargado que recorra un planeta del sistema Dagobah que está lleno de cuevas y pasadizos. Cada pasadizo conecta exactamente dos dos cuevas entre sí. No hay forma de pasar de un pasadizo a otro sin pasar por una cueva, ni pasar de una cueva a otra sin pasar por un pasadizo. Es bien conocido que desde cualquier cueva se puede llegar a cualquier otra moviéndose por pasadizos (posiblemente pasando en el camino por otras cuevas). Además, se sabe que en el planeta hay _N_ cuevas, numeradas de 0 a _N_ − 1.
 
-Existen dos tipos de pasadizos: pueden ser comunes y corrientes o especiales, que son donde se enfrentará a sus mayores miedos. Sin importar de qué tipo sean los pasadizos, atravesar cada uno de ellos le toma a Luke 1 minuto. En este momento, Luke se encuentra en la cueva 0 y debe llegar a la cueva _N_ − 1, donde lo espera Yoda. Para poder completar su entrenamiento, Luke debe atravesar al menos dos pasadizos especiales. ¿Cuánto tiempo le tomará como mı́nimo a Luke llegar a la cueva _N_ − 1 habiendo pasado dos veces por algún pasadizo especial? Notemos que Luke tiene permitido pasar por la cueva _N_ − 1 y después recorrer dos pasadizos especiales, para volver a la cueva _N_ − 1; también puede recorrer más de una vez el mismo pasadizo especial si ası́ lo desea.
+Existen dos tipos de pasadizos: pueden ser comunes y corrientes o especiales, que son donde se enfrentará a sus mayores miedos. Sin importar de qué tipo sean los pasadizos, atravesar cada uno de ellos le toma a Luke 1 minuto. En este momento, Luke se encuentra en la cueva 0 y debe llegar a la cueva _N_ − 1, donde lo espera Yoda. Para poder completar su entrenamiento, Luke debe atravesar al menos dos pasadizos especiales. ¿Cuánto tiempo le tomará como mínimo a Luke llegar a la cueva _N_ − 1 habiendo pasado dos veces por algún pasadizo especial? Notemos que Luke tiene permitido pasar por la cueva _N_ − 1 y después recorrer dos pasadizos especiales, para volver a la cueva _N_ − 1; también puede recorrer más de una vez el mismo pasadizo especial si así lo desea.
 
 El algoritmo debe tener una complejidad temporal O(_N_ + _M_), siendo _N_ la cantidad de cuevas y _M_ la cantidad de pasadizos.
 
-**Formato de entrada:** La primera lı́nea consta de un valor entero positivo `N`, que indica la cantidad de cuevas, y un entero positivo `M`, que indica la cantidad de pasadizos.
+**Formato de entrada:** La primera línea consta de un valor entero positivo `N`, que indica la cantidad de cuevas, y un entero positivo `M`, que indica la cantidad de pasadizos.
 
-A esta lı́nea le siguen _M_ lı́neas, una por cada pasadizo, indicando las cuevas `Ai` y `Bi` que conecta dicho pasadizo (0 ≤ `Ai`, `Bi` ≤ `N` - 1, `Ai` ≠ `Bi` con `Ai` y `Bi` enteros), y un entero `Ei` que indica si es un pasadizo común y corriente (con el valor 0) o si es uno especial (con el valor 1). Se asegura que no habrá dos o más pasadizos que conecten las mismas dos cuevas. Los pasadizos se pueden recorrer en ambos sentidos.
+A esta línea le siguen _M_ líneas, una por cada pasadizo, indicando las cuevas `Ai` y `Bi` que conecta dicho pasadizo (0 ≤ `Ai`, `Bi` ≤ `N` - 1, `Ai` ≠ `Bi` con `Ai` y `Bi` enteros), y un entero `Ei` que indica si es un pasadizo común y corriente (con el valor 0) o si es uno especial (con el valor 1). Se asegura que no habrá dos o más pasadizos que conecten las mismas dos cuevas. Los pasadizos se pueden recorrer en ambos sentidos.
 
 La entrada contará con el siguiente formato:
 
@@ -50,7 +50,7 @@ E1
 AM-1 BM-1 EM-1
 ```
 
-**Formato de salida:** La salida debe constar de una lı́nea que indique la mı́nima cantidad de minutos que le toma a Luke llegar a la cueva _N_ − 1, seguido de otra lı́nea con una lista ordenada con las cuevas por las cuales se mueve Luke en orden, con el siguiente formato:
+**Formato de salida:** La salida debe constar de una línea que indique la mínima cantidad de minutos que le toma a Luke llegar a la cueva _N_ − 1, seguido de otra línea con una lista ordenada con las cuevas por las cuales se mueve Luke en orden, con el siguiente formato:
 
 ```
 T
@@ -68,11 +68,11 @@ En cada planeta hay infinitos rebeldes e infinitos halcones milenarios. Los halc
 
 Los halcones milenarios no pueden viajar por cualquier lado, porque se pueden dañar con los numerosos meteoritos de la galaxia. Dichas naves sólo pueden viajar por rutas espaciales: cada una de estas rutas conecta exactamente dos planetas. Sabemos que existe al menos una forma de llegar desde cualquier planeta a cualquier otro a través de rutas espaciales.
 
-Como la alianza rebelde no llega a fin de mes (y ella paga por todo el combustible), se quiere consumir la menor cantidad de combustible posible para informar a todos sus miembros de la terrible noticia. Se pide escribir un algoritmo que tome la cantidad N de planetas, la cantidad M de rutas espaciales y los extremos de esas rutas, ası́ como la cantidad de litros de combustible que consume un halcón milenario en hacer cada ruta, e indique la mı́nima cantidad de combustible necesaria para que toda la alianza se entere de la horrorosa novedad. Se puede asumir que se puede llegar de cualquier planeta a cualquier otro a través de una o más rutas espaciales.
+Como la alianza rebelde no llega a fin de mes (y ella paga por todo el combustible), se quiere consumir la menor cantidad de combustible posible para informar a todos sus miembros de la terrible noticia. Se pide escribir un algoritmo que tome la cantidad N de planetas, la cantidad M de rutas espaciales y los extremos de esas rutas, así como la cantidad de litros de combustible que consume un halcón milenario en hacer cada ruta, e indique la mínima cantidad de combustible necesaria para que toda la alianza se entere de la horrorosa novedad. Se puede asumir que se puede llegar de cualquier planeta a cualquier otro a través de una o más rutas espaciales.
 
 El algoritmo debe tener una complejidad temporal O(_M_ log _M_).
 
-**Formato de entrada:** La primera lı́nea consta de un entero positivo `N`, que indica la cantidad de planetas, y un entero positivo `M`, que indica la cantidad de rutas espaciales. A continuación de esta lı́nea siguen _M_ lı́neas con enteros `Ai`, `Bi` y `Li`, siendo `Ai` y `Bi` los extremos de la ruta y `Li` la cantidad de litros que se gastan al recorrer esa ruta (0 ≤ `Ai` ≠ `Bi` ≤ `N` - 1). La entrada contará con el siguiente formato:
+**Formato de entrada:** La primera línea consta de un entero positivo `N`, que indica la cantidad de planetas, y un entero positivo `M`, que indica la cantidad de rutas espaciales. A continuación de esta línea siguen _M_ líneas con enteros `Ai`, `Bi` y `Li`, siendo `Ai` y `Bi` los extremos de la ruta y `Li` la cantidad de litros que se gastan al recorrer esa ruta (0 ≤ `Ai` ≠ `Bi` ≤ `N` - 1). La entrada contará con el siguiente formato:
 
 ```
 N M
@@ -86,7 +86,7 @@ L1
 AM-1 BM-1 LM-1
 ```
 
-**Formato de salida:** La primera lı́nea debe contener la cantidad mı́nima de litros `L` necesarios para informar a toda la alianza sobre esta noticia, seguida de _N_ - 1 lı́neas que indican desde qué planeta se viaja para informar de la situación a cada planeta (el vecino inmediato desde el cual se viaja). El formato debe ser el siguiente:
+**Formato de salida:** La primera línea debe contener la cantidad mínima de litros `L` necesarios para informar a toda la alianza sobre esta noticia, seguida de _N_ - 1 líneas que indican desde qué planeta se viaja para informar de la situación a cada planeta (el vecino inmediato desde el cual se viaja). El formato debe ser el siguiente:
 
 ```
 L
@@ -103,15 +103,15 @@ Problema 3: El retorno del ~~que te~~ jedi
 
 Ha llegado la hora de que Luke enfrente a su archinémesis. Para llegar a donde está Darth Vader, Luke debe moverse por una grilla rectangular. Cada casilla de la grilla tiene una altura, posiblemente distinta a la de sus vecinos, y de una casilla sólo se puede mover a otra vecina. Para que dos casillas se consideren vecinas tienen que compartir un lado y no sólo un vértice: cada casilla tiene a lo sumo 4 vecinos.
 
-En este momento Luke se encuentra en la posición (1, 1) y debe llegar a la posición (_N_, _M_) para enfrentar a Darth Vader. Como las casillas tienen diferentes alturas, moverse entre ellas puede cansar mucho a Luke por ser un salto muy alto o aterrizaje difı́cil. Por suerte, sabemos exactamente cuánta energı́a le cuesta a Luke moverse entre casillas, y sólo depende de la diferencia de altura entre la casilla en la que está y a la que va a moverse (llamemos ∆ a esta diferencia). Si |∆| ≤ _H_ entonces moverse le cuesta 0 energı́a; de lo contrario, moverse entre estas casillas le cuesta |∆| − _H_ energı́a. _H_ es un número fijo que sólo depende de cuán entrenado está Luke.
+En este momento Luke se encuentra en la posición (1, 1) y debe llegar a la posición (_N_, _M_) para enfrentar a Darth Vader. Como las casillas tienen diferentes alturas, moverse entre ellas puede cansar mucho a Luke por ser un salto muy alto o aterrizaje difícil. Por suerte, sabemos exactamente cuánta energía le cuesta a Luke moverse entre casillas, y sólo depende de la diferencia de altura entre la casilla en la que está y a la que va a moverse (llamemos ∆ a esta diferencia). Si |∆| ≤ _H_ entonces moverse le cuesta 0 energía; de lo contrario, moverse entre estas casillas le cuesta |∆| − _H_ energía. _H_ es un número fijo que sólo depende de cuán entrenado está Luke.
 
 Además, Luke sólo quiere moverse en sentido creciente de las _X_ o en sentido creciente de las _Y_, porque prefiere evitar que armen canciones diciendo que _corre para atrás porque no tiene aguante_.
 
-Como parte de la alianza rebelde, queremos ayudar a Luke a que gaste la mı́nima energı́a para llegar hasta Darth Vader, y ası́ poder gastarla toda en derrotarlo (o convencerlo de que vuelva al lado bueno de la fuerza). Se pide escribir un algoritmo que tome el tamaño de la grilla y la altura de cada casilla y devuelva el mı́nimo costo de energı́a que es necesario para llegar a la posición de Vader desde (1, 1). Además, deberán imprimir uno de los caminos posibles para llegar a Vader utilizando la menor cantidad de energı́a.
+Como parte de la alianza rebelde, queremos ayudar a Luke a que gaste la mínima energía para llegar hasta Darth Vader, y así poder gastarla toda en derrotarlo (o convencerlo de que vuelva al lado bueno de la fuerza). Se pide escribir un algoritmo que tome el tamaño de la grilla y la altura de cada casilla y devuelva el mínimo costo de energía que es necesario para llegar a la posición de Vader desde (1, 1). Además, deberán imprimir uno de los caminos posibles para llegar a Vader utilizando la menor cantidad de energía.
 
 El algoritmo debe tener una complejidad temporal de O(_N_ · _M_).
 
-**Formato de entrada:** La primera lı́nea constará de tres valores `N`, `M` y `H`, siendo `N` y `M` la cantidad de filas y columnas de la grilla respectivamente y `H` el valor fijo ya descrito. A continuación de esta lı́nea siguen _N_ lı́neas con _M_ enteros cada una, indicando la altura de cada casilla. El formato de entrada será el siguiente:
+**Formato de entrada:** La primera línea constará de tres valores `N`, `M` y `H`, siendo `N` y `M` la cantidad de filas y columnas de la grilla respectivamente y `H` el valor fijo ya descrito. A continuación de esta línea siguen _N_ líneas con _M_ enteros cada una, indicando la altura de cada casilla. El formato de entrada será el siguiente:
 
 ```
 N M
@@ -125,7 +125,7 @@ E22 ... E2M
 EN2 ... ENM
 ```
 
-**Formato de salida:** La primera lı́nea de la salida debe contener un número `C` indicando el mı́nimo costo de energı́a necesario para llegar a la posición de Vader. A continuación de esta lı́nea, debe haber _N_ + _M_ - 2 lı́neas de manera tal que la _i_-ésima linea contenga la dirección del _i_-ésimo movimiento. Si el movimiento es horizontal (o sea, de la forma (_i_, _j_) → (_i_ + 1, _j_)) la lı́nea debe contener el caracter `’X’` en mayúscula y si el movimiento es vertical (o sea, de la forma (_i_, _j_) → (_i_, _j_ + 1)) la lı́nea debe contener el caracter `’Y’` en mayścula. La salida tendrá el siguiente formato:
+**Formato de salida:** La primera línea de la salida debe contener un número `C` indicando el mínimo costo de energía necesario para llegar a la posición de Vader. A continuación de esta línea, debe haber _N_ + _M_ - 2 líneas de manera tal que la _i_-ésima linea contenga la dirección del _i_-ésimo movimiento. Si el movimiento es horizontal (o sea, de la forma (_i_, _j_) → (_i_ + 1, _j_)) la línea debe contener el caracter `’X’` en mayúscula y si el movimiento es vertical (o sea, de la forma (_i_, _j_) → (_i_, _j_ + 1)) la línea debe contener el caracter `’Y’` en mayścula. La salida tendrá el siguiente formato:
 
 ```
 C
