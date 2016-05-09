@@ -33,10 +33,13 @@ void correr_solucion() {
     cout << solucion.size() - 1 << endl;
 
     for (uint i = 1; i < solucion.size() - 1; i++) {
-        cout << solucion[i] << " ";
+        cout << solucion[i];
+        if (i < solucion.size() - 1) {
+            cout << " ";
+        }
     }
 
-    cout << "\b" << endl;
+    cout << endl;
 }
 
 vector<int> hallar_solucion(int N, const vector<vector<int>>& aristas) {
