@@ -28,15 +28,15 @@
 
     \begin{verbatim}
     N M
-    A0 B0 L0 
-    A1 B1 L1 
+    A0 B0 L0
+    A1 B1 L1
     ...
     AM-1 BM-1 LM-1\end{verbatim}
 
     \vspace{.8em}
 
     \textbf{Formato de salida}: La primera línea debe contener la cantidad mínima de litros \texttt{L} necesarios para informar a toda la alianza sobre esta noticia, seguida de $N-1$ líneas que indican desde qué planeta se viaja para informar de la situación a cada planeta (el vecino inmediato desde el cual se viaja). El formato debe ser el siguiente:
-    
+
     \begin{verbatim}
     L
     I1
@@ -252,11 +252,12 @@
     elemento en tiempo constante.
 
     Para simplificar la implementación, se decidió omitir la operación de
-    agregar un elemento a la cola. Se la reemplazó por un constructor que
+    agregar un elemento a la cola. Se incorporó, en cambio, un constructor que
     toma un parámetro $k$ e inicializa una cola que contiene a todos los
     naturales entre $0$ y $k-1$ inclusive, todos con prioridad $\infty$,
     donde una prioridad infinita se indica mediante el tope de representación
-    del tipo \texttt{int} en C++. Esta funcionalidad resulta suficiente para
+    del tipo \texttt{int} en C++. El costo de esta inicialización es lineal
+    en el valor de $k$. Esta funcionalidad resulta suficiente para
     el uso particular que se le da a la estructura en este trabajo.
 
     Es importante señalar que, debido a estas particularidades de la
@@ -271,6 +272,84 @@
     % función de los parámetros que se consideren correctos) y justificar por
     % qué el algoritmo la cumple. Utilizar el modelo uniforme.
     \subsection{Complejidad teórica}
+    La solución presentada se compone de dos rutinas consecutivas (obtención
+    del \acr{agm} y cálculo de su peso total), por lo que se evaluará la
+    complejidad de cada una de ellas por separado, para luego obtener una
+    conclusión final.
+
+    Se considerará que el grafo a procesar tiene $N$ nodos y $M$ aristas.
+    Teniendo en cuenta, además, que el grafo es conexo, puede asumirse que
+    $M \geq N-1$, lo cual implica que $N \in \ord(M)$.
+
+    No se detallará en los cálculos el tiempo necesario para la lectura de
+    los datos, la creación de las listas de adyacencia a partir de las listas
+    de aristas brindadas como entrada y la escritura de la salida. No
+    obstante, estas operaciones tienen en todos los casos un costo no
+    superior a $\ord(M)$.
+
+    \vspace{1.25em}
+
+    La implementación del algoritmo de Prim comienza inicializando una cola
+    de prioridad de tamaño $N$, de la forma descripta en la sección anterior,
+    con un costo de $\Theta(N)$. Inmediatamente después se modifica la
+    prioridad de un elemento, con una complejidad de $\ord(\log(N))$.
+
+    A continuación se ejecuta el ciclo principal del algoritmo. En cada
+    iteración de este ciclo se remueve un elemento de la cola recién
+    mencionada, terminando cuando la cola se vacía; es decir, el ciclo se
+    ejecuta exactamente $N$ veces.
+
+    Cada iteración del ciclo se corresponde con un nodo del grafo. Dentro de
+    la misma, en primer lugar, se desencola el nodo de la cola de prioridad,
+    lo cual tiene un costo de $\ord(\log(N))$. A continuación se ejecuta a su
+    vez otro ciclo que itera sobre los vecinos del nodo, es decir, se repite
+    $\operatorname{deg}(v_i)$ veces. En el caso de que el vértice no
+    pertenezca al árbol parcial generado hasta el momento, se obtiene
+    el peso de la arista correspondiente y se verifica si es menor
+    que la prioridad actual del nodo en la cola; todas estas operaciones
+    pueden realizarse en tiempo constante. En caso afirmativo la prioridad
+    debe ser actualizada, lo cual tiene un costo de $\ord(\log(N))$. Esto
+    implica que la iteración $i$-ésima del ciclo principal tiene una
+    complejidad de peor caso de
+    $\ord(\operatorname{deg}(v_i) \times \log(N))$.
+
+    Sumando esta complejidad para todas las iteraciones del ciclo, obtenemos
+    una complejidad total de
+    \[ \begin{aligned}
+    \sum_{i=0}^{N} \ord \left( \log(N) + \operatorname{deg}(v_i)
+        \times \log(N) \right)
+            &= \ord \left( \sum_{i=0}^{N} (1+\operatorname{deg}(v_i))
+                \times \log(N) \right) \\
+            &= \ord \left( \left( N + \sum_{i=0}^{N}
+                \operatorname{deg}(v_i) \right) \times \log(N) \right) \\
+            &= \ord \left( (N + M) \times \log(N) \right) \\
+            &= \ord \left( M \times \log(N) \right)
+    \end{aligned} \]
+
+    Esta complejidad no se ve afectada por las operaciones de inicialización
+    antes descriptas:
+    \[ \ord(N + \log(N) + M \times \log(N)) = \ord(M \times \log(N)) \]
+    resultando la complejidad total de la ejecución del algoritmo de Prim.
+
+    \vspace{1.25em}
+
+    El cálculo del peso total del árbol, por su parte, consiste en un
+    sencillo ciclo que itera sobre todos los nodos del árbol generador
+    mínimo, excepto sobre el primero, que es tomado como su raíz; se ejecuta
+    entonces un total de $N - 1$ veces. En cada iteración, se recorre la
+    lista de adyacencia del nodo, buscando de forma lineal el peso de la
+    arista que une a este nodo con su predecesor. Esto tiene un costo, en el
+    peor caso, de $\ord(\operatorname{deg}(v_i))$. La complejidad total de
+    esta rutina es, entonces:
+    \[ \sum_{i=1}^{N} \ord(\operatorname{deg}(v_i)) =
+                \ord \left( \sum_{i=1}^{N} \operatorname{deg}(v_i) \right) =
+                \ord \left( 2M - \operatorname{deg}(v_0) \right) = \ord(M) \]
+
+    \vspace{1.25em}
+
+    De todos los cálculos anteriores, puede deducirse una cota teórica para
+    la complejidad temporal de la solución presentada de
+    \[ \ord(M \times \log(N) + M) = \ord(M \times \log(N)) \]
 
     % Realizar experimentación para medir la performance, usando un conjunto
     % de casos de test que permitan observar los tiempos de ejecución en
