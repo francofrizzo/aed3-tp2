@@ -70,6 +70,8 @@
     % procedimiento resuelve efectivamente el problema.
     \subsection{Solución propuesta}
 
+    \subsubsection{Modelo: descripción y prueba de correctitud}
+
     El hecho de que los planetas se encontraran unidos mediante rutas, y que
     cada una de ellas conectara exactamente dos planetas, permitió encarar la
     resolución del problema modelando el sistema planetario mediante un
@@ -96,7 +98,6 @@
         anteriores.
     \end{enumerate}
 
-
     \begin{lema}
     Sea $G$ un grafo con pesos no negativos, y $T \subseteq G$ un árbol
     generador mínimo de $G$. Entonces $T$ cumple las tres propiedades recién
@@ -111,19 +112,82 @@
     $T$.
 
     Por el segundo punto, sabemos que $H$ es conexo, por lo que tiene al menos
-    un árbol generador mínimo $\tilde{H}$ que también cumple las primeras dos
+    un \acr{agm} $\tilde{H}$ que también cumple las primeras dos
     propiedades enunciadas. Por el primer punto, $H$ contiene todos los
     nodos de $G$, así que $\tilde{H}$ también es árbol generador de $G$.
     Dado que las aristas de $H$ tienen pesos no negativos, y todas las aristas
     de $\tilde{H}$ están en $H$, el peso total de las aristas de $\tilde{H}$
     es menor o igual que la de $H$ y, por transitividad, también que el de
     $T$. Es decir, $H$ es un árbol generador de $G$ cuyo peso total es menor
-    que el de $T$, lo cual cual contradice el hecho de que que $T$ es un árbol
-    generador mínimo de $G$.
+    que el de $T$, lo cual cual contradice el hecho de que que $T$ es un \acr
+    {agm} de $G$.
 
     Esto prueba que no puede existir tal subgrafo $H$, es decir, que $T$
     cumple también con la tercer propiedad.
     \end{proof}
+
+    Del lema anterior, se sigue directamente que, para resolver el problema
+    planteado, resulta correcto modelarlo mediante un grafo de la manera
+    descripta y, a continuación, buscar un árbol generador mínimo de dicho
+    grafo.
+
+    \subsubsection{Implementación: algoritmos y estructuras de datos
+    utilizados}
+    Para resolver el problema de buscar un \acr{agm} de un grafo,
+    se realizó una implementación del algoritmo de Prim, cuyo pseudocódigo
+    se incluye como Algoritmo \ref{algo:prim}.
+
+    \begin{algorithm}
+        \caption{Algoritmo de Prim}
+        \label{algo:prim}
+
+        \Input{Un grafo $G$ de $N$ nodos y $M$ aristas, dado por un vector de
+        listas de adyacencia}
+        \Output{Un árbol generador mínmo de $G$, dado como un vector
+        conteniendo el predecesor de cada nodo}
+        $vertices$ $\gets$ cola de prioridad vacía \;
+        $predecesores$ $\gets$ vector de longitud $N$ \;
+        encolar $v_0$ en $vertices$ con prioridad $0$ \;
+        \ForEach{$i$ entre $1$ y $n-1$} {
+            encolar $v_i$ en $vertices$ con prioridad $\infty$ \;
+        }
+        \While{$vertices$ no esté vacía} {
+            $v$ $\gets$ $vertices$.desencolar() \;
+            marcar $v$ como visitado \;
+            \ForEach{vecino $u$ de $v$}{
+                \If{$u$ no está marcado como visitado} {
+                    $p$ $\gets$ peso de la arista $(v,u)$ en $G$ \;
+                    \If{$p < $ prioridad de $u$ en $vertices$} {
+                        actualizar prioridad de $u$ en $vertices$ a $p$ \;
+                        $predecesores$[$u$] $\gets$ $v$ \;
+                    }
+                }
+            }
+        }
+        \Return{$predecesores$}
+    \end{algorithm}
+
+    El algoritmo de Prim parte marcando un nodo inicial cualquiera del
+    grafo. Luego, comienza a construir la solución, agregando el eje de menor
+    peso que sea adyacente a dicho nodo, y marcando su otro extremo. Este
+    proceso se repite, agregando en cada iteración la arista de menor peso que
+    tenga por extremo un nodo marcado y otro sin marcar, y marcando este
+    último, hasta que ya no queden nodos sin marcar.
+
+    Existen diversas implementaciones de este algoritmo, que varían
+    principalmente en las estructuras de datos utilizadas durante el proceso,
+    y que presentan distintos niveles de eficiencia en términos temporales y
+    espaciales. En este caso, se optó por una solución derivada de la
+    típica implementación del algoritmo de caminos mínimos de Dijkstra,
+    utilizando una cola de prioridad sobre heap binario.
+
+    En una iteración determinada, esta cola contiene todos los nodos del grafo
+    sobre los que aún no se ha iterado. Antes de la primera iteración, todos
+    los nodos son agregados a la cola con prioridad $\infty$, excepto el nodo
+    $v_0$, al que se le asigna una prioridad $0$. Esto último es una pequeña
+    modificación al algoritmo original, cuyo objetivo es asegurarse de
+    que $v_0$ sea el primer nodo en ser desencolado, ya que se desea obtener
+    obtener un \acr{agm} enraizado en este vértice en particular.
 
     % Deducir una cota de complejidad temporal del algoritmo propuesto (en
     % función de los parámetros que se consideren correctos) y justificar por

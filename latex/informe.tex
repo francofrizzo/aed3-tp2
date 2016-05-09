@@ -5,6 +5,7 @@
 % texlive-latex-recommended %
 % texlive-fonts-recommended %
 % texlive-latex-extra %
+% texlive-science %
 % texlive-lang-spanish (en ubuntu 13.10) %
 % ******************************************************** %
 
@@ -54,7 +55,9 @@
 
 \newcommand{\ord}{\ensuremath{\operatorname{O}}}
 \newcommand{\nat}{\ensuremath{\mathbb{N}}}
+\newcommand{\acr}[1]{\textsc{#1}}
 
+% Lemas, definiciones, etc.
 \theoremstyle{plain}
   \newtheorem{prop}{Proposición}
   \newtheorem{lema}{Lema}
@@ -62,6 +65,15 @@
   \newtheorem{obs}{Observación}
 \theoremstyle{definition}
   \newtheorem{defi}{Definición}
+
+% Pseudocódigo
+\usepackage[onelanguage, spanish]{algorithm2e}
+    % \NoCaptionOfAlgo
+    \LinesNumbered\RestyleAlgo{ruled}\IncMargin{1em}\DontPrintSemicolon\SetArgSty{}\SetCommentSty{textsf}\SetFuncSty{textsf}
+    \SetKwInput{Input}{Entrada}
+    \SetKwInput{Output}{Salida}
+    \SetKwProg{For}{para}{ hacer}{fin}
+    \SetKwProg{Fn}{función}{:}{fin}
 
 %\lstset{
 %    language=C++,
