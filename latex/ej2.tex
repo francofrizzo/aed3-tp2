@@ -70,7 +70,7 @@
     % procedimiento resuelve efectivamente el problema.
     \subsection{Solución propuesta}
 
-    \subsubsection{Modelo: descripción y prueba de correctitud}
+    \subsubsection{Modelo}
 
     El hecho de que los planetas se encontraran unidos mediante rutas, y que
     cada una de ellas conectara exactamente dos planetas, permitió encarar la
@@ -131,8 +131,7 @@
     descripta y, a continuación, buscar un árbol generador mínimo de dicho
     grafo.
 
-    \subsubsection{Implementación: algoritmos y estructuras de datos
-    utilizados}
+    \subsubsection{Implementación}
     Para resolver el problema de buscar un \acr{agm} de un grafo,
     se realizó una implementación del algoritmo de Prim, cuyo pseudocódigo
     se incluye como Algoritmo \ref{algo:prim}.
@@ -145,10 +144,10 @@
         listas de adyacencia}
         \Output{Un árbol generador mínmo de $G$, dado como un vector
         conteniendo el predecesor de cada nodo}
-        $vertices$ $\gets$ cola de prioridad vacía \;
         $predecesores$ $\gets$ vector de longitud $N$ \;
+        $vertices$ $\gets$ cola de prioridad vacía \;
         encolar $v_0$ en $vertices$ con prioridad $0$ \;
-        \ForEach{$i$ entre $1$ y $n-1$} {
+        \ForEach{$i$ entre $1$ y $N-1$} {
             encolar $v_i$ en $vertices$ con prioridad $\infty$ \;
         }
         \While{$vertices$ no esté vacía} {
@@ -167,19 +166,19 @@
         \Return{$predecesores$}
     \end{algorithm}
 
-    El algoritmo de Prim parte marcando un nodo inicial cualquiera del
-    grafo. Luego, comienza a construir la solución, agregando el eje de menor
-    peso que sea adyacente a dicho nodo, y marcando su otro extremo. Este
-    proceso se repite, agregando en cada iteración la arista de menor peso que
-    tenga por extremo un nodo marcado y otro sin marcar, y marcando este
-    último, hasta que ya no queden nodos sin marcar.
+    El algoritmo de Prim agregando al árbol un nodo inicial cualquiera del
+    grafo. Luego, comienza a construir la solución, incorporando el eje de
+    menor peso que sea adyacente a dicho nodo, y sumando así al árbol su otro
+    extremo. Este proceso se repite, añadiendo en cada iteración la arista de
+    menor peso que tenga por extremos un nodo dentro y otro fuera del árbol,
+    hasta que ya no queden nodos para agregar al árbol.
 
     Existen diversas implementaciones de este algoritmo, que varían
     principalmente en las estructuras de datos utilizadas durante el proceso,
     y que presentan distintos niveles de eficiencia en términos temporales y
     espaciales. En este caso, se optó por una solución derivada de la
     típica implementación del algoritmo de caminos mínimos de Dijkstra,
-    utilizando una cola de prioridad sobre heap binario.
+    utilizando una cola de prioridad sobre un \emph{heap} binario.
 
     En una iteración determinada, esta cola contiene todos los nodos del grafo
     sobre los que aún no se ha iterado. Antes de la primera iteración, todos
@@ -188,6 +187,85 @@
     modificación al algoritmo original, cuyo objetivo es asegurarse de
     que $v_0$ sea el primer nodo en ser desencolado, ya que se desea obtener
     obtener un \acr{agm} enraizado en este vértice en particular.
+
+    Como cada nodo comienza teniendo una prioridad de $\infty$, que recién
+    es modificada cuando se suma al árbol uno de sus nodos adyacentes,
+    resulta claro que en una iteración determinada, un nodo que se encuentra
+    encolado tiene una prioridad menor que $\infty$ si y solo si es adyacente
+    a algún otro que ya forma parte del árbol. Más aún, su prioridad
+    corresponda al mínimo entre los pesos de todas las aristas que comparte
+    con algún nodo del árbol. El ciclo principal del algoritmo se encarga de
+    mantener este invariante: cada vez que un nodo se agrega al árbol, se
+    recorren sus vecinos, y si el eje que lo une a alguno de ellos tiene un
+    valor menor que la prioridad del mismo, esta prioridad es actualizada.
+
+    Teniendo en cuenta lo anterior, es inmmediato que al final de cada
+    iteración, la arista de mínimo peso con un extremo dentro y el otro fuera
+    del árbol tiene, como este último extremo, al nodo cuya prioridad en la
+    cola es la de mínimo valor numérico. Esta es la razón de que, al comienzo
+    de la siguiente iteración, este será el nodo seleccionado para agregar al
+    árbol, implementando correctamente el procedimiento en que consiste el
+    algoritmo de Prim.
+
+    El problema requiere, además de una descripción del árbol dada por el
+    predecesor de cada uno de los nodos, que se compute el peso total de sus
+    aristas. Para esto se implementó también una sencillo procedimiento que
+    itera sobre las aristas del árbol obtenido, obteniendo el peso de cada
+    una de ellas a partir de las listas de adyacencia del grafo y sumándolas
+    para obtener el resultado buscado.
+
+    \subsubsection{Detalles implementativos}
+    Todas las rutinas arriba descriptas fueron implementadas en lenguaje C++.
+    Se hizo uso de la clase \texttt{vector}, provista en la biblioteca
+    estándar del lenguaje, en forma directa y también como contenedor
+    subyacente a la cola de prioridad. Esta última debió ser implementada en
+    forma propia para poder cubrir los requisitos de complejidad del problema.
+
+    A continuación se describe la forma en que fue implementada esta cola de
+    prioridad. Solo se programaron las funciones necesarias para ser
+    utilizadas en este caso particular. La estructura básica es un clásico
+    \emph{min-heap} binario, almacenado en un vector. Cada posición de este
+    vector contiene una tupla de dos valores enteros: la prioridad del
+    elemento y el valor del mismo. Se implementan internamente las
+    operaciones típicas de \emph{subir} y \emph{bajar} un elemento, que
+    permiten mantener el invariante de \emph{heap}. De esta forma puede
+    obtenerse el elemento con prioridad mínima en tiempo $\Theta(1)$,
+    mientras que desencolar este elemento tiene complejidad $\ord(\log(N))$.
+    También puede decidirse en $\Theta(1)$ si la cola está vacía.
+
+    La principal diferencia con la típica implementación de \emph{heap} es
+    que era necesario poder modificar la prioridad de un elemento en tiempo
+    logarítmico. Sin estructuras adicionales, esto tiene un costo lineal, ya
+    que debe buscarse al elemento deseado antes de poder modificarlo. Una vez
+    encontrado, reacomodar el \emph{heap} con la nueva prioridad tiene
+    complejidad logarítmica.
+
+    La solución fue incorporar una estructura adicional para poder encontrar
+    un elemento dado de forma eficiente. Se barajaron varias opciones, pero
+    finalmente se decidió aprovechar el hecho de que los elementos de la cola
+    serían números naturales en un rango acotado entre $0$ y algún valor $k$
+    (los índices de los nodos del grafo a procesar). Se incorporó entonces un
+    vector de tamaño $k$ que almacena, en la posición $i$-ésima, el índice
+    del elemento $i$ en el vector que representa al heap. De esta forma no
+    solo puede actualizarse la prioridad de un elemento de forma eficiente
+    ($\ord(\log(N))$) sino también consultar la prioridad de cualquier
+    elemento en tiempo constante.
+
+    Para simplificar la implementación, se decidió omitir la operación de
+    agregar un elemento a la cola. Se la reemplazó por un constructor que
+    toma un parámetro $k$ e inicializa una cola que contiene a todos los
+    naturales entre $0$ y $k-1$ inclusive, todos con prioridad $\infty$,
+    donde una prioridad infinita se indica mediante el tope de representación
+    del tipo \texttt{int} en C++. Esta funcionalidad resulta suficiente para
+    el uso particular que se le da a la estructura en este trabajo.
+
+    Es importante señalar que, debido a estas particularidades de la
+    estructura utilizada, el primer ciclo del pseudocódigo del Algoritmo
+    \ref{algo:prim} no resulta necesario, ya que queda reemplazado en la
+    práctica por la inicialización de la cola de prioridad. Asimismo, la
+    operación de encolar al elemento $v_0$ con prioridad $0$ es sustituida
+    por actualizar su prioridad, ya que el elemento está presente en la cola
+    desde su inicialización.
 
     % Deducir una cota de complejidad temporal del algoritmo propuesto (en
     % función de los parámetros que se consideren correctos) y justificar por
