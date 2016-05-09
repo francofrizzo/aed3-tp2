@@ -40,12 +40,8 @@ La entrada contará con el siguiente formato:
 
 ```
 N M
-A0
-B0
-E0
-A1
-B1
-E1
+A0 B0 E0
+A1 B1 E1
 ...
 AM-1 BM-1 EM-1
 ```
@@ -76,12 +72,8 @@ El algoritmo debe tener una complejidad temporal O(_M_ log _M_).
 
 ```
 N M
-A0
-B0
-L0
-A1
-B1
-L1
+A0 B0 L0
+A1 B1 L1
 ...
 AM-1 BM-1 LM-1
 ```
@@ -114,15 +106,12 @@ El algoritmo debe tener una complejidad temporal de O(_N_ · _M_).
 **Formato de entrada:** La primera línea constará de tres valores `N`, `M` y `H`, siendo `N` y `M` la cantidad de filas y columnas de la grilla respectivamente y `H` el valor fijo ya descrito. A continuación de esta línea siguen _N_ líneas con _M_ enteros cada una, indicando la altura de cada casilla. El formato de entrada será el siguiente:
 
 ```
-N M
-E11
-E21
-...
-EN1
-H
-E12 ... E1M
-E22 ... E2M
-EN2 ... ENM
+N M H
+E11 E12 ... E1M
+E21 E22 ... E2M
+... 
+EN1 EN2 ... ENM
+
 ```
 
 **Formato de salida:** La primera línea de la salida debe contener un número `C` indicando el mínimo costo de energía necesario para llegar a la posición de Vader. A continuación de esta línea, debe haber _N_ + _M_ - 2 líneas de manera tal que la _i_-ésima linea contenga la dirección del _i_-ésimo movimiento. Si el movimiento es horizontal (o sea, de la forma (_i_, _j_) → (_i_ + 1, _j_)) la línea debe contener el caracter `’X’` en mayúscula y si el movimiento es vertical (o sea, de la forma (_i_, _j_) → (_i_, _j_ + 1)) la línea debe contener el caracter `’Y’` en mayścula. La salida tendrá el siguiente formato:
