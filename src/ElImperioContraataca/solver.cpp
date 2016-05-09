@@ -49,8 +49,8 @@ void correr_solucion() {
 
 }
 
-vector<int> prim(const vector<vector<pair<int, int>>>& vecinos) {
-    uint N = vecinos.size();
+vector<int> prim(const vector<vector<pair<int, int>>>& grafo) {
+    uint N = grafo.size();
 
     // Crear una cola de prioridad que contiene a todos los nodos
     cola_prioridad vertices(N);
@@ -78,17 +78,16 @@ vector<int> prim(const vector<vector<pair<int, int>>>& vecinos) {
         vertices_marcados[vert_actual] = true;
 
         // Iterar sobre los vecinos no marcados del nodo seleccionado
-        for (uint j = 0; j < vecinos[vert_actual].size(); j++) {
-            int ind_vecino  = vecinos[vert_actual][j].first;
+        for (uint j = 0; j < grafo[vert_actual].size(); j++) {
+            int ind_vecino  = grafo[vert_actual][j].first;
             
             if (! vertices_marcados[ind_vecino]) {
-                int long_arista = vecinos[vert_actual][j].second;
+                int long_arista = grafo[vert_actual][j].second;
 
                 // Comparar la longitud de la arista recién examinada con
                 // el valor almacenado como prioridad del vecino, y en caso
                 // de que sea necesario, actualizar este valor
-                if (long_arista < vertices.prioridad(ind_vecino) ||
-                    vertices.prioridad(ind_vecino) == -1) {
+                if (long_arista < vertices.prioridad(ind_vecino)) {
                     vertices.setear_prioridad(ind_vecino, long_arista);
                     predecesores[ind_vecino] = vert_actual;
                 }
@@ -101,17 +100,17 @@ vector<int> prim(const vector<vector<pair<int, int>>>& vecinos) {
 
 int peso_arbol_generador(
     vector<int>& arbol,
-    const vector<vector<pair<int, int>>>& vecinos
+    const vector<vector<pair<int, int>>>& grafo
 ) {
     int peso = 0;
-    for (uint i = 0; i < vecinos.size(); i++) {
+    for (uint i = 0; i < grafo.size(); i++) {
         uint j;
-        for (j = 0; j < vecinos[i].size(); j++) {
-            if (vecinos[i][j].first == arbol[i]) {
+        for (j = 0; j < grafo[i].size(); j++) {
+            if (grafo[i][j].first == arbol[i]) {
                 break;
             }
         }
-        peso += vecinos[i][j].second;
+        peso += grafo[i][j].second;
     }
 
     return peso;
