@@ -55,19 +55,15 @@ vector<int> prim(const vector<vector<pair<int, int>>>& grafo) {
     // Crear una cola de prioridad que contiene a todos los nodos
     cola_prioridad vertices(N);
 
-    // Establecer en 0 la prioridad del primer vértice y en (prácticamente)
-    // infinito las demás
+    // Establecer en 0 la prioridad del primer vértice
     vertices.setear_prioridad(0, 0);
-    for (uint i = 1; i < N; i++) {
-        vertices.setear_prioridad(i, numeric_limits<int>::max());
-    }
 
     // En este vector se registrarán los nodos que ya no deben procesarse
     vector<bool> vertices_marcados(N, false);
 
     // Aquí se irá formando la solución del problema
     vector<int> predecesores(N, 0);
-    
+
     // Iterar hasta que la cola esté vacía
     while (! vertices.vacia()) {
         // Desencolar el vértice con menor prioridad (esto representa al
@@ -80,7 +76,7 @@ vector<int> prim(const vector<vector<pair<int, int>>>& grafo) {
         // Iterar sobre los vecinos no marcados del nodo seleccionado
         for (uint j = 0; j < grafo[vert_actual].size(); j++) {
             int ind_vecino  = grafo[vert_actual][j].first;
-            
+
             if (! vertices_marcados[ind_vecino]) {
                 int long_arista = grafo[vert_actual][j].second;
 
@@ -102,18 +98,18 @@ int peso_arbol_generador(
     vector<int>& arbol,
     const vector<vector<pair<int, int>>>& grafo
 ) {
-    int peso = 0;
-    for (uint i = 0; i < grafo.size(); i++) {
+    int total = 0;
+    for (uint i = 1; i < grafo.size(); i++) {
         uint j;
         for (j = 0; j < grafo[i].size(); j++) {
             if (grafo[i][j].first == arbol[i]) {
                 break;
             }
         }
-        peso += grafo[i][j].second;
+        total += grafo[i][j].second;
     }
 
-    return peso;
+    return total;
 }
 
 
@@ -129,10 +125,10 @@ cola_prioridad::cola_prioridad(uint n) {
     cant_items  = n;
     pos_en_heap = std::vector<int>(n);
     contenedor  = std::vector<std::pair<int, int>>(n);
-    
+
     for (uint i = 0; i < n; i++) {
         pos_en_heap[i] = i;
-        contenedor[i]  = {i, 0};
+        contenedor[i]  = {i, numeric_limits<int>::max()};
     }
 }
 
@@ -166,7 +162,7 @@ int cola_prioridad::prioridad(int i) const {
 void cola_prioridad::setear_prioridad(int indice, int prioridad) {
     int prioridad_actual = contenedor[pos_en_heap[indice]].second;
     contenedor[pos_en_heap[indice]].second = prioridad;
-    
+
     if (prioridad > prioridad_actual) {
         bajar(pos_en_heap[indice]);
     } else if (prioridad < prioridad_actual) {
