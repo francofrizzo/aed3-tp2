@@ -166,7 +166,7 @@
         \Return{$predecesores$}
     \end{algorithm}
 
-    El algoritmo de Prim agregando al árbol un nodo inicial cualquiera del
+    El algoritmo de Prim empieza agregando al árbol un nodo cualquiera del
     grafo. Luego, comienza a construir la solución, incorporando el eje de
     menor peso que sea adyacente a dicho nodo, y sumando así al árbol su otro
     extremo. Este proceso se repite, añadiendo en cada iteración la arista de
@@ -186,14 +186,14 @@
     $v_0$, al que se le asigna una prioridad $0$. Esto último es una pequeña
     modificación al algoritmo original, cuyo objetivo es asegurarse de
     que $v_0$ sea el primer nodo en ser desencolado, ya que se desea obtener
-    obtener un \acr{agm} enraizado en este vértice en particular.
+    un \acr{agm} enraizado en este vértice en particular.
 
     Como cada nodo comienza teniendo una prioridad de $\infty$, que recién
     es modificada cuando se suma al árbol uno de sus nodos adyacentes,
     resulta claro que en una iteración determinada, un nodo que se encuentra
     encolado tiene una prioridad menor que $\infty$ si y solo si es adyacente
     a algún otro que ya forma parte del árbol. Más aún, su prioridad
-    corresponda al mínimo entre los pesos de todas las aristas que comparte
+    corresponde al mínimo entre los pesos de todas las aristas que comparte
     con algún nodo del árbol. El ciclo principal del algoritmo se encarga de
     mantener este invariante: cada vez que un nodo se agrega al árbol, se
     recorren sus vecinos, y si el eje que lo une a alguno de ellos tiene un
@@ -204,15 +204,16 @@
     del árbol tiene, como este último extremo, al nodo cuya prioridad en la
     cola es la de mínimo valor numérico. Esta es la razón de que, al comienzo
     de la siguiente iteración, este será el nodo seleccionado para agregar al
-    árbol, implementando correctamente el procedimiento en que consiste el
+    árbol, implementando de esta forma el procedimiento propuesto por el
     algoritmo de Prim.
 
     El problema requiere, además de una descripción del árbol dada por el
     predecesor de cada uno de los nodos, que se compute el peso total de sus
-    aristas. Para esto se implementó también una sencillo procedimiento que
-    itera sobre las aristas del árbol obtenido, obteniendo el peso de cada
-    una de ellas a partir de las listas de adyacencia del grafo y sumándolas
-    para obtener el resultado buscado.
+    aristas. Para esto se implementó también un sencillo procedimiento que
+    itera sobre las nodos del árbol obtenido, obteniendo para cado uno el
+    peso de la arista que lo une a su predecesor, a partir de las listas de
+    adyacencia del grafo, y sumando todos estos pesos para conseguir el
+    resultado buscado.
 
     \subsubsection{Detalles implementativos}
     Todas las rutinas arriba descriptas fueron implementadas en lenguaje C++.
@@ -222,8 +223,7 @@
     forma propia para poder cubrir los requisitos de complejidad del problema.
 
     A continuación se describe la forma en que fue implementada esta cola de
-    prioridad. Solo se programaron las funciones necesarias para ser
-    utilizadas en este caso particular. La estructura básica es un clásico
+    prioridad. La estructura básica es un clásico
     \emph{min-heap} binario, almacenado en un vector. Cada posición de este
     vector contiene una tupla de dos valores enteros: la prioridad del
     elemento y el valor del mismo. Se implementan internamente las
@@ -234,8 +234,8 @@
     También puede decidirse en $\Theta(1)$ si la cola está vacía.
 
     La principal diferencia con la típica implementación de \emph{heap} es
-    que era necesario poder modificar la prioridad de un elemento en tiempo
-    logarítmico. Sin estructuras adicionales, esto tiene un costo lineal, ya
+    que permite modificar la prioridad de un elemento en tiempo
+    logarítmico. Sin estructuras auxiliares, esto tendría un costo lineal, ya
     que debe buscarse al elemento deseado antes de poder modificarlo. Una vez
     encontrado, reacomodar el \emph{heap} con la nueva prioridad tiene
     complejidad logarítmica.
@@ -245,7 +245,7 @@
     finalmente se decidió aprovechar el hecho de que los elementos de la cola
     serían números naturales en un rango acotado entre $0$ y algún valor $k$
     (los índices de los nodos del grafo a procesar). Se incorporó entonces un
-    vector de tamaño $k$ que almacena, en la posición $i$-ésima, el índice
+    vector de tamaño $k$ que almacena, en la posición $i$-ésima, la posición
     del elemento $i$ en el vector que representa al heap. De esta forma no
     solo puede actualizarse la prioridad de un elemento de forma eficiente
     ($\ord(\log(N))$) sino también consultar la prioridad de cualquier
@@ -311,7 +311,7 @@
     debe ser actualizada, lo cual tiene un costo de $\ord(\log(N))$. Esto
     implica que la iteración $i$-ésima del ciclo principal tiene una
     complejidad de peor caso de
-    $\ord(\operatorname{deg}(v_i) \times \log(N))$.
+    $\ord \left(\log(N) + \operatorname{deg}(v_i) \times \log(N) \right)$.
 
     Sumando esta complejidad para todas las iteraciones del ciclo, obtenemos
     una complejidad total de
