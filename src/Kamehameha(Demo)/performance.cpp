@@ -1,7 +1,6 @@
 #include "../main.h"
 #include "./Kamehameha.h"
 
-using namespace std;
 
 /*
 **  Pruebas de performance
