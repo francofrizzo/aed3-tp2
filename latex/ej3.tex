@@ -37,21 +37,22 @@
 	representa la altura del casillero correspondiente.
 
 	~
-
-	\begin{tabular}{cccc}
-		$N$ & $M$ & $H$ & \\
-		$G_{11}$ & $G_{12}$ & $\dots$ & $G_{1M}$ \\
-		$G_{21}$ & $G_{22}$ & $\dots$ & $G_{2M}$ \\
-		$\vdots$ & & & \\
-		$G_{N1}$ & $G_{N2}$ & $\dots$ & $G_{NM}$ \\
-	\end{tabular}
+	\begin{center}
+		\begin{tabular}{cccc}
+			$N$ & $M$ & $H$ & \\
+			$G_{11}$ & $G_{12}$ & $\dots$ & $G_{1M}$ \\
+			$G_{21}$ & $G_{22}$ & $\dots$ & $G_{2M}$ \\
+			$\vdots$ & & & \\
+			$G_{N1}$ & $G_{N2}$ & $\dots$ & $G_{NM}$ \\
+		\end{tabular}
+	\end{center}
 
 	~
 
 	La salida está compuesta por una primer línea con el costo del camino
 	seleccionado y $N + M - 2$ líneas con la dirección ($X$ o $Y$) a tomar en cada paso para
-	realizar el mismo. Cabe aclarar que $X$ implica un movimiento de filas e $Y$
-	de columnas.
+	realizar el mismo. Cabe aclarar que $X$ implica avanzar una filas e $Y$
+	una columna.
 
 	A continuación se presenta un ejemplo de entrada con su salida
 	correspondiente:
@@ -278,9 +279,9 @@
 		\caption{Visualización del cálculo de subsoluciones.}
 	\end{figure}
 
-	Esto es logrado a través del siguiente algoritmo:
+	Esto se logra mediante el siguiente algoritmo:
 
-	\begin{algorithm}
+	\begin{algorithm}[H]
 		\caption{Solución \emph{bottom-up} al problema}
 		\Input{Una grilla $G$ de dimensiones $N \times M$ con la altura de cada
 		casillero y un nivel de entrenamiento $H$.}
