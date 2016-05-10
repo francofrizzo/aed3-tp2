@@ -62,17 +62,17 @@ pair< int, vector<char>  > resolver( int N, int M ,int H, vector < vector <int> 
 
 		}
 	}
-	int i = N -1;
-	int j = M -1 ;
-	vector<char> camino;
+	int i = N - 1;
+	int j = M - 1;
+	vector<char> camino = vector<char>(N + M - 2);
 	// cout << " Armo el camino." << endl;
 	// cout << "i : " << i << " j : " << j << endl;
 	// cout << "DP[i][j].second : " << DP[i][j].second << endl;
 	// cout << "DP[i][j].first : " << DP[i][j].first << endl;
-	while(DP[i][j].second != 'I'){
+	while(i + j > 0){
 		// cout << "i : " << i << " j : " << j << endl;
 		// cout << "DP[i][j].second : " << DP[i][j].second << endl;
-		camino.push_back(DP[i][j].second);
+		camino[i + j - 1] = DP[i][j].second;
 		if (DP[i][j].second == 'Y'){
 			j--;
 		}else{
@@ -80,7 +80,6 @@ pair< int, vector<char>  > resolver( int N, int M ,int H, vector < vector <int> 
 		}
 	}
 	
-	reverse(camino.begin(),camino.end());
 	pair< int, vector<char>  > result = make_pair(DP[N-1][M-1].first,camino);
 	// cout << "result.first: " << result.first << endl;
 	return result;
