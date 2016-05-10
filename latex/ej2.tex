@@ -139,28 +139,30 @@
     % conclusiones.
     \subsection{Experimentación}
 
+
+    \newcommand\constante{16}
     % Ejemplo de gráfico para reutilizar:
-    % \begin{figure}[H]
-    %     \centering
-    %     \caption{}
-    %     \label{fig:exp1:tiempo_base}
-    %     \begin{tikzpicture}
-    %         \begin{axis}[
-    %                 title={},
-    %                 xlabel={Tamaño de entrada ($N$)},
-    %                 ylabel={Tiempo de ejecución (nanosegundos)},
-    %                 scaled x ticks=false,
-    %                 scaled y ticks=false,
-    %                 enlargelimits=0.05,
-    %                 width=0.5\textwidth,
-    %                 height=0.5\textwidth,
-    %                 legend pos=south east,
-    %                 legend cell align=left,
-    %                 xmin=1
-    %             ]
-    %             \addplot[color=black] table[x index=0,y index=1]{../exp/kaioKenOutput};
-    %             \addplot[color=red] table[x index=0, y expr={x*ln(x)*\constante}]{../exp/kaioKenOutput};
-    %             \legend{$T$, $c*N*log(N)$}
-    %         \end{axis}
-    %     \end{tikzpicture}
-    % \end{figure}
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp1:tiempo_base}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={Cantidad de nodos fija $N = 300$},
+                    xlabel={Cantidad de aristas($M$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraataca};
+                \addplot[color=red] table[x index=0, y expr={x*\constante}]{../exp/elImperioContraataca};
+                \legend{$T$, $c*M$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
