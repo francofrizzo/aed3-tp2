@@ -111,6 +111,10 @@ vector<int> hallar_camino(const vector<vector<int>>& grafo) {
                 siguiente.push(vecino);
             }
         }
+
+        if (i == N - 1) {
+            break;
+        }
     }
 
     int i = N - 1;
