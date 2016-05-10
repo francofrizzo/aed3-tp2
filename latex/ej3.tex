@@ -231,6 +231,96 @@
 	ejercicio dado con la formulación recursiva planteada, probando entonces que
 	nos presenta una solución válida al mismo.
 
+	\subsubsection{Implementación}
+
+	Para la implementación de esta formulación recursiva había dos caminos
+	posibles. Una era implementar la recursión tal cual como está definida,
+	también denominada como una implementación \emph{top-down}, donde al llamar a $f(N,
+	M)$ se abre el árbol de recursiones para $f(N - 1, M)$ y $f(N, M - 1)$
+	respectivamente, yendo de los problemas más grandes a los más pequeños. Por
+	otro lado estaba \emph{bottom-up}, que a diferencia del primero, comienza
+	calculando los subproblemas más pequeños para luego ir construyendo los más
+	grandes.
+
+	La implementación \emph{top-down} hubiera resultado, donde para aprovechar
+	el solapamiento de subproblemas se podrían haber almacenado los valores de
+	las llamadas recursivas que se iban calculando. Sin embargo, los algoritmos
+	recursivos presentan un \emph{overhead} a la hora de ejecutarse y corren
+	riesgo de quedarse sin lugar en la pila.
+
+	Con \emph{bottom-up}, también se resuelve el solapamiento de subproblemas
+	guardando los valores de los mismos, con la diferencia de que se los calcula
+	explícitamente. Esto significa que a diferencia de la versión recursiva
+	donde los mismos se almacenan luego de haber resuelto la llamada recursiva,
+	aquí se calculan y guardan de forma iterativa. Para esto, el mismo debe
+	contar con que se cumplan las dependencias de cada subproblema que resuelve.
+
+	Se optó por realizar una implementación \emph{bottom-up} dado que la
+	complejidad asintótica resulta la misma que con \emph{top-down} sólo que sin el peligro
+	de quedarse sin espacio en la pila.
+
+	Con respecto a la resolución de dependencias, el secreto está en el orden en
+	el cual se van resolviendo los subproblemas. Para este ejercicio, cada
+	subproblema $(i, j)$ requiere ya tener calculados $(i - 1, j)$ y $(i, j -
+	1)$. Existen varias formas de ir calculando los valores y que se cumpla esta
+	dependencia, para la implementación desarrollada en este trabajo se decidió
+	tomar la de calcular la primer fila de izquierda a derecha, la primer
+	columna de arriba a abajo y luego el resto de las filas de izquierda a
+	derecha.
+
+	En el gráfico a continuación se puede observar el comportamiento descrito,
+	donde los casilleros oscuros son el camino a calcular y los que poséen
+	asteriscos sus dependencias.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics{imagenes/ej3_grilla_2.pdf}
+		\caption{Visualización del cálculo de subsoluciones.}
+	\end{figure}
+
+	Esto es logrado a través del siguiente algoritmo:
+
+	\begin{algorithm}
+		\caption{Solución \emph{bottom-up} al problema}
+		\Input{Una grilla $G$ de dimensiones $N \times M$ con la altura de cada
+		casillero y un nivel de entrenamiento $H$.}
+		\Output{Un par con el costo del camino óptimo de $(1, 1)$ a
+		$(N, M)$ y su recorrido.}
+		$DP$ $\gets$ grilla de dimensiones $N \times M$ donde cada elemento es
+		un par del tipo entero y caracter \;
+		$DP_{1,1}$ $\gets$ (0, 'I') \;
+		\ForEach{$i$ entre $2$ y $N$}{
+			$DP_{i,1}$ $\gets$ ($DP_{i-1,1} + $ costo del salto vertical, 'X') \;
+		}
+		\ForEach{$j$ entre $2$ y $M$}{
+			$DP_{1,j}$ $\gets$ ($DP_{1,j-1} + $ costo del salto horizontal, 'Y') \;
+		}
+		\ForEach{$i$ entre $2$ y $N$ y $j$ entre $2$ y $M$}{
+			$costoSaltoVertical$ $\gets$ $DP_{i-1,j} + $ costo del salto vertical \;
+			$costoSaltoHorizontal$ $\gets$ $DP_{i,j-1} + $ costo del salto horizontal\;
+			\eIf{$costoSaltoVertical < costoSaltoHorizontal$}{
+				$DP_{i,j}$ $\gets$ ($costoSaltoVertical$, 'X') \;
+			}
+			{
+				$DP_{i,j}$ $\gets$ ($costoSaltoHorizontal$, 'Y') \;
+			}
+		}
+		$i$ $\gets$ $N$ \;
+		$j$ $\gets$ $M$ \;
+		$k$ $\gets$ $N + M - 2$ \;
+		\While{$k > 0$}{
+			$camino_k$ $\gets$ $DP_{i,j}$.segundo() \;
+			\eIf{$DP_{i,j}$.segundo() es igual a 'Y'}{
+				$j$ $\gets$ $j - 1$ \;
+			}
+			{
+				$i$ $\gets$ $i - 1$ \;
+			}
+			$k$ $\gets$ $k - 1$ \;
+		}
+		\Return{($DP_{N,M}$, $camino$)}
+	\end{algorithm}
+
     % Deducir una cota de complejidad temporal del algoritmo propuesto (en función de los parámetros que se consideren correctos) y justificar por qué el algoritmo la cumple. Utilizar el modelo uniforme.
     \subsection{Complejidad teórica}
 
