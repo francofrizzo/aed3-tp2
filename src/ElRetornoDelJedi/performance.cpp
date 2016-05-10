@@ -6,5 +6,4 @@
 **  Pruebas de performance
 */
 void correr_pruebas_performance() {
-	
 }
