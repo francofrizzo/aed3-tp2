@@ -6,7 +6,8 @@
 **  Pruebas de performance
 */
 
-#define MAX_N                 10000
+#define MAX_N                 100000
+#define MAX_NxM               500
 #define CANT_REPETICIONES     40
 #define CANT_INST_DESCARTADAS 20
 #define CANT_REP_COMPLETAS     1
@@ -27,13 +28,14 @@ vector < vector <int> >  generarMapa(int N,int M){
 }
 
 
-void ejecutarPruebas(int prueba_id, ofstream& archivoSalida, bool quiet) {
+void ejecutarPruebas(int prueba_id, ofstream& archivoSalida, bool quiet,int MaxN , int step ) {
 	
 	
     if (!quiet) {
         switch (prueba_id) {
             case PRUEBA_VARIAR_FILAS:
                 cout << "Escenario: variar filas" << endl; break;
+
             case PRUEBA_VARIAR_COLUMNAS:
                 cout << "Escenario: variar columnas" << endl; break;
             case PRUEBA_VARIAR_COLUMNAS_Y_FILAS:
@@ -43,7 +45,7 @@ void ejecutarPruebas(int prueba_id, ofstream& archivoSalida, bool quiet) {
         }
     }
 
-    for (unsigned int i = 1; i <= MAX_N; i++) {
+    for ( int i = 1; i <= MaxN; i+=step) {
     	int H = 0;
     	int N = 0,M = 0 ;
 		vector < vector <int> > E;
@@ -81,9 +83,9 @@ void ejecutarPruebas(int prueba_id, ofstream& archivoSalida, bool quiet) {
                 break;
 
             case PRUEBA_VARIAR_NIVEL_DE_ENTRENAMIENTO:
-           	 	N = rand();
-                M = rand();
-                E = generarMapa(rand(),rand());
+           	 	N = MAX_NxM;
+                M = MAX_NxM;
+                E = generarMapa(MAX_NxM,MAX_NxM);
                 H = i;
                 break;
         }
@@ -125,20 +127,20 @@ void correr_pruebas_performance() {
     ofstream archivoSalida;
     for (int i = 0; i < CANT_REP_COMPLETAS; i++) {
 
-        archivoSalida.open("../exp/elRetornoDelJediFilas");
-        ejecutarPruebas(PRUEBA_VARIAR_FILAS, archivoSalida, quiet);
+        archivoSalida.open("../exp/elRetornoDelJediFilas"); 
+        ejecutarPruebas(PRUEBA_VARIAR_FILAS, archivoSalida, quiet,MAX_N,100);
         archivoSalida.close();
 
         archivoSalida.open("../exp/elRetornoDelJediColumnas");
-        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS, archivoSalida, quiet);
+        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS, archivoSalida, quiet,MAX_N,100);
         archivoSalida.close();
 
         archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas");
-        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet);
+        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,50);
         archivoSalida.close();
 
-        archivoSalida.open("../exp/elRetornoDelJediNivelDeEntrenamiento");
-        ejecutarPruebas(PRUEBA_VARIAR_NIVEL_DE_ENTRENAMIENTO, archivoSalida, quiet);
-        archivoSalida.close();
+        //archivoSalida.open("../exp/elRetornoDelJediNivelDeEntrenamiento");
+        //ejecutarPruebas(PRUEBA_VARIAR_NIVEL_DE_ENTRENAMIENTO, archivoSalida, quiet,MAX_N,100);
+        //archivoSalida.close();
     }
 }
