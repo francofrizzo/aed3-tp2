@@ -1,1 +1,31 @@
 \section{Introducción}
+    En el presente trabajo, se detalla la resolución computacional de tres
+    problemas algorítmicos, describiendo los modelos utilizados y la
+    implementación de las soluciones propuestas. En los tres casos, tras
+    demostrar la correctitud de los algoritmos utilizados, se procede a
+    deducir una cota teórica para su complejidad temporal, que luego es
+    corroborada en forma empírica a través de una serie de experimentos.
+    También se verifican hipótesis acerca del comportamiento del algoritmo
+    en situaciones de mejor y de peor caso, cuando resulta pertinente.
+
+    Los dos primeros problemas son resueltos por medio de grafos, utilizando
+    variantes de conocidos algoritmos para afrontar este tipo de escenarios.
+    Para el tercero, por su parte, se utiliza la técnica de programación
+    dinámica.
+
+    En los tres casos, se programaron implementaciones de los algoritmos
+    en el lenguaje C++, utilizando en varios casos funciones y
+    estructuras de datos provistas por la biblioteca estándar del lenguaje.
+    Estas implementaciones fueron el objeto de estudio de los experimentos
+    mencionados, durante los cuales se tuvieron en cuenta las siguientes
+    consideraciones generales:
+
+    \begin{itemize}
+    \item Solo se midió el costo temporal de generar las soluciones,
+    omitiendo el demandado para la lectura y escritura de los datos.
+    \item Para la medición de los tiempos de ejecución, se utilizaron los
+    métodos proporcionados por el \emph{header} \texttt{chrono} de la
+    biblioteca estándar de C++. Los tiempos fueron medidos en nanosegundos.
+    \item Todas las pruebas se corrieron en las computadoras del Laboratorio X
+    del Departamento de Computación (\acr{fcen} - \acr{uba}).
+    \end{itemize}
