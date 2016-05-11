@@ -10,12 +10,14 @@
 
 using namespace std;
 
-#define CANT_INSTANCIAS         100
+#define CANT_INSTANCIAS         20
 #define CANT_REPETICIONES       40
 #define CANT_INST_DESCARTADAS   20
 
 #define M_FIJO                  400000
 #define N_FIJO                  400
+#define M_INICIAL               500000
+#define M_FINAL                 700000
 #define LONG_MAX_ARISTA         100
 
 
@@ -176,16 +178,76 @@ void ejecutarPruebaConMFijo(ofstream& archivoSalida, bool quiet, int m) {
     }
 }
 
+void ejecutarPruebaArboles(ofstream& archivoSalida, bool quiet) {
+    if (!quiet){
+        cout << "Escenario: Arboles" << endl;
+        cout << "   #    aristas       nodos   OK" << endl;
+    }
+
+    vector<vector<pair<int, int>>> rutas;
+    int rangoAristas =  M_FINAL - M_INICIAL;
+    int m = M_INICIAL;
+    int n = m + 1;
+
+    for (unsigned int i = 0; i < CANT_INSTANCIAS; i++) {
+        double tiempos[CANT_REPETICIONES];
+        double tiempo_promedio = 0;
+        double desv_estandar = 0;
+
+        if(!quiet)
+            cout << setfill(' ') << setw(4) << i << "    " << setfill(' ') << setw(7) << m << "     " << setfill(' ') << setw(7) << n << "     " << flush;
+        
+        for (int r = -CANT_INST_DESCARTADAS; r < CANT_REPETICIONES; r++) {
+            if (!quiet)
+                cout << "\b\b\b" << setfill(' ') << setw(3) << r << flush;
+
+            rutas = generarCasoRandom(n, m);
+            
+            double tiempo;
+            start_timer();
+            vector<int> agm = prim(rutas);
+            peso_arbol_generador(agm, rutas);
+            tiempo = stop_timer();
+
+            if (r >= 0) {
+                tiempos[r] = tiempo;
+                tiempo_promedio += tiempos[r];
+            }
+        }
+
+        tiempo_promedio = tiempo_promedio / CANT_REPETICIONES;
+
+        for (unsigned int r = 0; r < CANT_REPETICIONES; r++)
+            desv_estandar += pow(tiempos[r] - tiempo_promedio, 2);
+
+        desv_estandar = sqrt(desv_estandar / CANT_REPETICIONES);
+
+        archivoSalida << m  << " " << tiempo_promedio << " " << desv_estandar << endl;
+
+        if (!quiet)
+            cout << "\b\b\b  ✓" << endl;
+
+        m += rangoAristas / CANT_INSTANCIAS;
+        n = m + 1;
+    
+    }
+}
+
 void correr_pruebas_performance() {
     bool quiet = ! verbose;
 
     ofstream archivoSalida;
 
-    archivoSalida.open("../exp/elImperioContraatacaMFijo");
-    ejecutarPruebaConMFijo(archivoSalida, quiet, M_FIJO);
-    archivoSalida.close();
+    // archivoSalida.open("../exp/elImperioContraatacaMFijo");
+    // ejecutarPruebaConMFijo(archivoSalida, quiet, M_FIJO);
+    // archivoSalida.close();
 
     // archivoSalida.open("../exp/elImperioContraatacaNFijo");
     // ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
     // archivoSalida.close();
+
+    archivoSalida.open("../exp/elImperioContraatacaArboles");
+    ejecutarPruebaArboles(archivoSalida, quiet);
+    archivoSalida.close();
+
 }

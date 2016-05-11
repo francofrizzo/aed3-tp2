@@ -215,3 +215,29 @@
             \end{axis}
         \end{tikzpicture}
     \end{figure}
+
+    \renewcommand\constante{12}
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp2:arboles}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={Árboles},
+                    xlabel={Cantidad de aristas($M$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaArboles};
+                \addplot[color=red] table[x index=0, y expr={x*ln(x + 1)*\constante}]{../exp/elImperioContraatacaArboles};
+                \legend{$T$, $c*M*log(N)$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
