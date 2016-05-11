@@ -13,9 +13,9 @@ using namespace std;
 #define CANT_INSTANCIAS         100
 #define CANT_REPETICIONES       40
 #define CANT_INST_DESCARTADAS   20
-#define CANT_REP_COMPLETAS      1
 
-#define N_FIJO                  300
+#define M_FIJO                  400000
+#define N_FIJO                  400
 #define LONG_MAX_ARISTA         100
 
 
@@ -123,16 +123,16 @@ void ejecutarPruebaConNFijo(ofstream& archivoSalida, bool quiet, int n) {
 
 void ejecutarPruebaConMFijo(ofstream& archivoSalida, bool quiet, int m) {
     if (!quiet){
-        cout << "Escenario: M = " << n << endl;
-        cout << "   #    nodos   OK" << endl;
+        cout << "Escenario: M = " << m << endl;
+        cout << "   #      nodos   OK" << endl;
     }
 
     vector<vector<pair<int, int>>> rutas;
     int maxNodos = m + 1;
-    int minNodos =  (1 + sqrt(1 + 8 * m)) / 2;
+    int minNodos =  ceil((1 + sqrt(1 + 8 * m)) / 2);
     int rangoNodos =  maxNodos - minNodos;
-
     int n = minNodos;
+
     for (unsigned int i = 0; i < CANT_INSTANCIAS; i++) {
         double tiempos[CANT_REPETICIONES];
         double tiempo_promedio = 0;
@@ -144,7 +144,6 @@ void ejecutarPruebaConMFijo(ofstream& archivoSalida, bool quiet, int m) {
         for (int r = -CANT_INST_DESCARTADAS; r < CANT_REPETICIONES; r++) {
             if (!quiet)
                 cout << "\b\b\b" << setfill(' ') << setw(3) << r << flush;
-
 
             rutas = generarCasoRandom(n, m);
             
@@ -167,7 +166,7 @@ void ejecutarPruebaConMFijo(ofstream& archivoSalida, bool quiet, int m) {
 
         desv_estandar = sqrt(desv_estandar / CANT_REPETICIONES);
 
-        archivoSalida << m  << " " << tiempo_promedio << " " << desv_estandar << endl;
+        archivoSalida << n  << " " << tiempo_promedio << " " << desv_estandar << endl;
 
         if (!quiet)
             cout << "\b\b\b  ✓" << endl;
@@ -181,15 +180,12 @@ void correr_pruebas_performance() {
     bool quiet = ! verbose;
 
     ofstream archivoSalida;
-    for (int i = 0; i < CANT_REP_COMPLETAS; i++) {
 
-        archivoSalida.open("../exp/elImperioContraataca");
-        ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
-        archivoSalida.close();
+    archivoSalida.open("../exp/elImperioContraatacaMFijo");
+    ejecutarPruebaConMFijo(archivoSalida, quiet, M_FIJO);
+    archivoSalida.close();
 
-        archivoSalida.open("../exp/elImperioContraataca");
-        ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
-        archivoSalida.close();
-
-    }
+    // archivoSalida.open("../exp/elImperioContraatacaNFijo");
+    // ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
+    // archivoSalida.close();
 }
