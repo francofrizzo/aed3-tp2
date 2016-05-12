@@ -7,7 +7,7 @@
 **  Tests unitarios
 */
 
-
+using namespace std;
 
 void test_fila() {
 	int N = 3;

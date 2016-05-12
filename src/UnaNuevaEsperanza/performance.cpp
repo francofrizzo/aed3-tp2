@@ -6,6 +6,8 @@
 **  Pruebas de performance
 */
 
+using namespace std;
+
 void correr_pruebas_performance() {
     std::cout << "Acá todavía no hay nada" << std::endl;
 }

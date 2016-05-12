@@ -6,6 +6,8 @@
 **  Resolución del ejercicio
 */
 
+using namespace std;
+
 stack<int> resolver(int n, const vector< vector< pair<int, bool>>> &lista_ady){
 	// Representación para los estados de un nodo
 	// 0..n - 1: No se recorrió ningún pasillo especial

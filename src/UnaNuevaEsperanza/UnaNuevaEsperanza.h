@@ -5,12 +5,16 @@
 #include <stack>
 #include <utility>
 
-using namespace std;
 /*
 **  Ejercicio 1: Una nueva esperanza
 */
 
 // Declarar acá funciones exportadas por la resolución del problema,
 // variables globales, etc.
+
+std::stack<int> resolver(
+    int n,
+    const std::vector<std::vector<std::pair<int, bool>>> &lista_ady
+);
 
 #endif

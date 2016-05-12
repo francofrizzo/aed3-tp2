@@ -1,11 +1,12 @@
 #include "../main.h"
 #include "./ElRetornoDelJedi.h"
 
-using namespace std;
 /*
 **  Ejercicio 3: El retorno del (que te) jedi
 **  Resolución del ejercicio
 */
+
+using namespace std;
 
 void imprimirCamino(vector<char> camino){
 	for (unsigned int i = 0; i < camino.size(); ++i){
