@@ -7,56 +7,47 @@
 */
 
 stack<int> resolver(int n, const vector< vector< pair<int, bool>>> &lista_ady){
-	nodo_cueva nodo_inicial;
+	// Representación para los estados de un nodo
+	// 0..n - 1: No se recorrió ningún pasillo especial
+	// n..2*n - 1: Se recorrió un pasillo especial
+	// 2*n..3*n - 1: Se recorrieron al menos dos pasillos especiales
+	vector<int> lista_cuevas = vector<int>(3*n, -1);
 
-	nodo_inicial.padre = NULL;
-
-	vector< vector<nodo_cueva>> listas_cuevas = vector< vector<nodo_cueva>>(3, vector<nodo_cueva>(n, nodo_inicial));
-
-	for(int i = 0; i < n; i++){
-		listas_cuevas[0][i].id = i;
-		listas_cuevas[0][i].caminos_especiales = 0;
-		listas_cuevas[1][i].id = i;
-		listas_cuevas[1][i].caminos_especiales = 1;
-		listas_cuevas[2][i].id = i;
-		listas_cuevas[2][i].caminos_especiales = 2;
-	}
-
-	queue<nodo_cueva*> cola_nodos;
+	queue<int> cola_nodos;
 
 	// Al nodo incial lo marco como su propio padre
-	listas_cuevas[0][0].padre = &listas_cuevas[0][0];
-	cola_nodos.push(&listas_cuevas[0][0]);
+	lista_cuevas[0] = 0;
+	cola_nodos.push(0);
 
-	nodo_cueva* ptr_nodo_cueva;
-	int id_nodo, id_nodo_ady, caminos_especiales;
+	int id_nodo, id_nodo_efectivo, id_nodo_ady;
 	// Mientras queden nodos sin visitar
 	while(!cola_nodos.empty()){
-		ptr_nodo_cueva = cola_nodos.front();
+		id_nodo	= cola_nodos.front();
+		id_nodo_efectivo = id_nodo % n;
 		cola_nodos.pop();
-		id_nodo = ptr_nodo_cueva->id;
 		// Encolo todos los vecinos
-		for(unsigned int i = 0; i < lista_ady[id_nodo].size(); i++){
-			id_nodo_ady = lista_ady[id_nodo][i].first;
-			caminos_especiales = ptr_nodo_cueva->caminos_especiales;
+		for(unsigned int i = 0; i < lista_ady[id_nodo_efectivo].size(); i++){
+			id_nodo_ady = (id_nodo - id_nodo_efectivo) + lista_ady[id_nodo_efectivo][i].first;
+
 			// Si tengo un camino especial, encolo el nodo del grafo siguiente
-			if(lista_ady[id_nodo][i].second == true){
-				caminos_especiales = (caminos_especiales == 0) ? 1 : 2;
+			if(lista_ady[id_nodo_efectivo][i].second == true && id_nodo_ady/n < 2){
+				id_nodo_ady += n;
 			}
+
 			// Si ya recorrí este nodo no es necesario encolarlo
-			if(listas_cuevas[caminos_especiales][id_nodo_ady].padre == NULL){
-				listas_cuevas[caminos_especiales][id_nodo_ady].padre = ptr_nodo_cueva;
-				cola_nodos.push(&listas_cuevas[caminos_especiales][id_nodo_ady]);
+			if(lista_cuevas[id_nodo_ady] == -1){
+				lista_cuevas[id_nodo_ady] = id_nodo;
+				cola_nodos.push(id_nodo_ady);
 			}
 		}
 	}
 
 	stack<int> camino_optimo;
 
-	ptr_nodo_cueva = listas_cuevas[2][n - 1].padre;
-	while(ptr_nodo_cueva->padre != ptr_nodo_cueva){
-		camino_optimo.push(ptr_nodo_cueva->id);
-		ptr_nodo_cueva = ptr_nodo_cueva->padre;
+	int j = lista_cuevas[3*n - 1];
+	while(lista_cuevas[j] != j){
+		camino_optimo.push(j % n);
+		j = lista_cuevas[j];
 	}
 
 	return camino_optimo;

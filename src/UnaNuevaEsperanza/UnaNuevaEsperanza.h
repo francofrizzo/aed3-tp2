@@ -13,10 +13,4 @@ using namespace std;
 // Declarar acá funciones exportadas por la resolución del problema,
 // variables globales, etc.
 
-struct nodo_cueva{
-	int id;
-	nodo_cueva* padre;
-	int caminos_especiales;
-};
-
 #endif
