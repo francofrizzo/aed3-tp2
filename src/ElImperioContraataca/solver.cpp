@@ -64,7 +64,7 @@ vector<int> prim(const vector<vector<pair<int, int>>>& vecinos) {
 
     // Aquí se irá formando la solución del problema
     vector<int> predecesores(N, 0);
-    
+
     // Iterar hasta que la cola esté vacía
     while (! vertices.vacia()) {
         // Desencolar el vértice con menor prioridad (esto representa al
@@ -77,7 +77,7 @@ vector<int> prim(const vector<vector<pair<int, int>>>& vecinos) {
         // Iterar sobre los vecinos no marcados del nodo seleccionado
         for (uint j = 0; j < vecinos[vert_actual].size(); j++) {
             int ind_vecino  = vecinos[vert_actual][j].first;
-            
+
             if (! vertices_marcados[ind_vecino]) {
                 int long_arista = vecinos[vert_actual][j].second;
 
@@ -127,7 +127,7 @@ cola_prioridad::cola_prioridad(uint n) {
     cant_items  = n;
     pos_en_heap = std::vector<int>(n);
     contenedor  = std::vector<std::pair<int, int>>(n);
-    
+
     for (uint i = 0; i < n; i++) {
         pos_en_heap[i] = i;
         contenedor[i]  = {i, numeric_limits<int>::max()};
@@ -164,7 +164,7 @@ int cola_prioridad::prioridad(int i) const {
 void cola_prioridad::setear_prioridad(int indice, int prioridad) {
     int prioridad_actual = contenedor[pos_en_heap[indice]].second;
     contenedor[pos_en_heap[indice]].second = prioridad;
-    
+
     if (prioridad > prioridad_actual) {
         bajar(pos_en_heap[indice]);
     } else if (prioridad < prioridad_actual) {
@@ -175,40 +175,47 @@ void cola_prioridad::setear_prioridad(int indice, int prioridad) {
 // Métodos privados
 
 void cola_prioridad::subir(uint i) {
+    uint nuevo_i = (i + 1) / 2 - 1;
+
     while (i != 0 &&
-           contenedor[(i + 1) / 2 - 1].second > contenedor[i].second)
+           contenedor[nuevo_i].second > contenedor[i].second)
     {
-        int nuevo_i = (i + 1) / 2 - 1;
         std::iter_swap(contenedor.begin() + i,
                        contenedor.begin() + nuevo_i);
         pos_en_heap[contenedor[i].first] = i;
         pos_en_heap[contenedor[nuevo_i].first] = nuevo_i;
+
         i = nuevo_i;
+        nuevo_i = (i + 1) / 2 - 1;
     }
 }
 
 void cola_prioridad::bajar(uint i) {
-    while ((2 * i + 1 < contenedor.size() &&
-           contenedor[i].second > contenedor[2 * i + 1].second) ||
-           (2 * i + 2 < contenedor.size() &&
-           contenedor[i].second > contenedor[2 * i + 2].second))
+    uint nuevo_i_1 = 2 * i + 1;
+    uint nuevo_i_2 = 2 * i + 2;
+
+    while ((nuevo_i_1 < contenedor.size() &&
+           contenedor[i].second > contenedor[nuevo_i_1].second) ||
+           (nuevo_i_2 < contenedor.size() &&
+           contenedor[i].second > contenedor[nuevo_i_2].second))
     {
-        if (2 * i + 2 < contenedor.size() &&
-            contenedor[2 * i + 1].second > contenedor[2 * i + 2].second)
+        if (nuevo_i_2 < contenedor.size() &&
+            contenedor[nuevo_i_1].second > contenedor[nuevo_i_2].second)
         {
-            int nuevo_i = 2 * i + 2;
             std::iter_swap(contenedor.begin() + i,
-                           contenedor.begin() + nuevo_i);
+                           contenedor.begin() + nuevo_i_2);
             pos_en_heap[contenedor[i].first] = i;
-            pos_en_heap[contenedor[nuevo_i].first] = nuevo_i;
-            i = nuevo_i;
+            pos_en_heap[contenedor[nuevo_i_2].first] = nuevo_i_2;
+            i = nuevo_i_2;
         } else {
-            int nuevo_i = 2 * i + 1;
             std::iter_swap(contenedor.begin() + i,
-                           contenedor.begin() + nuevo_i);
+                           contenedor.begin() + nuevo_i_1);
             pos_en_heap[contenedor[i].first] = i;
-            pos_en_heap[contenedor[nuevo_i].first] = nuevo_i;
-            i = nuevo_i;
+            pos_en_heap[contenedor[nuevo_i_1].first] = nuevo_i_1;
+            i = nuevo_i_1;
         }
+
+        nuevo_i_1 = 2 * i + 1;
+        nuevo_i_2 = 2 * i + 2;
     }
 }
