@@ -9,19 +9,13 @@
 */
 
 // Recibe un grafo en forma de listas de adyacencia. Calcula, utilizando el
-// algoritmo de Prim, un árbol generador mínimo del grafo, y lo devuelve a
-// través de un vector indicando el predecesor de cada nodo en dicho árbol
-std::vector<int> prim(
-    const std::vector<std::vector<std::pair<int, int>>>& vecinos
+// algoritmo de Prim, un árbol generador mínimo del grafo. Devuelve el peso
+// total del árbol y, a través de un vector pasado por referencia, indica
+// el predecesor de cada nodo en dicho árbol
+int resolver(
+    const std::vector<std::vector<std::pair<int, int>>>& vecinos,
+    std::vector<int>& predecesores
 );
-
-// Calcula el peso total de un árbol generador de un grafo, dados el árbol en
-// forma de vector de predecesores y el grafo en forma de listas de adyacencia
-int peso_arbol_generador(
-    std::vector<int>& arbol,
-    const std::vector<std::vector<std::pair<int, int>>>& vecinos
-);
-
 
 
 /*

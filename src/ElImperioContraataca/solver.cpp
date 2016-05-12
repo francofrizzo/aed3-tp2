@@ -35,10 +35,8 @@ void correr_solucion() {
     }
 
     // Resolver el problema
-    vector<int> agm = prim(rutas);
-
-    // Calcular el total de combustible utilizado
-    int total_combustible = peso_arbol_generador(agm, rutas);
+    vector<int> agm;
+    int total_combustible = resolver(rutas, agm);
 
     // Imprimir la solución
     cout << total_combustible << endl;
@@ -49,10 +47,11 @@ void correr_solucion() {
 
 }
 
-vector<int> prim(const vector<vector<pair<int, int>>>& grafo) {
+int resolver(const vector<vector<pair<int, int>>>& grafo, vector<int>& predecesores) {
     uint N = grafo.size();
 
     // Crear una cola de prioridad que contiene a todos los nodos
+    // La prioridad inicial es infinita (máximo int posible)
     cola_prioridad vertices(N);
 
     // Establecer en 0 la prioridad del primer vértice
@@ -62,13 +61,17 @@ vector<int> prim(const vector<vector<pair<int, int>>>& grafo) {
     vector<bool> vertices_marcados(N, false);
 
     // Aquí se irá formando la solución del problema
-    vector<int> predecesores(N, 0);
+    predecesores = vector<int>(N, 0);
+
+    // Aquí se irá calculando el peso total del árbol
+    int peso_total = 0;
 
     // Iterar hasta que la cola esté vacía
     while (! vertices.vacia()) {
         // Desencolar el vértice con menor prioridad (esto representa al
         // vértice unido al árbol generado hasta el momento por la arista
         // más corta posible). Marcarlo como visitado
+        peso_total += vertices.min_prioridad();
         int vert_actual = vertices.min_indice();
         vertices.desencolar();
         vertices_marcados[vert_actual] = true;
@@ -91,25 +94,7 @@ vector<int> prim(const vector<vector<pair<int, int>>>& grafo) {
         }
     }
 
-    return predecesores;
-}
-
-int peso_arbol_generador(
-    vector<int>& arbol,
-    const vector<vector<pair<int, int>>>& grafo
-) {
-    int total = 0;
-    for (uint i = 1; i < grafo.size(); i++) {
-        uint j;
-        for (j = 0; j < grafo[i].size(); j++) {
-            if (grafo[i][j].first == arbol[i]) {
-                break;
-            }
-        }
-        total += grafo[i][j].second;
-    }
-
-    return total;
+    return peso_total;
 }
 
 
@@ -173,37 +158,47 @@ void cola_prioridad::setear_prioridad(int indice, int prioridad) {
 // Métodos privados
 
 void cola_prioridad::subir(uint i) {
+    uint nuevo_i = (i + 1) / 2 - 1;
+
     while (i != 0 &&
-           contenedor[(i + 1) / 2 - 1].second > contenedor[i].second)
+           contenedor[nuevo_i].second > contenedor[i].second)
     {
         std::iter_swap(contenedor.begin() + i,
-                       contenedor.begin() + (i + 1) / 2 - 1);
+                       contenedor.begin() + nuevo_i);
         pos_en_heap[contenedor[i].first] = i;
-        pos_en_heap[contenedor[(i + 1) / 2 - 1].first] = (i + 1) / 2 - 1;
-        i = (i + 1) / 2 - 1;
+        pos_en_heap[contenedor[nuevo_i].first] = nuevo_i;
+
+        i = nuevo_i;
+        nuevo_i = (i + 1) / 2 - 1;
     }
 }
 
 void cola_prioridad::bajar(uint i) {
-    while ((2 * i + 1 < contenedor.size() &&
-           contenedor[i].second > contenedor[2 * i + 1].second) ||
-           (2 * i + 2 < contenedor.size() &&
-           contenedor[i].second > contenedor[2 * i + 2].second))
+    uint nuevo_i_1 = 2 * i + 1;
+    uint nuevo_i_2 = 2 * i + 2;
+
+    while ((nuevo_i_1 < contenedor.size() &&
+           contenedor[i].second > contenedor[nuevo_i_1].second) ||
+           (nuevo_i_2 < contenedor.size() &&
+           contenedor[i].second > contenedor[nuevo_i_2].second))
     {
-        if (2 * i + 2 < contenedor.size() &&
-            contenedor[2 * i + 1].second > contenedor[2 * i + 2].second)
+        if (nuevo_i_2 < contenedor.size() &&
+            contenedor[nuevo_i_1].second > contenedor[nuevo_i_2].second)
         {
             std::iter_swap(contenedor.begin() + i,
-                           contenedor.begin() + 2 * i + 2);
+                           contenedor.begin() + nuevo_i_2);
             pos_en_heap[contenedor[i].first] = i;
-            pos_en_heap[contenedor[2 * i + 2].first] = 2 * i + 2;
-            i = 2 * i + 2;
+            pos_en_heap[contenedor[nuevo_i_2].first] = nuevo_i_2;
+            i = nuevo_i_2;
         } else {
             std::iter_swap(contenedor.begin() + i,
-                           contenedor.begin() + 2 * i + 1);
+                           contenedor.begin() + nuevo_i_1);
             pos_en_heap[contenedor[i].first] = i;
-            pos_en_heap[contenedor[2 * i + 1].first] = 2 * i + 1;
-            i = 2 * i + 1;
+            pos_en_heap[contenedor[nuevo_i_1].first] = nuevo_i_1;
+            i = nuevo_i_1;
         }
+
+        nuevo_i_1 = 2 * i + 1;
+        nuevo_i_2 = 2 * i + 2;
     }
 }
