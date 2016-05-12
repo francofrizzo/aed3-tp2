@@ -35,10 +35,8 @@ void correr_solucion() {
     }
 
     // Resolver el problema
-    vector<int> agm = prim(rutas);
-
-    // Calcular el total de combustible utilizado
-    int total_combustible = peso_arbol_generador(agm, rutas);
+    vector<int> agm;
+    int total_combustible = resolver(rutas, agm);
 
     // Imprimir la solución
     cout << total_combustible << endl;
@@ -49,8 +47,8 @@ void correr_solucion() {
 
 }
 
-vector<int> prim(const vector<vector<pair<int, int>>>& vecinos) {
-    uint N = vecinos.size();
+int resolver(const vector<vector<pair<int, int>>>& grafo, vector<int>& predecesores) {
+    uint N = grafo.size();
 
     // Crear una cola de prioridad que contiene a todos los nodos
     // La prioridad inicial es infinita (máximo int posible)
@@ -63,13 +61,17 @@ vector<int> prim(const vector<vector<pair<int, int>>>& vecinos) {
     vector<bool> vertices_marcados(N, false);
 
     // Aquí se irá formando la solución del problema
-    vector<int> predecesores(N, 0);
+    predecesores = vector<int>(N, 0);
+
+    // Aquí se irá calculando el peso total del árbol
+    int peso_total = 0;
 
     // Iterar hasta que la cola esté vacía
     while (! vertices.vacia()) {
         // Desencolar el vértice con menor prioridad (esto representa al
         // vértice unido al árbol generado hasta el momento por la arista
         // más corta posible). Marcarlo como visitado
+        peso_total += vertices.min_prioridad();
         int vert_actual = vertices.min_indice();
         vertices.desencolar();
         vertices_marcados[vert_actual] = true;
@@ -93,7 +95,7 @@ vector<int> prim(const vector<vector<pair<int, int>>>& vecinos) {
         }
     }
 
-    return predecesores;
+    return peso_total;
 }
 
 int peso_arbol_generador(
