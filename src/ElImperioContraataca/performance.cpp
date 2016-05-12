@@ -10,11 +10,11 @@
 
 using namespace std;
 
-#define CANT_INSTANCIAS         20
-#define CANT_REPETICIONES       40
-#define CANT_INST_DESCARTADAS   20
+#define CANT_INSTANCIAS         30
+#define CANT_REPETICIONES       20
+#define CANT_INST_DESCARTADAS   10
 
-#define M_FIJO                  400000
+#define M_FIJO                  1000000
 #define N_FIJO                  400
 #define M_INICIAL               500000
 #define M_FINAL                 700000
@@ -42,6 +42,7 @@ vector<vector<pair<int, int>>> generarCasoRandom(unsigned int n, unsigned int m)
     // Agregar aristas restantes
     int aristasRestantes = m - (n  - 1);
     while(aristasRestantes > 0){
+        // cout << "\b\b\b\b\b\b\b\b\b\b" << setfill(' ') << setw(10) << aristasRestantes << flush;
         int nodo1 = rand() % n;
         int nodo2 = rand() % n;
 
@@ -238,16 +239,16 @@ void correr_pruebas_performance() {
 
     ofstream archivoSalida;
 
-    // archivoSalida.open("../exp/elImperioContraatacaMFijo");
-    // ejecutarPruebaConMFijo(archivoSalida, quiet, M_FIJO);
-    // archivoSalida.close();
+    archivoSalida.open("../exp/elImperioContraatacaMFijo");
+    ejecutarPruebaConMFijo(archivoSalida, quiet, M_FIJO);
+    archivoSalida.close();
 
     // archivoSalida.open("../exp/elImperioContraatacaNFijo");
     // ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
     // archivoSalida.close();
 
-    archivoSalida.open("../exp/elImperioContraatacaArboles");
-    ejecutarPruebaArboles(archivoSalida, quiet);
-    archivoSalida.close();
+    // archivoSalida.open("../exp/elImperioContraatacaArboles");
+    // ejecutarPruebaArboles(archivoSalida, quiet);
+    // archivoSalida.close();
 
 }
