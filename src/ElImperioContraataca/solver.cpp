@@ -53,14 +53,11 @@ vector<int> prim(const vector<vector<pair<int, int>>>& vecinos) {
     uint N = vecinos.size();
 
     // Crear una cola de prioridad que contiene a todos los nodos
+    // La prioridad inicial es infinita (máximo int posible)
     cola_prioridad vertices(N);
 
-    // Establecer en 0 la prioridad del primer vértice y en (prácticamente)
-    // infinito las demás
+    // Establecer en 0 la prioridad del primer vértice
     vertices.setear_prioridad(0, 0);
-    for (uint i = 1; i < N; i++) {
-        vertices.setear_prioridad(i, numeric_limits<int>::max());
-    }
 
     // En este vector se registrarán los nodos que ya no deben procesarse
     vector<bool> vertices_marcados(N, false);
@@ -133,7 +130,7 @@ cola_prioridad::cola_prioridad(uint n) {
     
     for (uint i = 0; i < n; i++) {
         pos_en_heap[i] = i;
-        contenedor[i]  = {i, 0};
+        contenedor[i]  = {i, numeric_limits<int>::max()};
     }
 }
 
@@ -181,11 +178,12 @@ void cola_prioridad::subir(uint i) {
     while (i != 0 &&
            contenedor[(i + 1) / 2 - 1].second > contenedor[i].second)
     {
+        int nuevo_i = (i + 1) / 2 - 1;
         std::iter_swap(contenedor.begin() + i,
-                       contenedor.begin() + (i + 1) / 2 - 1);
+                       contenedor.begin() + nuevo_i);
         pos_en_heap[contenedor[i].first] = i;
-        pos_en_heap[contenedor[(i + 1) / 2 - 1].first] = (i + 1) / 2 - 1;
-        i = (i + 1) / 2 - 1;
+        pos_en_heap[contenedor[nuevo_i].first] = nuevo_i;
+        i = nuevo_i;
     }
 }
 
@@ -198,17 +196,19 @@ void cola_prioridad::bajar(uint i) {
         if (2 * i + 2 < contenedor.size() &&
             contenedor[2 * i + 1].second > contenedor[2 * i + 2].second)
         {
+            int nuevo_i = 2 * i + 2;
             std::iter_swap(contenedor.begin() + i,
-                           contenedor.begin() + 2 * i + 2);
+                           contenedor.begin() + nuevo_i);
             pos_en_heap[contenedor[i].first] = i;
-            pos_en_heap[contenedor[2 * i + 2].first] = 2 * i + 2;
-            i = 2 * i + 2;
+            pos_en_heap[contenedor[nuevo_i].first] = nuevo_i;
+            i = nuevo_i;
         } else {
+            int nuevo_i = 2 * i + 1;
             std::iter_swap(contenedor.begin() + i,
-                           contenedor.begin() + 2 * i + 1);
+                           contenedor.begin() + nuevo_i);
             pos_en_heap[contenedor[i].first] = i;
-            pos_en_heap[contenedor[2 * i + 1].first] = 2 * i + 1;
-            i = 2 * i + 1;
+            pos_en_heap[contenedor[nuevo_i].first] = nuevo_i;
+            i = nuevo_i;
         }
     }
 }
