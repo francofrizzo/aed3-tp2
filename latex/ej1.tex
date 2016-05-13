@@ -90,6 +90,300 @@
     % procedimiento resuelve efectivamente el problema.
     \subsection{Solución propuesta}
 
+	\subsubsection{Modelo}
+
+	Para resolver este problema se exigía encontrar el camino que recorriera al
+	menos 2 pasillos especiales con un costo mínimo de tiempo, donde el mismo se
+	define como el total de pasillos atravesados. Lo primero que se realizó fue
+	modelar el problema con grafos dado que el mismo tenía características que
+	sugerían que para la resolución iba a ser necesario calcular un camino mínimo de algún tipo.
+
+	La primer idea de representación con grafos fue tener las cuevas como nodos y
+	los pasillos como aristas. Sin embargo, quedaban aquí sin contemplar los
+	pasillos especiales. Para subsanar esto, cada arista contiene además una bandera
+	indicando si es o no un pasillo especial.
+
+	Este grafo era una forma de modelar el problema donde aún no quedaba claro
+	cómo resolver el ejercicio. Si se buscaba el camino mínimo del punto inicial
+	al resto de las cuevas no existía ninguna garantía de que se cumpliera la
+	condición de haber recorrido al menos 2 pasillos especiales.
+
+	Para la versión final del modelo, lo que se hizo fue generar copias del
+	grafo descrito anteriormente, teniendo como diferencia entre estos su
+	\emph{estado}. El estado lo que indicará es para cada una de estas copias la
+	cantidad de caminos especiales recorridos.
+
+	Se tienen tres grafos, uno para cada uno de los siguientes estados:
+
+	\begin{enumerate}
+		\item{No se recorrió ningún pasillo especial.}
+		\item{Se recorrió un pasillo especial.}
+		\item{Se recorrieron al menos dos pasillos especiales.}
+	\end{enumerate}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics{imagenes/ej1_modelo_1.pdf}
+		\caption{Visualización de los grafos con las aristas rojas representando un pasillo especial.}
+		\label{ej1:fig_1}
+	\end{figure}
+
+	Una posible observación es que por más que cada grafo representa el mismo
+	conjunto de cuevas y pasillos, para cada estado se utilizan
+	números distintos para identificar cada nodo. Esto se debe a que ésta será
+	la forma de identificar en qué estado se encuentra cada nodo. Se define la
+	siguiente función donde $V$ es el número de nodo y $N$ el total de cuevas
+	dado por la entrada:
+
+	\begin{equation*}
+		estado(V) =
+		\begin{cases}
+			1 & , V \leq N \\
+			2 & , N < V \leq 2 * N \\
+			3 & , 2 * N < V \leq 3 * N
+		\end{cases}
+	\end{equation*}
+
+	Teniendo esta representación, se procede a explicar el algoritmo y
+	solución desarrollada. Existen dos objetivos: que Luke atraviese al menos 2
+	caminos especiales, que el camino que tome para lograr eso sea mínimo. Para
+	lo segundo, como las aristas no poséen pesos, se puede utilizar
+	\emph{Breadth First Search}, que permite obtener la distancia de un nodo
+	cualquiera hacia el resto. Sin embargo esto solo no alcanza, ya que es
+	requisito el recorrer al menos 2 caminos especiales. Para cumplir con esta
+	condición se introduce una ligera modificación al \emph{BFS}: si un vecino
+	se accede cruzando un pasillo especial, el nodo correspondiente en el estado
+	siguiente se marca como visitado y se encolan sus vecinos.
+
+	De esta manera lo que se logra es que en cuanto se realiza un cambio de
+	estado (el salto a un vecino mediante un pasillo especial), se permite que
+	el \emph{BFS} recorra cuevas que ya había visitado, con la diferencia de que
+	cuenta con el hecho de que atravesó al menos un pasillo especial.
+
+	Siguiendo esta lógica se obtiene la distancia de una cueva al resto en
+	alguno de sus posibles estados. En particular, tomando el grafo
+	correspondiente al estado donde se recorrieron al menos 2 pasillos
+	especiales, la distancia hasta el nodo que equivale al $N - 1$ es la del camino mínimo
+	pedido por el enunciado.
+
+	A continuación se presenta el efecto de cada iteración del algoritmo sobre el grafo
+	presentado en la Figura \ref{ej1:fig_1}:
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics{imagenes/ej1_modelo_2.pdf}
+		\caption{Visualización del \emph{BFS} marcando con verde los nodos
+		visitados.}
+		\label{ej1:bfs}
+	\end{figure}
+
+	Esta ejecución genera el siguiente árbol de caminos mínimos, donde se puede
+	observar que se obtiene la distancia al nodo 12 que es el equivalente al $N
+	- 1$ en el grafo donde se recorrieron al menos 2 pasillos especiales:
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics{imagenes/ej1_modelo_3.pdf}
+		\caption{Árbol de caminos mínimos del nodo inicial al resto.}
+	\end{figure}
+
+	Una vez que se tiene este árbol de caminos mínimos, para armar la solución se trepa
+	desde el nodo $N - 1$ (con $estado(N - 1) = 3$) hasta la
+	raiz, traduciendo el índice de cada nodo al de su equivalente en el grafo
+	original. Por ejemplo, el nodo 12 es en realidad la cueva 4 con $estado(12) =
+	3$, por lo tanto a la hora de armar el camino se lo traducirá a 4.
+
+	Habiendo introducido la idea detrás de la solución desarrolada, se procede a
+	demostrar que esto efectivamente funciona, es decir que con esta
+	modificación al \emph{BFS} siempre se encontrará un camino mínimo hasta la
+	cueva $N - 1$ habiendo recorrido al menos 2 pasillos especiales.
+
+	\subsubsection{Demostración de correctitud}
+
+	Para probar que se cumple lo pedido, primero se realizará inducción sobre los ciclos
+	del \emph{BFS} modificado buscando demostrar que al finalizar, se obtienen
+	los caminos mínimos teniendo en cuenta la condición de pasadizos especiales
+	recorridos.
+
+	\subsubsection*{Correctitud del ciclo}
+
+	El invariante a demostrar será el siguiente: al terminar el ciclo $k$ del
+	\emph{BFS} modificado se obtienen todos los nodos a distancia a lo sumo
+	$k$ del inicial en alguno de los estados posibles. Esto se probará
+	mediante inducción en los ciclos del algoritmo.
+
+	~
+
+	\textbf{Caso base: } $k = 1$
+
+	En el caso base se tiene únicamente el nodo inicial marcado como
+	visitado con distancia 0. Como se trata del nodo inicial, se encuentra en el primer estado ya que
+	no se recorrieron pasadizos especiales. Por lo tanto, existen dos posibles
+	formas de accionar con respecto a sus vecinos:
+
+	\begin{enumerate}
+		\item{
+			El vecino está conectado mediante un pasadizo común, con lo cual en
+			el grafo del nodo inicial se lo marca con distancia 1 y encolan sus
+			vecinos.
+		}
+		\item{
+			El vecino está conectado mediante un pasadizo especial, por lo tanto
+			en el grafo en el estado siguiente, es decir en el que se cuenta con
+			que se recorrió un pasadizo especial, se lo marca con distancia 1 y
+			encolan sus vecinos.
+		}
+	\end{enumerate}
+
+	De esta forma una vez finalizada la iteración $k = 1$ se obtienen todos los
+	nodos que están a distancia 1 del nodo inicial.
+
+	~
+
+	\textbf{Paso inductivo: } $k > 1$
+
+	Como hipótesis inductiva se cuenta con que vale el invariante para $k - 1$,
+	por lo tanto se tiene la distancia para todos los nodos a lo sumo
+	a distancia $k - 1$ para alguno de los estados descritos y además se
+	tienen encolados para visitar los que están a distancia $k$.
+
+	Ahora acá existen distintas posibilidades por el hecho de que a diferencia
+	del caso base, los nodos encolados no tienen por qué necesariamente
+	encontrarse en el primer estado. Pueden haber nodos pertenecientes al
+	segundo como tercer estado (un pasadizo especial o al menos dos recorridos).
+
+	Es entonces necesario probar que en cada caso el invariante seguirá
+	valiendo:
+
+	\begin{enumerate}
+		\item{
+			El nodo encolado pertenece al primer estado. En este escenario, al
+			igual que con el caso base existen dos posibles formas de operar en
+			función de si se accede a un vecino mediante una arista especial:
+
+			\begin{enumerate}
+				\item{
+					El vecino está conectado mediante un pasadizo común, con lo
+					cual en el grafo del primer estado se observa si ya se
+					encuentra marcado. En caso de no estar marcado, en ese
+					mismo grafo se le asigna la distancia $k$ y encolan sus
+					vecinos.
+				}
+				\item{
+					El vecino está conectado mediante un pasadizo especial, con
+					lo cual en el grafo del segundo estado se observa si ya se
+					encuentra marcado. En caso de no estar marcado en ese mismo
+					grafo se le asigna la distancia $k$ y encolan sus vecinos.
+				}
+			\end{enumerate}
+		}
+		\item{
+			El nodo encolado pertence al segundo estado. Nuevamente existen dos
+			posibles formas de operar en función de si la arista que lo conecta
+			a un vecino es especial:
+
+			\begin{enumerate}
+				\item{
+					El vecino está conectado mediante un pasadizo común, con lo
+					cual en el grafo del segundo estado se observa si ya se
+					encuentra marcado. En caso de no estar marcado, en ese mismo
+					grafo se le asigna distancia $k$ y encolan sus vecinos.
+				}
+				\item{
+					El vecino está conectado mediante un pasadizo especial, con
+					lo cual en el grafo del tercer estado se observa si ya se
+					encuentra marcado. En caso de no estar marcado en ese mismo
+					grafo se le asigna la distancia $k$ y encolan sus vecinos.
+				}
+			\end{enumerate}
+		}
+		\item{
+			Por último, en caso de que el nodo encolado pertenezca al tercer
+			estado existe una única manera de proceder, ya que en caso de que un
+			vecino se encuentre conectado mediante una arista especial ya no hay
+			un estado sucesor.
+
+			Si en el grafo del tercer estado alguno de los vecinos no se
+			encuentra marcado, se le asigna distancia $k$ y es encolado para ser
+			visitado.
+		}
+	\end{enumerate}
+
+	Habiendo contemplado cada escenario posible es posible afirmar que al
+	finalizar la iteración $k$ con $k > 2$ se obtienen todos los nodos a
+	distancia $k$ para alguno de los estados posibles.
+
+	Por inducción en los ciclos del algoritmo, se demuestra que para
+	toda iteración se cumple el invariante, con lo cual al finalizar se obtiene
+	la distancia de todos los nodos para alguno de los estados descritos.
+
+	Queda probar entonces que si existe al menos una arista especial entonces
+	siempre se obtendrá la distancia hasta el nodo $N - 1$ en el tercer estado,
+	es decir el mínimo camino tal que se atraviesan al menos dos caminos
+	especiales.
+
+	Para probar que esto vale, se demostrará que el grafo vinculado al tercer
+	estado, tendrá todos sus nodos marcados con su respectiva distancia.
+
+	\subsubsection*{Existencia de un camino mínimo al nodo $N - 1$ en el tercer
+	estado}
+
+	Como se dijo previamente, se probará que todo nodo pertenciente al tercer
+	estado se encuentra marcado con su respectiva distancia. Supongamos que esto
+	no es cierto, que existe al menos un nodo sin marcar. Esto podría ser
+	resultado de uno de los siguientes escenarios:
+
+	\begin{itemize}
+		\item{Nunca se salta al tercer estado, en este caso resultando en que no
+			haya ningún nodo marcado en el mismo.}
+		\item{Se llega al tercer estado pero no se recorren todos sus nodos.}
+	\end{itemize}
+
+	Si se considera el primer escenario, esto implica que jamás se saltó del
+	segundo al tercer estado. Sin embargo para que esto ocurriese se debería
+	cumplir una de las siguientes condiciones: jamás se saltó al segundo estado
+	o ningún nodo del segundo estado tiene un vecino conectado mediante una
+	arista especial. Es fácil ver que ninguna de estas condiciones se cumplen.
+
+	La primera, como se asume que siempre existe al menos un pasadizo especial,
+	por el comportamiento del \emph{BFS} modificado eventualmente se
+	encontrará un nodo cuyo vecino está conectado por una arista especial y en el
+	grafo del segundo estado este vecino no estará marcado, con lo cual lo
+	marcará y encolará sus vecinos saltando de esta forma al segundo estado.
+
+	Lo segundo, que ningún nodo del segundo estado tenga un vecino conectado
+	mediante un pasadizo especial, carece de sentido por el hecho de que el
+	grafo vinculado con el segundo estado es una copia del primero. Entonces, si
+	del primero se salta al segundo, en este estado el nodo seguro tendrá como
+	vecino el nodo del que saltó, también conectado mediante una arista
+	especial.
+
+	Por lo tanto habiendo visto que ninguna de estas condiciones se cumplen
+	queda demostrado que el primer escenario nunca puede suceder, ya que si se
+	llega al segundo estado y además se cuenta con que habrán vecinos conectados
+	mediante aristas especiales esto significa que van a existir saltos al
+	tercer estado.
+
+	Queda entonces el segundo escenario, se llega al tercer estado pero no se
+	recorren todos sus nodos. Esto es algo que podría suceder en el primer o
+	segundo estado (véase Figura \ref{ej1:bfs}) pero no en el tercero.
+
+	Si quedan nodos sin marcar en el tercer grafo es porque los mismos jamás
+	fueron encolados para visitarlos. Ya se demostró que al tercer estado se
+	salta en algún momento, con lo cual al menos uno de los nodos de
+	seguro va a estar marcado. Luego por la descripción del \emph{BFS}
+	modificado tenemos que un nodo en el tercer estado ya no salta a otro grafo,
+	con lo cual todos los vecinos no marcados son visitados. De esta forma no
+	hay manera que queden nodos sin visitar, ya que o bien están marcados de
+	forma directa como vecinos de un nodo del segundo estado, o son alcanzados por
+	el avance del \emph{BFS} de alguno de los nodos provenientes de un salto del segundo estado.
+
+	Así se prueba entonces que ninguno de los escenarios planteados pueden
+	suceder, con lo cual todos los nodos en el tercer estado están marcados y
+	poséen un camino mínimo hasta el nodo inicial en el primer estado. Como
+	consecuencia de esto, en particual de seguro existe un camino mínimo del
+	nodo incial en el primer estado al nodo $N - 1$ en el tercer estado.
+
     % Deducir una cota de complejidad temporal del algoritmo propuesto (en
     % función de los parámetros que se consideren correctos) y justificar por
     % qué el algoritmo la cumple. Utilizar el modelo uniforme.
