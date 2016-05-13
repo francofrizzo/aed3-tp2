@@ -3,6 +3,14 @@
     % Describir detalladamente el problema a resolver dando ejemplos del mismo y sus soluciones.
     \subsection{Descripción del problema}
 
+    \begin{figure}[ht]
+        \begin{center}
+            \includegraphics[width=10cm]{imagenes/el_retorno_del_jedi.jpg}
+			\caption*{``Muchos son los caminos que conllevan al lado oscuro, el
+			odio lleva a la ira, la ira lleva a la venganza.''}
+        \end{center}
+    \end{figure}
+
 	Luke debe enfrentar a su padre. Para ello debe moverse por una grilla,
 	arrancando en la esquina superior izquierda para terminar en la opuesta,
 	donde aguarda Darth Vader. Cada casilla de la grilla tiene una altura
@@ -29,23 +37,290 @@
 	representa la altura del casillero correspondiente.
 
 	~
-
-	\begin{tabular}{cccc}
-		$N$ & $M$ & $H$ & \\
-		$G_{11}$ & $G_{12}$ & $\dots$ & $G_{1M}$ \\
-		$G_{21}$ & $G_{22}$ & $\dots$ & $G_{2M}$ \\
-		$\vdots$ & & & \\
-		$G_{N1}$ & $G_{N2}$ & $\dots$ & $G_{NM}$ \\
-	\end{tabular}
+	\begin{center}
+		\begin{tabular}{cccc}
+			$N$ & $M$ & $H$ & \\
+			$G_{11}$ & $G_{12}$ & $\dots$ & $G_{1M}$ \\
+			$G_{21}$ & $G_{22}$ & $\dots$ & $G_{2M}$ \\
+			$\vdots$ & & & \\
+			$G_{N1}$ & $G_{N2}$ & $\dots$ & $G_{NM}$ \\
+		\end{tabular}
+	\end{center}
 
 	~
 
 	La salida está compuesta por una primer línea con el costo del camino
-	seleccionado y $j$ líneas con la dirección ($X$ o $Y$) a tomar en cada paso para
-	realizar el mismo.
+	seleccionado y $N + M - 2$ líneas con la dirección ($X$ o $Y$) a tomar en cada paso para
+	realizar el mismo. Cabe aclarar que $X$ implica avanzar una filas e $Y$
+	una columna.
+
+	A continuación se presenta un ejemplo de entrada con su salida
+	correspondiente:
+
+	~
+
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}[t]{0.25\textwidth}
+			\begin{tabular}[t]{ccc}
+				\multicolumn{3}{l}{\textbf{Entrada}} \\
+				\texttt{3} & \texttt{3} & \texttt{1} \\
+				\texttt{4} & \texttt{-2} & \texttt{-1} \\
+				\texttt{6} & \texttt{7} & \texttt{-5} \\
+				\texttt{0} & \texttt{3} & \texttt{4} \\
+			\end{tabular}
+		\end{minipage}
+		\begin{minipage}[t]{0.10\textwidth}
+			\begin{tabular}[t]{l}
+				\textbf{Salida} \\
+				\texttt{4} \\
+				\texttt{X} \\
+				\texttt{Y} \\
+				\texttt{X} \\
+				\texttt{Y} \\
+			\end{tabular}
+		\end{minipage}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics{imagenes/ej3_grilla_1.pdf}
+		\caption{Camino de menor costo.}
+	\end{figure}
 
     % Explicar de forma clara, sencilla, estructurada y concisa, las ideas desarrolladas para la resolución del problema. Utilizar pseudocódigo y lenguaje coloquial (no código fuente). Justificar por qué el procedimiento resuelve efectivamente el problema.
     \subsection{Solución propuesta}
+
+	Para la resolución de este ejercicio se utilizó programación dinámica dado
+	que el mismo presenta solapamiento de subproblemas y es posible definir una
+	formulación recursiva que lo resuelva haciendo uso del principio de
+	optimalidad.
+
+	Dada una entrada con entrenamiento $H$, la siguiente función modela la solución al
+	problema:
+
+	\begin{equation*}
+		f(N, M) = \text{Costo mínimo de $(1, 1)$ a $(N, M)$ para Luke con entrenamiento $H$}
+	\end{equation*}
+
+	Luego se plantea la recurrencia donde es posible visualizar qué valores
+	podrían guardarse para no tener que recalcularlos (solapamiento).
+	Antes por comodidad se define la siguiente función $g$ para calcular el costo de cada salto:
+
+	\begin{equation*}
+		g(i, j, i', j') =
+		\begin{cases}
+			|G_{ij} - G_{i'j'}| - H & \text{si } |G_{ij} - G_{i'j'}| > H \\
+			0 & \text{caso contrario}
+		\end{cases}
+	\end{equation*}
+
+	Ahora sí se define la versión recursiva del ejercicio de la siguiente manera:
+
+	\begin{align*}
+		f(1, 1) &= 0 \\
+		f(1, j) &= g(1, j, 1, j - 1) + f(1, j - 1) \\
+		f(i, 1) &= g(i, 1, i - 1, 1) + f(i - 1, 1) \\
+		f(i, j) &= \text{mín}\left \{ f(i - 1, j) + g(i, j, i - 1, j), f(i, j - 1) + g(i, j, i, j - 1) \right \} \\
+	\end{align*}
+
+	Esta recurrencia es una solucion al problema únicamente si se cumple el principio
+	de optimalidad. Si el mismo se cumple, entonces las subsoluciones al problema son
+	óptimas, pudiendo así operar y reutilizar valores que se tiene la certeza
+	que son el mejor camino a tomar. Los subproblemas para este ejercicio están
+	representados por el costo mínimo hasta cualquier $(i, j)$ dado por $f(i,
+	j)$. Por lo tanto a continuación se procederá a demostrar que vale tal
+	propiedad.
+
+	\subsubsection*{Optimalidad de subproblemas}
+
+	La idea detrás de la recurrencia es que la solución de encontrar el camino
+	de menor costo hasta $(N, M)$ se puede pensar como la decisión entre tomar
+	el mejor camino a $(N - 1, M)$ o $(N, M - 1)$ más el salto final. Para poder
+	usar esto es necesario entonces demostrar que el camino seleccionado hasta
+	$(N - 1, M)$ o $(N, M - 1)$ sea óptimo.
+
+	Este es el concepto de subproblemas, el hecho de considerar todo camino a
+	$(i, j)$ como una subsolución al problema principal. Para probar que con la
+	función recursiva se obtienen estas subsoluciones óptimas se realiza
+	inducción sobre $N$ y $M$.
+
+	~
+
+	\textbf{Caso base: } $N = M = 1$
+
+	Por definición de la recurrencia, $f(1, 1) = 0$ lo cual es válido ya que si
+	Luke no tiene que moverse en ninguna dirección, no necesita realizar ningún
+	salto manteniendo intacto su nivel de energía. Queda así demostrada la
+	validez del caso base.
+
+	~
+
+	\textbf{Paso inductivo}
+
+	Para el paso inductivo es necesario contemplar por separado los casos
+	bordes, con lo cual se analizarán tres situaciones posibles.
+
+	\begin{enumerate}
+		\item{
+			\textbf{Columna lateral izquierda: } $f(i, 1)$ con $1 < i < N$
+
+			Como hipótesis inductiva, se asume $f(i - 1, 1)$ óptimo.
+
+			Luke únicamente puede avanzar en orden creciente tanto en $i$
+			o en $j$, la única forma de acceder a los casilleros de la primer
+			columna es avanzando sólo en $i$, ya que en con moverse
+			una posición en $j$ ya le resulta imposible retroceder y llegar a
+			estos.
+
+			Estos caminos están definidos por $f(i, 1) = g(i, 1, i - 1, 1) + f(i
+			- 1, 1)$ donde se toma el costo del camino hasta una posición atrás
+			en $i$ y se le suma el valor del salto. Como sólo es posible llegar
+			a través del casillero anterior ($i - 1$, 1), y por hipótesis inductiva
+			dijimos que $f(i - 1, 1)$ era óptimo, al sumarle el valor del salto
+			se obtiene la subsolución $f(i, 1)$.
+		}
+		\item{
+			\textbf{Fila superior: } $f(1, j)$ con $1 < j < M$
+
+			Como hipótesis inductiva, se asume $f(1, j - 1)$ óptimo.
+
+			Similar al punto anterior, por la restricción que tiene Luke para
+			desplazarse, estas posiciones sólo pueden accederse avanzando sólo
+			en $j$ desde el casillero inicial.
+
+			Los costos están definidos por $f(1, j) = g(1, j, 1, j - 1) + f(1, j
+			- 1)$, que toma el costo del camino hasta una posición atrás en $j$
+			y le suma el valor del salto. Dado que sólo es posible llegar desde
+			$(1, j - 1)$ y por hipótesis inductiva $f(1, j - 1)$ es óptimo, al
+			sumarle el salto se obtiene la subsolución $f(1, j)$.
+		}
+		\item{
+			\textbf{Elementos restantes: } $f(i, j)$ con $1 < i \leq N$ y $1 < j \leq M$
+
+			Como hipótesis inductiva, se asumen $f(i - 1, j)$ y $f(i, j - 1)$
+			óptimos.
+
+			Habiendo considerado ya los casos bordes, ahora es posible para el
+			resto de casilleros $(i, j)$ dar su camino de menor costo, ya que
+			para llegar a uno de ellos hay sólo dos opciones: se salta de $(i -
+			1, j)$ o de $(i, j - 1)$. Luke no puede moverse en diagonal ni
+			retroceder en $i$ o en $j$ con lo cual lo que resta es ver cuál de
+			estos caminos le conviene más.
+
+			Por hipótesis inductiva se tenía que $f(i - 1, j)$ y $f(i, j - 1)$
+			eran costos óptimos, con lo cual tomando la definición de la
+			recursión para estos casos:
+
+			$f(i, j) = \text{mín}\left \{ f(i - 1, j) + g(i, j, i - 1, j), f(i, j - 1) + g(i, j, i, j - 1) \right \}$
+
+			Podemos observar que se busca entre estos dos caminos el que al
+			sumarle el costo del salto sea mínimo. Entonces podemos afirmar que
+			la elección que toma para $(i, j)$ es la mejor, ya que la
+			alternativa resulta en un camino que es igual o peor. Por lo tanto
+			demostramos así que vale la optimalidad de la subsolución $f(i, j)$.
+
+		}
+	\end{enumerate}
+
+	Se concluye por inducción sobre $N$ y $M$ que para todo $(i, j)$ con $1 \leq
+	i \leq N$ y $1 \leq j \leq M$, $f(i, j)$ es una subsolución óptima. En
+	particular, tomando $f(N, M)$ se obtiene el costo mínimo del problema
+	planteado.
+
+	Es así como se demuestra que vale el principio de optimalidad para el
+	ejercicio dado con la formulación recursiva planteada, probando entonces que
+	nos presenta una solución válida al mismo.
+
+	\subsubsection{Implementación}
+
+	Para la implementación de esta formulación recursiva había dos caminos
+	posibles. Una era implementar la recursión tal cual como está definida,
+	también denominada como una implementación \emph{top-down}, donde al llamar a $f(N,
+	M)$ se abre el árbol de recursiones para $f(N - 1, M)$ y $f(N, M - 1)$
+	respectivamente, yendo de los problemas más grandes a los más pequeños. Por
+	otro lado estaba \emph{bottom-up}, que a diferencia del primero, comienza
+	calculando los subproblemas más pequeños para luego ir construyendo los más
+	grandes.
+
+	La implementación \emph{top-down} hubiera resultado, donde para aprovechar
+	el solapamiento de subproblemas se podrían haber almacenado los valores de
+	las llamadas recursivas que se iban calculando. Sin embargo, los algoritmos
+	recursivos presentan un \emph{overhead} a la hora de ejecutarse y corren
+	riesgo de quedarse sin lugar en la pila.
+
+	Con \emph{bottom-up}, también se resuelve el solapamiento de subproblemas
+	guardando los valores de los mismos, con la diferencia de que se los calcula
+	explícitamente. Esto significa que a diferencia de la versión recursiva
+	donde los mismos se almacenan luego de haber resuelto la llamada recursiva,
+	aquí se calculan y guardan de forma iterativa. Para esto, el mismo debe
+	contar con que se cumplan las dependencias de cada subproblema que resuelve.
+
+	Se optó por realizar una implementación \emph{bottom-up} dado que la
+	complejidad asintótica resulta la misma que con \emph{top-down} sólo que sin el peligro
+	de quedarse sin espacio en la pila.
+
+	Con respecto a la resolución de dependencias, el secreto está en el orden en
+	el cual se van resolviendo los subproblemas. Para este ejercicio, cada
+	subproblema $(i, j)$ requiere ya tener calculados $(i - 1, j)$ y $(i, j -
+	1)$. Existen varias formas de ir calculando los valores y que se cumpla esta
+	dependencia, para la implementación desarrollada en este trabajo se decidió
+	tomar la de calcular la primer fila de izquierda a derecha, la primer
+	columna de arriba a abajo y luego el resto de las filas de izquierda a
+	derecha.
+
+	En el gráfico a continuación se puede observar el comportamiento descrito,
+	donde los casilleros oscuros son el camino a calcular y los que poséen
+	asteriscos sus dependencias.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics{imagenes/ej3_grilla_2.pdf}
+		\caption{Visualización del cálculo de subsoluciones.}
+	\end{figure}
+
+	Esto se logra mediante el siguiente algoritmo:
+
+	\begin{algorithm}[H]
+		\caption{Solución \emph{bottom-up} al problema}
+		\Input{Una grilla $G$ de dimensiones $N \times M$ con la altura de cada
+		casillero y un nivel de entrenamiento $H$.}
+		\Output{Un par con el costo del camino óptimo de $(1, 1)$ a
+		$(N, M)$ y su recorrido.}
+		$DP$ $\gets$ grilla de dimensiones $N \times M$ donde cada elemento es
+		un par del tipo entero y caracter \;
+		$DP_{1,1}$ $\gets$ (0, 'I') \;
+		\ForEach{$i$ entre $2$ y $N$}{
+			$DP_{i,1}$ $\gets$ ($DP_{i-1,1} + $ costo del salto vertical, 'X') \;
+		}
+		\ForEach{$j$ entre $2$ y $M$}{
+			$DP_{1,j}$ $\gets$ ($DP_{1,j-1} + $ costo del salto horizontal, 'Y') \;
+		}
+		\ForEach{$i$ entre $2$ y $N$ y $j$ entre $2$ y $M$}{
+			$costoSaltoVertical$ $\gets$ $DP_{i-1,j} + $ costo del salto vertical \;
+			$costoSaltoHorizontal$ $\gets$ $DP_{i,j-1} + $ costo del salto horizontal\;
+			\eIf{$costoSaltoVertical < costoSaltoHorizontal$}{
+				$DP_{i,j}$ $\gets$ ($costoSaltoVertical$, 'X') \;
+			}
+			{
+				$DP_{i,j}$ $\gets$ ($costoSaltoHorizontal$, 'Y') \;
+			}
+		}
+		$i$ $\gets$ $N$ \;
+		$j$ $\gets$ $M$ \;
+		$k$ $\gets$ $N + M - 2$ \;
+		\While{$k > 0$}{
+			$camino_k$ $\gets$ $DP_{i,j}$.segundo() \;
+			\eIf{$DP_{i,j}$.segundo() es igual a 'Y'}{
+				$j$ $\gets$ $j - 1$ \;
+			}
+			{
+				$i$ $\gets$ $i - 1$ \;
+			}
+			$k$ $\gets$ $k - 1$ \;
+		}
+		\Return{($DP_{N,M}$, $camino$)}
+	\end{algorithm}
 
     % Deducir una cota de complejidad temporal del algoritmo propuesto (en función de los parámetros que se consideren correctos) y justificar por qué el algoritmo la cumple. Utilizar el modelo uniforme.
     \subsection{Complejidad teórica}
