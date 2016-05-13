@@ -95,10 +95,10 @@ void ejecutarPruebaConNFijo(ofstream& archivoSalida, bool quiet, int n) {
 
             rutas = generarCasoRandom(n, m);
             
+            vector<int> agm;
             double tiempo;
             start_timer();
-            vector<int> agm = prim(rutas);
-            peso_arbol_generador(agm, rutas);
+            resolver(rutas, agm);
             tiempo = stop_timer();
 
             if (r >= 0) {
@@ -150,10 +150,10 @@ void ejecutarPruebaConMFijo(ofstream& archivoSalida, bool quiet, int m) {
 
             rutas = generarCasoRandom(n, m);
             
+            vector<int> agm;
             double tiempo;
             start_timer();
-            vector<int> agm = prim(rutas);
-            peso_arbol_generador(agm, rutas);
+            resolver(rutas, agm);
             tiempo = stop_timer();
 
             if (r >= 0) {
@@ -204,10 +204,10 @@ void ejecutarPruebaArboles(ofstream& archivoSalida, bool quiet) {
 
             rutas = generarCasoRandom(n, m);
             
+            vector<int> agm;
             double tiempo;
             start_timer();
-            vector<int> agm = prim(rutas);
-            peso_arbol_generador(agm, rutas);
+            resolver(rutas, agm);
             tiempo = stop_timer();
 
             if (r >= 0) {
