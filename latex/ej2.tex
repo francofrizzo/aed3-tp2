@@ -438,7 +438,7 @@
         \end{tikzpicture}
     \end{figure}
 
-    \renewcommand\constante{6.5}
+    \renewcommand\constante{5.6}
 
     En la figura \ref{fig:exp2:arboles} se reflejan los resultados de variar la cantidad de aristas y de nodos, donde cada grafo en este experimento es un árbol. Estos resultados se contrastan con la ilustración de la cota teórica de complejidad del algoritmo, $c \times M \times log(N)$ (el valor de $c$ utilizado es \constante).
 
@@ -485,7 +485,9 @@
                     height=0.5\textwidth,
                     legend pos=south east,
                     legend cell align=left,
-                    xmin=1
+                    xmin=1,
+                    ymin=50,
+                    ymax=90
                 ]
                 \addplot[color=black] table[x index=0,y expr={\thisrowno{1} / x}]{../exp/elImperioContraatacaArboles};
                 \addplot[color=red] table[x index=0, y expr={ln(x + 1)*\constante}]{../exp/elImperioContraatacaArboles};
@@ -512,7 +514,9 @@
                     height=0.5\textwidth,
                     legend pos=south east,
                     legend cell align=left,
-                    xmin=1
+                    xmin=1,
+                    ymin=0,
+                    ymax=10
                 ]
                 \addplot[color=black] table[x index=0,y expr={\thisrowno{1} / (x * ln(x + 1))}]{../exp/elImperioContraatacaArboles};
                 \addplot[color=red] table[x index=0, y expr={\constante}]{../exp/elImperioContraatacaArboles};
