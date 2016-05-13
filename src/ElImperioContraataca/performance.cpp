@@ -10,13 +10,13 @@
 
 using namespace std;
 
-#define CANT_INSTANCIAS         30
+#define CANT_INSTANCIAS         40
 #define CANT_REPETICIONES       20
 #define CANT_INST_DESCARTADAS   10
 
 #define M_FIJO                  1000000
 #define N_FIJO                  400
-#define M_INICIAL               500000
+#define M_INICIAL               100000
 #define M_FINAL                 700000
 #define LONG_MAX_ARISTA         100
 
@@ -243,12 +243,12 @@ void correr_pruebas_performance() {
     ejecutarPruebaConMFijo(archivoSalida, quiet, M_FIJO);
     archivoSalida.close();
 
-    // archivoSalida.open("../exp/elImperioContraatacaNFijo");
-    // ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
-    // archivoSalida.close();
+    archivoSalida.open("../exp/elImperioContraatacaNFijo");
+    ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
+    archivoSalida.close();
 
-    // archivoSalida.open("../exp/elImperioContraatacaArboles");
-    // ejecutarPruebaArboles(archivoSalida, quiet);
-    // archivoSalida.close();
+    archivoSalida.open("../exp/elImperioContraatacaArboles");
+    ejecutarPruebaArboles(archivoSalida, quiet);
+    archivoSalida.close();
 
 }
