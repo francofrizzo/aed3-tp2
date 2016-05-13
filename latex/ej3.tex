@@ -9,7 +9,14 @@
     % Deducir una cota de complejidad temporal del algoritmo propuesto (en función de los parámetros que se consideren correctos) y justificar por qué el algoritmo la cumple. Utilizar el modelo uniforme.
     \subsection{Complejidad teórica}
 
-    % Realizar experimentación para medir la performance, usando un conjunto de casos de test que permitan observar los tiempos de ejecución en función de los parámetros de entrada, tanto para instancias aleatorias (detallando cómo fueron generadas) como para instancias particulares (peor/mejor caso, por ejemplo). Presentar en forma gráfica una comparación entre los tiempos medidos y la complejidad teórica y extraer conclusiones.
+    Calcular el salto vertical u horizontal tiene un costo de $O(1)$. Calcular la primera fila tiene costo $O(M)$, ya que he de recorrer la primera fila y guardar en el DP, a la suma de la anterior más el salto horizontal. Calcular la primera la primera columna cuesta $O(N)$, ya que he de recorrer la primera columna y guardar en el DP,  la suma de la anterior más el salto vertical .
+
+    Para llenar el resto del DP hemos de recorrer en orden creciente por columnas, como en cada iteración tomo el minimo entre el costo salto vertical más venir en vertical y el horizontal más venir en horizontal ($O(1)$) la complejidad para terminar de llenar el DP es de $O(N*M)$.
+
+    Para Armar el camino se va recorriendo la matriz de la posición final, (fila $N - 1$ , columna $M - 1$) hasta la inicial (fila $0$ , columna $0$), en cada paso me fijo en la DP de donde vine, lo guardo y me muevo a ese ($O(1)$). Esto tiene un total de $N + M - 2$ iteraciones ya que en cada paso me muevo a la izquierda ó para arriba. Entoces armar el camino cuesta $O(N + M - 2)$
+
+    El costo total es $O( M + N + M*N + (N + M − 2) ) = O(N*M)$
+     
     \subsection{Experimentación}
 
     % Ejemplo de gráfico para reutilizar:
