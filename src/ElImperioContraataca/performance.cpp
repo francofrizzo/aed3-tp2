@@ -18,6 +18,8 @@ using namespace std;
 #define N_FIJO                  400
 #define M_INICIAL               100000
 #define M_FINAL                 700000
+#define N_INICIAL               1
+#define N_FINAL                 10000
 #define LONG_MAX_ARISTA         100
 
 
@@ -35,14 +37,14 @@ vector<vector<pair<int, int>>> generarCasoRandom(unsigned int n, unsigned int m)
     rutas[0].push_back(pair<int, int>(1, 1));
     rutas[n - 1].push_back(pair<int, int>(n - 2, 1));
     for(unsigned int i = 1; i < n - 1; i++){
-        rutas[i].push_back(pair<int, int>(i - 1, 1));
-        rutas[i].push_back(pair<int, int>(i + 1, 1));
+        int longitud = rand() % LONG_MAX_ARISTA;
+        rutas[i].push_back(pair<int, int>(i - 1, longitud));
+        rutas[i].push_back(pair<int, int>(i + 1, longitud));
     }
 
     // Agregar aristas restantes
-    int aristasRestantes = m - (n  - 1);
+    int aristasRestantes = m - (n - 1);
     while(aristasRestantes > 0){
-        // cout << "\b\b\b\b\b\b\b\b\b\b" << setfill(' ') << setw(10) << aristasRestantes << flush;
         int nodo1 = rand() % n;
         int nodo2 = rand() % n;
 
@@ -62,6 +64,20 @@ vector<vector<pair<int, int>>> generarCasoRandom(unsigned int n, unsigned int m)
             rutas[nodo1].push_back(pair<int, int>(nodo2, longitud));
             rutas[nodo2].push_back(pair<int, int>(nodo1, longitud));
             aristasRestantes--;
+        }
+    }
+
+    return rutas;
+}
+
+vector<vector<pair<int, int>>> generarCasoCompleto(unsigned int n){
+    vector<vector<pair<int, int>>> rutas(n, vector<pair<int, int>>());
+
+    for(unsigned int i = 0; i < n - 1; i++){
+        for(unsigned int j = i + 1; j < n; j++){
+            int longitud = rand() % LONG_MAX_ARISTA;
+            rutas[i].push_back(pair<int, int>(j, longitud));
+            rutas[j].push_back(pair<int, int>(i, longitud));
         }
     }
 
@@ -234,21 +250,77 @@ void ejecutarPruebaArboles(ofstream& archivoSalida, bool quiet) {
     }
 }
 
+void ejecutarPruebaCompletos(ofstream& archivoSalida, bool quiet) {
+    if (!quiet){
+        cout << "Escenario: Completos" << endl;
+        cout << "   #      nodos  OK" << endl;
+    }
+
+    vector<vector<pair<int, int>>> rutas;
+    int rangoNodos = N_FINAL - N_INICIAL;
+    int n = N_INICIAL;
+
+    for (unsigned int i = 0; i < CANT_INSTANCIAS; i++) {
+        double tiempos[CANT_REPETICIONES];
+        double tiempo_promedio = 0;
+        double desv_estandar = 0;
+
+        if(!quiet)
+            cout << setfill(' ') << setw(4) << i << "    " << setfill(' ') << setw(7) << n << "    " << flush;
+        
+        for (int r = -CANT_INST_DESCARTADAS; r < CANT_REPETICIONES; r++) {
+            if (!quiet)
+                cout << "\b\b\b" << setfill(' ') << setw(3) << r << flush;
+
+            rutas = generarCasoCompleto(n);
+            
+            vector<int> agm;
+            double tiempo;
+            start_timer();
+            resolver(rutas, agm);
+            tiempo = stop_timer();
+
+            if (r >= 0) {
+                tiempos[r] = tiempo;
+                tiempo_promedio += tiempos[r];
+            }
+        }
+
+        tiempo_promedio = tiempo_promedio / CANT_REPETICIONES;
+
+        for (unsigned int r = 0; r < CANT_REPETICIONES; r++)
+            desv_estandar += pow(tiempos[r] - tiempo_promedio, 2);
+
+        desv_estandar = sqrt(desv_estandar / CANT_REPETICIONES);
+
+        archivoSalida << n  << " " << tiempo_promedio << " " << desv_estandar << endl;
+
+        if (!quiet)
+            cout << "\b\b\b  ✓" << endl;
+
+        n += rangoNodos / CANT_INSTANCIAS;
+    
+    }
+}
+
 void correr_pruebas_performance() {
     bool quiet = ! verbose;
 
     ofstream archivoSalida;
 
-    archivoSalida.open("../exp/elImperioContraatacaMFijo");
-    ejecutarPruebaConMFijo(archivoSalida, quiet, M_FIJO);
-    archivoSalida.close();
+    // archivoSalida.open("../exp/elImperioContraatacaMFijo");
+    // ejecutarPruebaConMFijo(archivoSalida, quiet, M_FIJO);
+    // archivoSalida.close();
 
-    archivoSalida.open("../exp/elImperioContraatacaNFijo");
-    ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
-    archivoSalida.close();
+    // archivoSalida.open("../exp/elImperioContraatacaNFijo");
+    // ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
+    // archivoSalida.close();
 
-    archivoSalida.open("../exp/elImperioContraatacaArboles");
-    ejecutarPruebaArboles(archivoSalida, quiet);
-    archivoSalida.close();
+    // archivoSalida.open("../exp/elImperioContraatacaArboles");
+    // ejecutarPruebaArboles(archivoSalida, quiet);
+    // archivoSalida.close();
 
+    archivoSalida.open("../exp/elImperioContraatacaCompletos");
+    ejecutarPruebaCompletos(archivoSalida, quiet);
+    archivoSalida.close();
 }

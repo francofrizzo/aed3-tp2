@@ -366,17 +366,18 @@
     \item Pruebas con instancias en donde se mantiene la cantidad de nodos fija y se hacen variar las aristas.
     \item Pruebas con instancias en donde se mantiene la cantidad de aristas fija y se hacen variar los nodos.
     \item Pruebas con instancias en donde se varía la cantidad de aristas $M$ y de nodos $N$, siempre cumpliendo que $M = N  - 1$, es decir, que cada grafo construído es un árbol.
+    \item Pruebas con instancias en donde se varía la cantidad de aristas $M$ y de nodos $N$, siempre cumpliendo que $M = \frac{N \times (N - 1)}{2}$.
     \end{itemize}
 
-    Se generaron 100 instancias de prueba en cada uno de estos escenarios. En cada caso, se ejecutaron 60 repeticiones del algoritmo, midiendo cada vez el tiempo de ejecución y tomando luego el promedio entre los resultados obtenidos.
+    Se generaron 40 instancias de prueba en cada uno de estos escenarios. En cada caso, se ejecutaron 30 repeticiones del algoritmo, midiendo cada vez el tiempo de ejecución y tomando luego el promedio entre los resultados obtenidos.
 
-    Debido a los picos en el tiempo de ejecución en las primeras corridas del programa, tendiendo los valores a estabilizarse con las sucesivas corridas, se decidió, para minimizar la varianza de los datos obtenidos, tratar a las primeras 20 repeticiones de cada instancia como \textit{outliers}, y promediar solo los valores de las últimas 40.
+    Debido a los picos en el tiempo de ejecución en las primeras corridas del programa, tendiendo los valores a estabilizarse con las sucesivas corridas, se decidió, para minimizar la varianza de los datos obtenidos, tratar a las primeras 10 repeticiones de cada instancia como \textit{outliers}, y promediar solo los valores de las últimas 20.
 
     Todas las instancias utilizadas para estas pruebas se generaron de manera aleatoria. 
 
     Los resultados obtenidos se exponen en las figuras \ref{fig:exp2:n_fijo} y \ref{fig:exp2:m_fijo}.
     
-    \newcommand\constante{16}
+    \newcommand\constante{11}
 
     En la figura \ref{fig:exp2:n_fijo} se reflejan los resultados de mantener una cantidad $N$ de nodos fija, variando la cantidad de aristas $M$ de los grafos. El valor en el que se fijó $N$ fue de 400. Los valores de $M$ se encuentran entre 399 y 79800. Estos valores corresponden a la mínima y máxima cantidad de aristas que un grafo conexo con $N$ fijo puede tener, respectivamente. Notar que necesitamos que el grafo sea conexo para cumplir con los requisitos del enunciado del problema. La mínima cantidad de aristas de un grafo conexo de $N$ nodos es de $M = N - 1$, y la máxima es el grafo completo, $M = \frac{N(N - 1)}{2}$.
 
@@ -407,7 +408,7 @@
         \end{tikzpicture}
     \end{figure}
 
-    \renewcommand\constante{22000000}
+    \renewcommand\constante{28000000}
 
     En la figura \ref{fig:exp2:m_fijo} se reflejan los resultados de mantener una cantidad $M$ de aristas fija, variando la cantidad de nodos $N$ de los grafos. El valor en el que se fijó $M$ fue de 400000. Los valores de $N$ se encuentran entre 895 y 400001. Estos valores corresponden a la mínima y máxima cantidad de nodos que un grafo conexo con $M$ fijo puede tener, respectivamente. La mínima cantidad de nodos de un grafo conexo de $M$ aristas es el grafo completo, $N = \frac{1 + \sqrt{1 + 8M}}{2}$, y la máxima es de $N = M + 1$.
 
@@ -438,7 +439,7 @@
         \end{tikzpicture}
     \end{figure}
 
-    \renewcommand\constante{5.6}
+    \renewcommand\constante{5.7}
 
     En la figura \ref{fig:exp2:arboles} se reflejan los resultados de variar la cantidad de aristas y de nodos, donde cada grafo en este experimento es un árbol. Estos resultados se contrastan con la ilustración de la cota teórica de complejidad del algoritmo, $c \times M \times log(N)$ (el valor de $c$ utilizado es \constante).
 
@@ -467,41 +468,14 @@
         \end{tikzpicture}
     \end{figure}
 
-    Por último, en las figuras \ref{fig:exp2:cociente1} y \ref{fig:exp2:cociente2} se muestra el cociente entre los datos obtenidos y las funciones $M$ y $M \times log(N)$ respectivamente. 
+    En la figura \ref{fig:exp2:arboles:cociente} se muestra el cociente entre los resultados obtenidos de la experimentación con árboles y la función $M \times log(N)$. 
+
+    Se debe observar que es posible utilizar $N$ para el cociente debido a que los experimentos se realizan con árboles, por lo que variar $M$ repercute en $N$ siempre de la misma forma, $N = M + 1$. Se puede ver que el cociente se mantiene constante.
 
     \begin{figure}[H]
         \centering
         \caption{}
-        \label{fig:exp2:cociente1}
-        \begin{tikzpicture}
-            \begin{axis}[
-                    title={},
-                    xlabel={Cantidad de aristas($M$)},
-                    ylabel={Tiempo de ejecución (nanosegundos)},
-                    scaled x ticks=false,
-                    scaled y ticks=false,
-                    enlargelimits=0.05,
-                    width=0.5\textwidth,
-                    height=0.5\textwidth,
-                    legend pos=south east,
-                    legend cell align=left,
-                    xmin=1,
-                    ymin=50,
-                    ymax=90
-                ]
-                \addplot[color=black] table[x index=0,y expr={\thisrowno{1} / x}]{../exp/elImperioContraatacaArboles};
-                \addplot[color=red] table[x index=0, y expr={ln(x + 1)*\constante}]{../exp/elImperioContraatacaArboles};
-                \legend{$\frac{T}{M}$, $c*log(N)$}
-            \end{axis}
-        \end{tikzpicture}
-    \end{figure}
-
-    Se debe observar que es posible utilizar $N$ para el cociente debido a que los experimentos se realizan con árboles, por lo que variar $M$ repercute en $N$ siempre de la misma forma.
-
-    \begin{figure}[H]
-        \centering
-        \caption{}
-        \label{fig:exp2:cociente2}
+        \label{fig:exp2:arboles:cociente}
         \begin{tikzpicture}
             \begin{axis}[
                     title={},
@@ -524,3 +498,64 @@
             \end{axis}
         \end{tikzpicture}
     \end{figure}
+
+    \renewcommand\constante{1}
+
+    A continuación se exponen los resultados obtenidos del experimento con grafos completos. En la figura \ref{fig:exp2:completos} pueden verse reflejados. Para este experimento se varía la cantidad de aristas $M$ y de nodos $N$ cumpliendo que $M = \frac{N \times (N - 1)}{2}$. Estos resultados se contrastan con la ilustración de la cota teórica de complejidad del algoritmo, $c \times M \times log(N)$ (el valor de $c$ utilizado es \constante).
+
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp2:completos}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={Completos},
+                    xlabel={Cantidad de nodos($N$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaCompletos};
+                \addplot[color=red] table[x index=0, y expr={(x - 1)*x/2*ln(x)*\constante}]{../exp/elImperioContraatacaCompletos};
+                \legend{$T$, $c \times M \times log(N)$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    En la figura \ref{fig:exp2:completos:cociente} se muestra el cociente entre los resultados obtenidos de la experimentación con grafos completos y las funciones $M$ y $M \times log(N)$ respectivamente. 
+
+    Se debe observar que es posible utilizar $N$ para el cociente debido a que los experimentos se realizan con grafos completos, por lo que variar $N$ repercute en $M$ siempre de la misma forma, $M = \frac{N \times (N - 1)}{2}$. Se puede ver que el cociente no superará a la constante.
+
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp2:completos:cociente}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Cantidad de nodos($N$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1,
+                    ymin=0
+                ]
+                \addplot[color=black] table[x index=0,y expr={\thisrowno{1} / ((x - 1) * x * ln(x))}]{../exp/elImperioContraatacaCompletos};
+                \addplot[color=red] table[x index=0, y expr={\constante}]{../exp/elImperioContraatacaCompletos};
+                \legend{$\frac{T}{M \times log(N)}$, $c$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    El análisis expuesto de los datos recopilados presenta evidencia empírica sobre la pertinencia la cota de complejidad demostrada teóricamente.
