@@ -26,3 +26,11 @@ $(addprefix test, $(EXECUTABLES_BASE)): $$(addsuffix Solver,$$(subst test,,$$@))
 	@echo "Testeando $(subst test,,$@). Número de test a correr: " ;\
 	read SEED ;\
 	java -jar ../test/$(subst test,,$@)Tester.jar -exec ./$(subst test,,$@)Solver -test $$SEED
+
+$(addprefix autotest, $(EXECUTABLES_BASE)): $$(addsuffix Solver,$$(subst autotest,,$$@))
+	@echo "Testeando $(subst test,,$@). Cantidad de instancias a ejecutar: " ;\
+	read COUNT ;\
+	for i in `seq $$COUNT` ; do \
+	echo -n "  "$$i": " ; \
+	java -jar ../test/$(subst autotest,,$@)Tester.jar -exec ./$(subst autotest,,$@)Solver -test $$i ; \
+	done

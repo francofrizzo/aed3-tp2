@@ -1,15 +1,99 @@
 \section{Ejercicio 1: Una nueva esperanza}
 
-    % Describir detalladamente el problema a resolver dando ejemplos del mismo y sus soluciones.
+    % Describir detalladamente el problema a resolver dando ejemplos del mismo
+    % y sus soluciones.
     \subsection{Descripción del problema}
 
-    % Explicar de forma clara, sencilla, estructurada y concisa, las ideas desarrolladas para la resolución del problema. Utilizar pseudocódigo y lenguaje coloquial (no código fuente). Justificar por qué el procedimiento resuelve efectivamente el problema.
+    Como parte de su entrenamiento con el maestro Yoda, Luke Skywalker debe
+    recorrer un complejo sistema que consta de $N$ cuevas, conectadas por $M$
+    pasadizos. Cada pasadizo une dos cuevas entre sí, formando una red en la
+    que siempre existe una forma de llegar desde una cueva hasta cualquier
+    otra. Además, no todos los pasadizos son iguales: algunos de ellos son
+    especiales, y para atravesarlos Luke deberá enfrentarse a sus mayores
+    miedos. Recorrer cualquier pasadizo le demanda a Luke exactamente un
+    minuto.
+
+    Partiendo de una cueva etiquetada con el número $0$, Luke debe llegar en
+    el menor tiempo posible a la cueva número $N-1$, donde lo espera Yoda.
+    Sin embargo, su entrenamiento no estará completo hasta no haber pasado al
+    menos por dos pasadizos especiales. Está permitido recorrer el mismo
+    pasadizo más de una vez.
+
+    Se pide implementar un algoritmo que determine el menor tiempo posible que
+    le demandará a Luke completar su entrenamiento, y la secuencia de cuevas
+    que deberá recorrer para lograrlo, con una complejidad temporal de
+    $O(N + M)$.
+
+    \vspace{1.25em}
+
+    \textbf{Formato de entrada}: La primera línea consta de un entero positivo
+    \texttt{N}, que indica la cantidad de cuevas, y un entero positivo
+    \texttt{M}, que indica la cantidad de pasadizos. A continuación de esta
+    línea siguen \texttt{M} líneas con enteros \texttt{Ai}, \texttt{Bi} y
+    \texttt{Ei}, cada una de ellas correspondiente a un pasadizo, donde
+    \texttt{Ai} y \texttt{Bi} son enteros (entre $0$ y $N-1$ inclusive) que
+    indican los extremos del mismo, mientras que \texttt{Ei} indica
+    el tipo de pasadizo ($0$ para los pasadizos comunes y $1$ para los
+    especiales). Es decir, el formato de la entrada es el siguiente:
+
+    \begin{verbatim}
+    N M
+    A0 B0 E0
+    A1 B1 E1
+    ...
+    AM-1 BM-1 EM-1\end{verbatim}
+
+    \vspace{.8em}
+
+    \textbf{Formato de salida}: Debe devolverse una primera línea conteniendo
+    la cantidad de minutos (\texttt{T}) que durará el entrenamiento de Luke,
+    y una segunda línea con la lista ordenada de las cuevas (\texttt{I1},
+    \texttt{I2}, \dots, \texttt{I(T-1)}) que deberá recorrer para
+    completarlo, omitiendo la salida desde la cueva $0$ y la llegada a la
+    cueva $N-1$. El formato requerido es el siguiente:
+
+    \begin{verbatim}
+    T
+    I1 I2 ... I(T-1)\end{verbatim}
+
+    \vspace{.8em}
+
+    A continuación se incluyen, a modo de ejemplo, una posible entrada y una
+    salida correcta para la misma:
+
+    \vspace{.5em}
+    \begin{tabular}{l @{\hskip 4em} l}
+    \textbf{Entrada} & \textbf{Salida} \\
+    \texttt{5 6}     & \texttt{3}      \\
+    \texttt{0 1 0}   & \texttt{2 3}    \\
+    \texttt{0 2 1}   &                 \\
+    \texttt{0 4 0}   &                 \\
+    \texttt{1 3 0}   &                 \\
+    \texttt{2 3 0}   &                 \\
+    \texttt{3 4 1}   &                 \\
+    \end{tabular}
+    \vspace{.5em}
+
+    Es importante observar que puede haber más de una salida distinta válida.
+
+    % Explicar de forma clara, sencilla, estructurada y concisa, las ideas
+    % desarrolladas para la resolución del problema. Utilizar pseudocódigo y
+    % lenguaje coloquial (no código fuente). Justificar por qué el
+    % procedimiento resuelve efectivamente el problema.
     \subsection{Solución propuesta}
 
-    % Deducir una cota de complejidad temporal del algoritmo propuesto (en función de los parámetros que se consideren correctos) y justificar por qué el algoritmo la cumple. Utilizar el modelo uniforme.
+    % Deducir una cota de complejidad temporal del algoritmo propuesto (en
+    % función de los parámetros que se consideren correctos) y justificar por
+    % qué el algoritmo la cumple. Utilizar el modelo uniforme.
     \subsection{Complejidad teórica}
 
-    % Realizar experimentación para medir la performance, usando un conjunto de casos de test que permitan observar los tiempos de ejecución en función de los parámetros de entrada, tanto para instancias aleatorias (detallando cómo fueron generadas) como para instancias particulares (peor/mejor caso, por ejemplo). Presentar en forma gráfica una comparación entre los tiempos medidos y la complejidad teórica y extraer conclusiones.
+    % Realizar experimentación para medir la performance, usando un conjunto
+    % de casos de test que permitan observar los tiempos de ejecución en
+    % función de los parámetros de entrada, tanto para instancias aleatorias
+    % (detallando cómo fueron generadas) como para instancias particulares
+    % (peor/mejor caso, por ejemplo). Presentar en forma gráfica una
+    % comparación entre los tiempos medidos y la complejidad teórica y extraer
+    % conclusiones.
     \subsection{Experimentación}
 
     % Ejemplo de gráfico para reutilizar:
@@ -31,8 +115,12 @@
     %                 legend cell align=left,
     %                 xmin=1
     %             ]
-    %             \addplot[color=black] table[x index=0,y index=1]{../exp/kaioKenOutput};
-    %             \addplot[color=red] table[x index=0, y expr={x*ln(x)*\constante}]{../exp/kaioKenOutput};
+    %             \addplot[color=black]
+    %                 table[x index=0,y index=1]
+    %                 {../exp/kaioKenOutput};
+    %             \addplot[color=red]
+    %                 table[x index=0, y expr={x*ln(x)*\constante}]
+    %                 {../exp/kaioKenOutput};
     %             \legend{$T$, $c*N*log(N)$}
     %         \end{axis}
     %     \end{tikzpicture}
