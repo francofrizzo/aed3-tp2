@@ -32,7 +32,7 @@
 	creciente en $i$ o $j$.
 
 	El formato de entrada para el problema es el siguiente, donde la primer
-	línea posée las dimensiones de la grilla y el nivel de entrenamiento de
+	línea posee las dimensiones de la grilla y el nivel de entrenamiento de
 	Luke, y las siguientes $N$ entradas contienen $M$ elementos donde cada uno
 	representa la altura del casillero correspondiente.
 
@@ -124,7 +124,7 @@
 		f(i, j) &= \text{mín}\left \{ f(i - 1, j) + g(i, j, i - 1, j), f(i, j - 1) + g(i, j, i, j - 1) \right \} \\
 	\end{align*}
 
-	Esta recurrencia es una solucion al problema únicamente si se cumple el principio
+	Esta recurrencia es una solución al problema únicamente si se cumple el principio
 	de optimalidad. Si el mismo se cumple, entonces las subsoluciones al problema son
 	óptimas, pudiendo así operar y reutilizar valores que se tiene la certeza
 	que son el mejor camino a tomar. Los subproblemas para este ejercicio están
@@ -270,7 +270,7 @@
 	derecha.
 
 	En el gráfico a continuación se puede observar el comportamiento descrito,
-	donde los casilleros oscuros son el camino a calcular y los que poséen
+	donde los casilleros oscuros son el camino a calcular y los que poseen
 	asteriscos sus dependencias.
 
 	\begin{figure}[H]
@@ -325,164 +325,158 @@
     % Deducir una cota de complejidad temporal del algoritmo propuesto (en función de los parámetros que se consideren correctos) y justificar por qué el algoritmo la cumple. Utilizar el modelo uniforme.
     \subsection{Complejidad teórica}
 
-    Calcular el salto vertical u horizontal tiene un costo de $O(1)$. Calcular la primera fila tiene costo $O(M)$, ya que he de recorrer la primera fila y guardar en el DP, la suma de la anterior más el salto horizontal. Calcular la primera la primera columna cuesta $O(N)$, ya que he de recorrer la primera columna y guardar en el DP,  la suma de la anterior más el salto vertical .
+    Calcular el salto vertical u horizontal tiene un costo de $\ord(1)$. Calcular la primera fila tiene costo $\ord(M)$, ya que se debe recorrer la primera fila y almacenar en la matriz de subsoluciones ($DP$), la suma de la anterior más el salto horizontal. Calcular la primera la primera columna cuesta $\ord(N)$, ya que se debe recorrer la primera columna e ir guardando en la matriz $DP$, para cada elemento, la suma del resultado anterior más el costo del salto vertical.
 
-    Para llenar el resto del DP hemos de recorrer en orden creciente por columnas, a partir de la segunda fila y desde la segunda columna, como en cada iteración tomo el minimo entre el costo salto vertical más venir en vertical y el horizontal más venir en horizontal ($O(1)$) la complejidad para terminar de llenar el DP es de $O((N -1)*(M-1))$.
+    Para llenar el resto de la grilla $DP$, se la debe recorrer en orden creciente por columnas, a partir de la segunda fila y desde la segunda columna. En cada iteración se toma el mínimo entre dos valores: el costo del salto vertical más la subsolución correspondiente a la posición de arriba en la grilla, y el costo del salto horizontal más la subsolución correspondiente a la posición de la izquierda. Todas estas operaciones tienen un costo de $\ord(1)$, dando una complejidad total para terminar de llenar la grilla $DP$ de $\ord(N \times M)$.
 
-    Para Armar el camino se va recorriendo la matriz de la posición final, (fila $N - 1$ , columna $M - 1$) hasta la inicial (fila $0$ , columna $0$), en cada paso me fijo en la DP de donde vine, lo guardo y me muevo a ese ($O(1)$). Esto tiene un total de $N + M - 2$ iteraciones ya que en cada paso me muevo a la izquierda ó para arriba. Entoces armar el camino cuesta $O(N + M - 2)$
+    Para armar el camino, se va recorriendo la matriz desde la posición final, (fila $N - 1$ , columna $M - 1$) hasta la inicial (fila $0$ , columna $0$); en cada paso se consulta en la matriz $DP$ la dirección del movimiento correspondiente, se lo almacena, y se mueve a la siguiente posición (operaciones $\ord(1)$). Esto se repite un total de $N + M - 2$ iteraciones, ya que en cada paso corresponde a un movimiento a la izquierda o hacia arriba. Entonces, armar el camino cuesta $\ord(N + M - 2)$
 
-    El costo total es $O( M + N + M*N + (N + M - 2) ) = O(N*M)$
+    Por lo tanto, el costo total es $\ord( M + N + M \times N + (N + M - 2) ) = \ord(N \times M)$
      
     \subsection{Experimentación}
-    Queremos ver que la solución depende linealmente con respecto a $N$ y a $M$ y no depende de $H$ .
+    El objetivo de la experimentación fue ver que la solución depende linealmente con respecto a $N$ y a $M$ y no depende de $H$.
 
-    Para esto realizamos cuatro experimentos:
+    Para esto se realizaron cuatro experimentos:
     \begin{itemize}
-        \item Variar $N$ : Se varia entre 1 y 50000 de saltos de a 200 ($T_N$).
-        \item Variar $M$ : Se varia entre 1 y 50000 de saltos de a 200 ($T_M$).
-        \item Variar $N$ y $M$: Se varia entre 1 y 500 de saltos de a 10 ($T_{MxN}$), $N$ y $M$ toman el mismo valor.
-        \item Variar $H$ : Se varia entre 1 y 50000 de saltos de a 200 ($T_H$), fijando el $M$ y el $N$ en $50000$.
+        \item Variar $N$: Se varía entre 1 y 50000, con saltos de a 200 ($T_N$).
+        \item Variar $M$: Se varía entre 1 y 50000, con saltos de a 200 ($T_M$).
+        \item Variar $N$ y $M$: Se varía entre 1 y 500, con saltos de a 10 ($T_{M \times N}$), $N$ y $M$ toman el mismo valor.
+        \item Variar $H$: Se varía entre 1 y 50000, con saltos de a 200 ($T_H$), fijando el $M$ y el $N$ en $50000$.
     \end{itemize}
 
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp3:var-nym-base}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Cantidad de filas ($N$) o de columnas ($M$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=red] table[x index=0, y expr={x*125}]{../exp/elRetornoDelJediFilas};
+                \addplot[color=green] table[x index=0,y index=1]{../exp/elRetornoDelJediFilas};
+                \addplot[color=blue] table[x index=0,y index=1]{../exp/elRetornoDelJediColumnas};
+                \legend{$T_N$,$T_M$, $c*K$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    En el gráfico de la Figura \ref{fig:exp3:var-nym-base} se puede ver que al variar el valor de $N$ o de $M$, $T_N$ y $T_M$ son acotables por una recta, lo cual prueba empíricamente la hipótesis de que la complejidad del algoritmo tiene una relación lineal con los valores tanto de $M$ como de $N$. Las rectas $T_N$ y $T_M$ difieren en la constante; esto se debe a las estructuras de datos utilizadas durante la resolución, ya que al aumentar el valor de $M$ se utiliza siempre un único vector grande, mientras que, al aumentar el $N$ se tienen $N$ vectores con un único elemento, lo cual hace que acceder al $i$-ésimo vector pueda volverse un poco más costoso, por ejemplo, porque los vectores podrían estar almacenados en lugares no contiguos de memoria.
+
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp3:var-nym-divconst}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Cantidad de filas ($N$) o de columnas ($M$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+               \addplot[color=red] table[x index=0, y expr={125}]{../exp/elRetornoDelJediFilas};
+                \addplot[color=green] table[x index=0,y expr={\thisrowno{1}/x}]{../exp/elRetornoDelJediFilas};
+                \addplot[color=blue] table[x index=0,y expr={\thisrowno{1}/x}]{../exp/elRetornoDelJediColumnas};
+                \legend{$T_M/M$,$T_N/N$,$c$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    En el gráfico de la figura \ref{fig:exp3:var-nym-divconst}, se puede ver que si se lo divide por $N$ o $M$, el tiempo de ejecución queda acotable por una constante, lo cual confirma la linealidad de $T_N$ y $T_M$.
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp3:var-nxn-base}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Tamaño de entrada ($N$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=black] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas};
+                \addplot[color=red] table[x index=0, y expr={x*x*20}]{../exp/elRetornoDelJediFilasYColumnas};
+                \legend{$T$, $c*N*N$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    En la Figura \ref{fig:exp3:var-nxn-base} se puede ver que al variar el $N$ (y simultáneamente el $M$, ya que se considera $M = N$), $T_{M \times N}$ se puede acotar por una función cuadrática.
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp3:var-nxn-divconst}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Tamaño de entrada ($N$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1,
+                    ymax=100
+                ]
+                \addplot[color=black] table[x index=0,y expr={\thisrowno{1}/(x*x)}]{../exp/elRetornoDelJediFilasYColumnas};
+                \addplot[color=red] table[x index=0, y expr={35}]{../exp/elRetornoDelJediFilasYColumnas};
+                \legend{$T_{M \times N}/(N*N)$, $c*N*N$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    En el gráfico de la Figura \ref{fig:exp3:var-nxn-divconst} se puede ver que al dividir por $N \times N$, queda acotable por una constante, lo cual confirma que $T_{M \times N}$ tiene complejidad $O(M \times N)$.
     
-    % Ejemplo de gráfico para reutilizar:
-     \begin{figure}[H]
-         \centering
-         \caption{}
-         \label{fig:exp1:tiempo_base}
-         \begin{tikzpicture}
-             \begin{axis}[
-                     title={},
-                     xlabel={Tamaño de entrada ($N$)},
-                     ylabel={Tiempo de ejecución (nanosegundos)},
-                     scaled x ticks=false,
-                     scaled y ticks=false,
-                     enlargelimits=0.05,
-                     width=0.5\textwidth,
-                     height=0.5\textwidth,
-                     legend pos=south east,
-                     legend cell align=left,
-                     xmin=1
-                 ]
-                 \addplot[color=red] table[x index=0, y expr={x*125}]{../exp/elRetornoDelJediFilas};
-                 \addplot[color=green] table[x index=0,y index=1]{../exp/elRetornoDelJediFilas};
-                 \addplot[color=blue] table[x index=0,y index=1]{../exp/elRetornoDelJediColumnas};
-                 \legend{$T_N$,$T_M$, $c*N$}
-             \end{axis}
-         \end{tikzpicture}
-     \end{figure}
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp3:varh}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Nivel de entrenamiento de Luke ($H$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1,
+                    ymax=1250000
+                ]
+                \addplot[color=black] table[x index=0,y index=1]{../exp/elRetornoDelJediNivelDeEntrenamiento};
+                \addplot[color=red] table[x index=0, y expr={1200000}]{../exp/elRetornoDelJediNivelDeEntrenamiento};
+                \legend{$T_H$, $c$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
 
-     En este grafico se puede ver que al variar el $N$ ó el $M$n $T_N$ y $T_M$ son acotables por una recta, lo cual prueba empiricamente nuestras hipotesis de que variar tanto la $N$ ó la $M$, tiene una dependicia lineal con respecto a la complejidad del algoritmo. Entre la recta $T_N$ y $T_M$ difieren en la constante, esto se debe a que cuando aumentamos el $M$ vamos a tener un vector grande , en cambio cuando aumentamos el $N$ voy a tener N vectores con un elemento, lo cual hace que tenga que acceder al i-esimo vector lo cual puede ser un poco más costoso, porque capaz los vectores no esten en lugares no contiguos de memoria. 
-
-
-     \begin{figure}[H]
-         \centering
-         \caption{}
-         \label{fig:exp1:tiempo_base}
-         \begin{tikzpicture}
-             \begin{axis}[
-                     title={},
-                     xlabel={Tamaño de entrada ($N$)},
-                     ylabel={Tiempo de ejecución (nanosegundos)},
-                     scaled x ticks=false,
-                     scaled y ticks=false,
-                     enlargelimits=0.05,
-                     width=0.5\textwidth,
-                     height=0.5\textwidth,
-                     legend pos=south east,
-                     legend cell align=left,
-                     xmin=1
-                 ]
-                \addplot[color=red] table[x index=0, y expr={125}]{../exp/elRetornoDelJediFilas};
-                 \addplot[color=green] table[x index=0,y expr={\thisrowno{1}/x}]{../exp/elRetornoDelJediFilas};
-                 \addplot[color=blue] table[x index=0,y expr={\thisrowno{1}/x}]{../exp/elRetornoDelJediColumnas};
-                 \legend{$T_M/N$,$T_N/N$, $c$}
-             \end{axis}
-         \end{tikzpicture}
-     \end{figure}
-
-     En este grafico se puede ver que si dividimos por N , queda acotable por una constante, lo cual confirma la linealidad de $T_N$ y $T_M$.
-
-     \begin{figure}[H]
-         \centering
-         \caption{}
-         \label{fig:exp1:tiempo_base}
-         \begin{tikzpicture}
-             \begin{axis}[
-                     title={},
-                     xlabel={Tamaño de entrada ($N$)},
-                     ylabel={Tiempo de ejecución (nanosegundos)},
-                     scaled x ticks=false,
-                     scaled y ticks=false,
-                     enlargelimits=0.05,
-                     width=0.5\textwidth,
-                     height=0.5\textwidth,
-                     legend pos=south east,
-                     legend cell align=left,
-                     xmin=1
-                 ]
-                 \addplot[color=black] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas};
-                 \addplot[color=red] table[x index=0, y expr={x*x*20}]{../exp/elRetornoDelJediFilasYColumnas};
-                 \legend{$T$, $c*N*N$}
-             \end{axis}
-         \end{tikzpicture}
-     \end{figure}
-
-     Se puede ver que al variar el $N$ y el $M$, $T_{MxN}$  se puede acotar por una cuadratica.
-
-     \begin{figure}[H]
-         \centering
-         \caption{}
-         \label{fig:exp1:tiempo_base}
-         \begin{tikzpicture}
-             \begin{axis}[
-                     title={},
-                     xlabel={Tamaño de entrada ($N$)},
-                     ylabel={Tiempo de ejecución (nanosegundos)},
-                     scaled x ticks=false,
-                     scaled y ticks=false,
-                     enlargelimits=0.05,
-                     width=0.5\textwidth,
-                     height=0.5\textwidth,
-                     legend pos=south east,
-                     legend cell align=left,
-                     xmin=1,
-                     ymax=100
-                 ]
-                 \addplot[color=black] table[x index=0,y expr={\thisrowno{1}/(x*x)}]{../exp/elRetornoDelJediFilasYColumnas};
-                 \addplot[color=red] table[x index=0, y expr={35}]{../exp/elRetornoDelJediFilasYColumnas};
-                 \legend{$T_{MxN}/(N*N)$, $c*N*N$}
-             \end{axis}
-         \end{tikzpicture}
-     \end{figure}
-
-     En este grafico se puede ver que si dividimos por $N*N$, queda acotable por una constante, lo cual confirma que $T_{MxN}$ tiene complejidad $O(M*N)$.
-
-     
-     \begin{figure}[H]
-         \centering
-         \caption{}
-         \label{fig:exp1:tiempo_base}
-         \begin{tikzpicture}
-             \begin{axis}[
-                     title={},
-                     xlabel={Tamaño de entrada ($N$)},
-                     ylabel={Tiempo de ejecución (nanosegundos)},
-                     scaled x ticks=false,
-                     scaled y ticks=false,
-                     enlargelimits=0.05,
-                     width=0.5\textwidth,
-                     height=0.5\textwidth,
-                     legend pos=south east,
-                     legend cell align=left,
-                     xmin=1,
-                     ymax=1250000
-                 ]
-                 \addplot[color=black] table[x index=0,y index=1]{../exp/elRetornoDelJediNivelDeEntrenamiento};
-                 \addplot[color=red] table[x index=0, y expr={1200000}]{../exp/elRetornoDelJediNivelDeEntrenamiento};
-                 \legend{$T_H$, $c$}
-             \end{axis}
-         \end{tikzpicture}
-     \end{figure}
-
-     En este grafico se puede ver que $T_H$ es acotable por por una constante, lo cual demuestra que variar el $H$ no afecta la complejidad del algoritmo.
+    En el gráfico de la Figura \ref{fig:exp3:varh}, por último, se puede ver que $T_H$ es acotable por por una constante, lo cual corrobora que variar el $H$ no afecta la complejidad del algoritmo.
