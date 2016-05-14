@@ -340,7 +340,7 @@
     \begin{itemize}
         \item Variar $N$ : Se varia entre 1 y 50000 de saltos de a 200 ($T_N$).
         \item Variar $M$ : Se varia entre 1 y 50000 de saltos de a 200 ($T_M$).
-        \item Variar $N$ y $M$: Se varia entre 1 y 500 de saltos de a 10 ($T_{MxN}$).
+        \item Variar $N$ y $M$: Se varia entre 1 y 500 de saltos de a 10 ($T_{MxN}$), $N$ y $M$ toman el mismo valor.
         \item Variar $H$ : Se varia entre 1 y 50000 de saltos de a 200 ($T_H$), fijando el $M$ y el $N$ en $50000$.
     \end{itemize}
 
@@ -372,7 +372,7 @@
          \end{tikzpicture}
      \end{figure}
 
-     En este grafico se puede ver que al variar el $N$ ó el $M$ son acotables por una recta, lo cual demuestra nuestras hipotesis de que variar tanto la $N$ ó como varaiar la $M$, tiene una dependicia lineal con respecto a la complejidad del algoritmo. Entre $T_N$ y $T_M$ difieren en la constante, esto se debe a que cuando la aumento el $M$ voy a tener un vector grande , en cambio cuando aumento el $N$ voy a tener N vectores con un elemento, lo cual hace que tenga que acceder al i-esimo vector lo cual es un poco más costoso, porque capaz los vectores no esten en lugares no contiguos de memoria. 
+     En este grafico se puede ver que al variar el $N$ ó el $M$n $T_N$ y $T_M$ son acotables por una recta, lo cual prueba empiricamente nuestras hipotesis de que variar tanto la $N$ ó la $M$, tiene una dependicia lineal con respecto a la complejidad del algoritmo. Entre la recta $T_N$ y $T_M$ difieren en la constante, esto se debe a que cuando aumentamos el $M$ vamos a tener un vector grande , en cambio cuando aumentamos el $N$ voy a tener N vectores con un elemento, lo cual hace que tenga que acceder al i-esimo vector lo cual puede ser un poco más costoso, porque capaz los vectores no esten en lugares no contiguos de memoria. 
 
 
      \begin{figure}[H]
@@ -428,7 +428,7 @@
          \end{tikzpicture}
      \end{figure}
 
-     Se puede ver que al variar el $N$ y el $M$, se puede acotar por una cuadratica.
+     Se puede ver que al variar el $N$ y el $M$, $T_{MxN}$  se puede acotar por una cuadratica.
 
      \begin{figure}[H]
          \centering
