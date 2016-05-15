@@ -324,8 +324,16 @@
 
     % Deducir una cota de complejidad temporal del algoritmo propuesto (en función de los parámetros que se consideren correctos) y justificar por qué el algoritmo la cumple. Utilizar el modelo uniforme.
     \subsection{Complejidad teórica}
+	Inicializar la matriz de subsoluciones $DP$ de $N$ filas y $M$ columnas
+	tiene un costo de $\ord(N \times M)$.
 
-    Calcular el salto vertical u horizontal tiene un costo de $\ord(1)$. Calcular la primera fila tiene costo $\ord(M)$, ya que se debe recorrer la primera fila y almacenar en la matriz de subsoluciones ($DP$), la suma de la anterior más el salto horizontal. Calcular la primera la primera columna cuesta $\ord(N)$, ya que se debe recorrer la primera columna e ir guardando en la matriz $DP$, para cada elemento, la suma del resultado anterior más el costo del salto vertical.
+	Calcular el salto vertical u horizontal tiene un costo de $\ord(1)$.
+	Calcular la primera fila tiene costo $\ord(M)$, ya que crece únicamente en
+	función del tamaño de la fila la cantidad de operaciones constantes
+	necesarias para calcular y almacenar en la matriz de subsoluciones ($DP$).
+	Calcular la primera columna cuesta $\ord(N)$, ya que crece únicamente en
+	función del tamaño de la columna el número de operaciones constantes
+	necesarias.
 
     Para llenar el resto de la grilla $DP$, se la debe recorrer en orden creciente por columnas, a partir de la segunda fila y desde la segunda columna. En cada iteración se toma el mínimo entre dos valores: el costo del salto vertical más la subsolución correspondiente a la posición de arriba en la grilla, y el costo del salto horizontal más la subsolución correspondiente a la posición de la izquierda. Todas estas operaciones tienen un costo de $\ord(1)$, dando una complejidad total para terminar de llenar la grilla $DP$ de $\ord(N \times M)$.
 
