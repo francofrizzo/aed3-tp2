@@ -48,6 +48,7 @@ void correr_solucion() {
 }
 
 int resolver(const vector<vector<pair<int, int>>>& grafo, vector<int>& predecesores) {
+
     uint N = grafo.size();
 
     // Crear una cola de prioridad que contiene a todos los nodos
