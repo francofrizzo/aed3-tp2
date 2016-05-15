@@ -360,7 +360,7 @@
     % conclusiones.
     \subsection{Experimentación}
 
-    Se realizaron pruebas experimentales para verificar que el tiempo de ejecución del algoritmo cumpliera con la cota asintótica de $\theta(M * log(N))$, demostrada teóricamente. Se realizaron las siguientes pruebas:   
+    Se realizaron pruebas experimentales para verificar que el tiempo de ejecución del algoritmo cumpliera con la cota asintótica de $\theta(M \times log(N))$, demostrada teóricamente. Se realizaron las siguientes pruebas:
 
     \begin{itemize}
     \item Pruebas con instancias en donde se mantiene la cantidad de nodos fija y se hacen variar las aristas.
@@ -434,7 +434,7 @@
                 ]
                 \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaMFijo};
                 \addplot[color=red] table[x index=0, y expr={ln(x)*\constante}]{../exp/elImperioContraatacaMFijo};
-                \legend{$T$, $c*log(N)$}
+                \legend{$T$, $c \times log(N)$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -463,7 +463,7 @@
                 ]
                 \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaArboles};
                 \addplot[color=red] table[x index=0, y expr={x*ln(x + 1)*\constante}]{../exp/elImperioContraatacaArboles};
-                \legend{$T$, $c*M*log(N)$}
+                \legend{$T$, $c \times M \times log(N)$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
