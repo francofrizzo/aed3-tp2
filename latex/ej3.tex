@@ -366,14 +366,14 @@
                     enlargelimits=0.05,
                     width=0.5\textwidth,
                     height=0.5\textwidth,
-                    legend pos=south east,
+                    legend pos=north west,
                     legend cell align=left,
                     xmin=1
                 ]
-                \addplot[color=red] table[x index=0, y expr={x*125}]{../exp/elRetornoDelJediFilas};
                 \addplot[color=green] table[x index=0,y index=1]{../exp/elRetornoDelJediFilas};
                 \addplot[color=blue] table[x index=0,y index=1]{../exp/elRetornoDelJediColumnas};
-                \legend{$T_N$,$T_M$, $c*K$}
+                \addplot[color=red] table[x index=0, y expr={x*125}]{../exp/elRetornoDelJediFilas};
+                \legend{$T_N$,$T_M$, $c \times N$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -394,14 +394,14 @@
                     enlargelimits=0.05,
                     width=0.5\textwidth,
                     height=0.5\textwidth,
-                    legend pos=south east,
+                    legend pos=north west,
                     legend cell align=left,
                     xmin=1
                 ]
-               \addplot[color=red] table[x index=0, y expr={125}]{../exp/elRetornoDelJediFilas};
                 \addplot[color=green] table[x index=0,y expr={\thisrowno{1}/x}]{../exp/elRetornoDelJediFilas};
                 \addplot[color=blue] table[x index=0,y expr={\thisrowno{1}/x}]{../exp/elRetornoDelJediColumnas};
-                \legend{$T_M/M$,$T_N/N$,$c$}
+                \addplot[color=red] table[x index=0, y expr={125}]{../exp/elRetornoDelJediFilas};
+                \legend{$T_N/N$,$T_M/M$,$c$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -421,13 +421,13 @@
                     enlargelimits=0.05,
                     width=0.5\textwidth,
                     height=0.5\textwidth,
-                    legend pos=south east,
+                    legend pos=north west,
                     legend cell align=left,
                     xmin=1
                 ]
                 \addplot[color=black] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas};
                 \addplot[color=red] table[x index=0, y expr={x*x*20}]{../exp/elRetornoDelJediFilasYColumnas};
-                \legend{$T$, $c*N*N$}
+                \legend{$T$, $cN^{2}$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -447,19 +447,20 @@
                     enlargelimits=0.05,
                     width=0.5\textwidth,
                     height=0.5\textwidth,
-                    legend pos=south east,
+                    legend pos=north west,
                     legend cell align=left,
                     xmin=1,
                     ymax=100
                 ]
                 \addplot[color=black] table[x index=0,y expr={\thisrowno{1}/(x*x)}]{../exp/elRetornoDelJediFilasYColumnas};
                 \addplot[color=red] table[x index=0, y expr={35}]{../exp/elRetornoDelJediFilasYColumnas};
-                \legend{$T_{M \times N}/(N*N)$, $c*N*N$}
+                \legend{$T_{M \times N}/N^{2}$, $c$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
 
-    En el gráfico de la Figura \ref{fig:exp3:var-nxn-divconst} se puede ver que al dividir por $N \times N$, queda acotable por una constante, lo cual confirma que $T_{M \times N}$ tiene complejidad $O(M \times N)$.
+    En el gráfico de la Figura \ref{fig:exp3:var-nxn-divconst} se puede ver que
+	al dividir por $N^{2}$, queda acotable por una constante, lo cual confirma que $T_{M \times N}$ tiene complejidad $O(M \times N)$.
 
     \begin{figure}[H]
         \centering
@@ -475,7 +476,7 @@
                     enlargelimits=0.05,
                     width=0.5\textwidth,
                     height=0.5\textwidth,
-                    legend pos=south east,
+                    legend pos=north west,
                     legend cell align=left,
                     xmin=1,
                     ymax=1250000
