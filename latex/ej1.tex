@@ -193,6 +193,45 @@
 	original. Por ejemplo, el nodo 12 es en realidad la cueva 4 con $estado(12) =
 	3$, por lo tanto a la hora de armar el camino se lo traducirá a 4.
 
+    A continuación se exhibe el pseudocódigo del algoritmo que resuelve el problema:
+
+    \begin{algorithm}
+        \caption{BFS modificado}
+        \label{algo:bfs}
+
+        \Input{Un entero $N$ y un grafo $G$ de $N$ nodos y $M$ aristas, dado por un vector de
+        listas de adyacencia}
+        \Output{El camino mínimo entre el nodo 0 y el $N - 1$, pasando por al menos dos 
+        pasadizos especiales, dado como una pila de enteros}
+        $predecesores$ $\gets$ vector de longitud $3N$ con cada valor en $sinPadre$ \;
+        $colaNodos$ $\gets$ cola de enteros vacía \;
+        $predecesores$[$0$] $\gets$ $0$ \;
+        $colaNodos$.encolar($0$) \;
+
+        \While{$colaNodos$ no esté vacía} {
+            $nodo$ $\gets$ $colaNodos$.desencolar() \;
+            $nodoEfectivo$ $\gets$ índice real de $nodo$ \;
+            \ForEach{vecino $v$ de $nodoEfectivo$}{
+                $nodoAdyacente$ $\gets$ $v$ + diferencia de estado entre $nodo$ y $nodoEfectivo$ \;
+                \If{hay camino especial entre $nodoEfectivo$ y $v$} {
+                    cambiar de estado a $nodoAdyacente$, tiene un camino especial mas \;
+                }
+                \If{$predecesores$[$nodoAdyacente$] == $sinPadre$} {
+                    $predecesores$[$nodoAdyacente$] $\gets$ $nodo$ \;
+                    $colaNodos$.encolar($nodoAdyacente$) \;
+                }
+            }
+        }
+
+        $caminoOptimo$ $\gets$ pila de enteros vacía \;
+        $actual$ $\gets$ nodo $N - 1$ con estado $alMenosDosCaminosEspeciales$ \;
+        \While{$actual$ sea distinto del nodo 0} {
+            $caminoOptimo$.apilar(indice real de $actual$) \;
+            $actual$ $\gets$ $predecesores$[$actual$] \;
+        }
+        \Return{$predecesores$}
+    \end{algorithm}
+
 	Habiendo introducido la idea detrás de la solución desarrolada, se procede a
 	demostrar que esto efectivamente funciona, es decir que con esta
 	modificación al \emph{BFS} siempre se encontrará un camino mínimo hasta la
