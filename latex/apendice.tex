@@ -1,13 +1,184 @@
-\section{Apéndice: Código fuente de las funciones principales}\label{sec:codigo}
+\section{Apendice: Código fuente de las funciones principales}\label{sec:codigo}
 
 \subsection{Ejercicio 1 (Una nueva esperanza)}
 \begin{lstlisting}
+stack<int> resolver(const vector<vector<pair<int,bool>>> &lista_ady,
+                                                             int n){
+  // Representacion para los estados de un nodo
+  // 0..n - 1: No se recorrio ningun pasillo especial
+  // n..2*n - 1: Se recorrio un pasillo especial
+  // 2*n..3*n - 1: Se recorrieron al menos dos pasillos especiales
+  vector<int> lista_cuevas = vector<int>(3*n, -1);
+
+  queue<int> cola_nodos;
+
+  // Al nodo incial lo marco como su propio padre
+  lista_cuevas[0] = 0;
+  cola_nodos.push(0);
+
+  int id_nodo, id_nodo_efectivo, id_nodo_ady;
+  // Mientras queden nodos sin visitar
+  while(!cola_nodos.empty()){
+    id_nodo = cola_nodos.front();
+    id_nodo_efectivo = id_nodo % n;
+    cola_nodos.pop();
+    // Encolo todos los vecinos
+    for(unsigned int i=0; i<lista_ady[id_nodo_efectivo].size(); i++){
+      id_nodo_ady = (id_nodo - id_nodo_efectivo) 
+        + lista_ady[id_nodo_efectivo][i].first;
+
+      // Si tengo un camino especial, encolo el nodo del grafo 
+      // siguiente
+      if(lista_ady[id_nodo_efectivo][i].second == true && 
+        id_nodo_ady/n < 2){
+        id_nodo_ady += n;
+      }
+
+      // Si ya recorri este nodo no es necesario encolarlo
+      if(lista_cuevas[id_nodo_ady] == -1){
+        lista_cuevas[id_nodo_ady] = id_nodo;
+        cola_nodos.push(id_nodo_ady);
+      }
+    }
+  }
+
+  stack<int> camino_optimo;
+
+  int j = lista_cuevas[3*n - 1];
+  while(lista_cuevas[j] != j){
+    camino_optimo.push(j % n);
+    j = lista_cuevas[j];
+  }
+
+  return camino_optimo;
+}
 \end{lstlisting}
 
 \subsection{Ejercicio 2 (El Imperio contraataca)}
 \begin{lstlisting}
+int resolver(const vector<vector<pair<int,int>>>& grafo, 
+                              vector<int>& predecesores) {
+
+  uint N = grafo.size();
+
+  // Crear una cola de prioridad que contiene a todos los nodos
+  // La prioridad inicial es infinita (maximo int posible)
+  cola_prioridad vertices(N);
+
+  // Establecer en 0 la prioridad del primer vertice
+  vertices.setear_prioridad(0, 0);
+
+  // En este vector se registraran los nodos que ya no deben procesarse
+  vector<bool> vertices_marcados(N, false);
+
+  // Aqui se ira formando la solucion del problema
+  predecesores = vector<int>(N, 0);
+
+  // Aqui se ira calculando el peso total del arbol
+  int peso_total = 0;
+
+  // Iterar hasta que la cola este vacia
+  while (! vertices.vacia()) {
+    // Desencolar el vertice con menor prioridad (esto representa al
+    // vertice unido al arbol generado hasta el momento por la arista
+    // mas corta posible). Marcarlo como visitado
+    peso_total += vertices.min_prioridad();
+    int vert_actual = vertices.min_indice();
+    vertices.desencolar();
+    vertices_marcados[vert_actual] = true;
+
+    // Iterar sobre los vecinos no marcados del nodo seleccionado
+    for (uint j = 0; j < grafo[vert_actual].size(); j++) {
+      int ind_vecino  = grafo[vert_actual][j].first;
+
+      if (! vertices_marcados[ind_vecino]) {
+        int long_arista = grafo[vert_actual][j].second;
+
+        // Comparar la longitud de la arista recien examinada con
+        // el valor almacenado como prioridad del vecino, y en caso
+        // de que sea necesario, actualizar este valor
+        if (long_arista < vertices.prioridad(ind_vecino)) {
+          vertices.setear_prioridad(ind_vecino, long_arista);
+          predecesores[ind_vecino] = vert_actual;
+        }
+      }
+    }
+  }
+
+  return peso_total;
+}
 \end{lstlisting}
 
 \subsection{Ejercicio 3 (El retorno del jedi)}
 \begin{lstlisting}
+pair<int,vector<char>> resolver(vector<vector<pair<int,char>>> &DP, 
+                                            vector<vector<int>> &E,
+                                                             int N,
+                                                             int M,
+                                                             int H) {
+  // Instanciar el DP
+  DP = vector<vector<pair<int,char>>>(N,
+    vector<pair<int,char>>(M, make_pair(-1,'Z')));
+  DP[0][0] = pair<int,char>(0,'I');
+  int costoY = 0;
+  int costoX = 0;
+  for (int i = 1; i < N; ++i){
+    costoY = DP[i - 1][0].first + calcularEnergiaGastada(0, i-1, 0, i, H, E);
+    DP[i][0] = pair<int,char>(costoY,'X');
+    
+  }
+  for (int j = 1; j < M; ++j){
+    costoX = DP[0][j - 1].first + calcularEnergiaGastada(j-1, 0, j, 0, H, E);
+    DP[0][j] =  pair<int,char>(costoX,'Y');
+  }
+
+  for (int i = 1; i < N; ++i){
+    for (int j = 1; j < M; ++j){
+      // si me moviera por el eje Y
+      int costoY = DP[i-1][j].first
+        + calcularEnergiaGastada(j, i-1,j, i, H, E);
+      
+      // si me moviera por el eje X
+      int costoX = DP[i][j-1].first
+        + calcularEnergiaGastada(j-1, i, j, i, H, E);
+      
+      if (costoX > costoY){
+        DP[i][j] = pair<int,char>(costoY,'X');
+      }else{
+        DP[i][j] = pair<int,char>(costoX,'Y');
+      }
+
+    }
+  }
+
+  int i = N - 1;
+  int j = M - 1;
+  vector<char> camino = vector<char>(N + M - 2);
+  while(i + j > 0){
+    camino[i + j - 1] = DP[i][j].second;
+    if (DP[i][j].second == 'Y'){
+      j--;
+    }else{
+      i--;
+    }
+  }
+  
+  pair<int,vector<char>> result = make_pair(DP[N-1][M-1].first,camino);
+  return result;
+}
+
+int calcularEnergiaGastada(vector<vector<int>> &E,
+                                     int xDestino,
+                                     int yDestino,
+                                      int xOrigen,
+                                      int yOrigen,
+                                            int H){
+  
+  int delta = abs(E[yOrigen][xOrigen] - E[yDestino][xDestino]);
+  if(H > delta){
+    return  0 ;
+  }else{
+    return delta - H;
+  }
+}
 \end{lstlisting}
