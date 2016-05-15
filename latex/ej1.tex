@@ -392,7 +392,7 @@
 
     Se encola el primer nodo, luego por cada nodo desencolado, se recorre sus vecinos, si es camino especial se ira al nodo del siguiente nivel, si ya fue visitado no se agrega a la cola ($O(1)$).En el peor de los casos por cada nodo de cada nivel, se recorre todas sus aristas y por cada arista se hace algo de complejidad $O(1)$, Entonces nos queda $O(3M)$.
 
-    Por último se arma el camino óptimo partiendo del nodo destino en el tercer nivel y se va agregando de donde venia y me muevo a él hasta llegar al nodo incial, esto tiene complejidad $O(N + N')$, donde $N' < N$, porque como mucho el camino tiene $N$ nodos más buscar el camino especial $N'$.
+    Por último se arma el camino óptimo partiendo del nodo destino en el tercer nivel y se va agregando de donde venia y me muevo a él hasta llegar al nodo incial, esto tiene complejidad $O(N + N')$, donde $N' < N$, porque si el camino minimo del nodo inicial al nodo final tiene uno ó más caminos especiales nos queda $O(N)$, caso contrario tendria ir a un camino especial ($O(N')$) y luego a el nodo destino ($O(N)$) .
 
     La complejidad total nos queda $O(3N + 3M + N + N') = O(M)$, ya que como el grafo es conexo como minimo tengo $N-1$ aristas osea $M > N-1$.
 
