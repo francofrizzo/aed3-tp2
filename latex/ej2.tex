@@ -143,8 +143,9 @@
         \Input{Un grafo $G$ de $N$ nodos y $M$ aristas, dado por un vector de
         listas de adyacencia}
         \Output{Un árbol generador mínmo de $G$, dado como un vector
-        conteniendo el predecesor de cada nodo}
+        conteniendo el predecesor de cada nodo, y el peso total de dicho árbol}
         $predecesores$ $\gets$ vector de longitud $N$ \;
+        $peso\ total$ $\gets$ $0$ \;
         $vertices$ $\gets$ cola de prioridad vacía \;
         encolar $v_0$ en $vertices$ con prioridad $0$ \;
         \ForEach{$i$ entre $1$ y $N-1$} {
@@ -153,6 +154,7 @@
         \While{$vertices$ no esté vacía} {
             $v$ $\gets$ $vertices$.desencolar() \;
             marcar $v$ como visitado \;
+            $peso\ total$ $\gets$ $peso\ total$ + prioridad de $v$ en $vertices$ \;
             \ForEach{vecino $u$ de $v$}{
                 \If{$u$ no está marcado como visitado} {
                     $p$ $\gets$ peso de la arista $(v,u)$ en $G$ \;
@@ -163,7 +165,7 @@
                 }
             }
         }
-        \Return{$predecesores$}
+        \Return{$predecesores$, $peso\ total$}
     \end{algorithm}
 
     El algoritmo de Prim empieza agregando al árbol un nodo cualquiera del
@@ -209,11 +211,12 @@
 
     El problema requiere, además de una descripción del árbol dada por el
     predecesor de cada uno de los nodos, que se compute el peso total de sus
-    aristas. Para esto se implementó también un sencillo procedimiento que
-    itera sobre las nodos del árbol obtenido, obteniendo para cado uno el
-    peso de la arista que lo une a su predecesor, a partir de las listas de
-    adyacencia del grafo, y sumando todos estos pesos para conseguir el
-    resultado buscado.
+    aristas. Para lograr esto se aprovecha que, cuando un nodo es marcado como
+    visitado, su predecesor ya no será modificado, por lo que se sabe que
+    la arista que lo une a su padre formará parte del árbol final. Así, el
+    peso total del árbol se va calculando en forma incremental: cada
+    vez que se marca un nodo como visitado, se suma al peso total el peso de
+    la arista entre él y su predecesor.
 
     \subsubsection{Detalles implementativos}
     Todas las rutinas arriba descriptas fueron implementadas en lenguaje C++.
@@ -272,12 +275,9 @@
     % función de los parámetros que se consideren correctos) y justificar por
     % qué el algoritmo la cumple. Utilizar el modelo uniforme.
     \subsection{Complejidad teórica}
-    La solución presentada se compone de dos rutinas consecutivas (obtención
-    del \acr{agm} y cálculo de su peso total), por lo que se evaluará la
-    complejidad de cada una de ellas por separado, para luego obtener una
-    conclusión final.
-
-    Se considerará que el grafo a procesar tiene $N$ nodos y $M$ aristas.
+    Para elaborar una cota teórica para la complejidad del algoritmo
+    presentado, se considerará que el grafo a procesar tiene $N$ nodos y $M$
+    aristas.
     Teniendo en cuenta, además, que el grafo es conexo, puede asumirse que
     $M \geq N-1$, lo cual implica que $N \in \ord(M)$.
 
@@ -301,7 +301,9 @@
 
     Cada iteración del ciclo se corresponde con un nodo del grafo. Dentro de
     la misma, en primer lugar, se desencola el nodo de la cola de prioridad,
-    lo cual tiene un costo de $\ord(\log(N))$. A continuación se ejecuta a su
+    lo cual tiene un costo de $\ord(\log(N))$. Luego se realizan dos
+    operaciones de costo constante ($\Theta(1)$): se marca el nodo como
+    visitado y se suma su peso al peso total. A continuación se ejecuta a su
     vez otro ciclo que itera sobre los vecinos del nodo, es decir, se repite
     $\operatorname{deg}(v_i)$ veces. En el caso de que el vértice no
     pertenezca al árbol parcial generado hasta el momento, se obtiene
@@ -327,29 +329,9 @@
     \end{aligned} \]
 
     Esta complejidad no se ve afectada por las operaciones de inicialización
-    antes descriptas:
+    antes descriptas, puede deducirse una cota teórica para
+    la complejidad temporal de la solución presentada de:
     \[ \ord(N + \log(N) + M \times \log(N)) = \ord(M \times \log(N)) \]
-    resultando la complejidad total de la ejecución del algoritmo de Prim.
-
-    \vspace{1.25em}
-
-    El cálculo del peso total del árbol, por su parte, consiste en un
-    sencillo ciclo que itera sobre todos los nodos del árbol generador
-    mínimo, excepto sobre el primero, que es tomado como su raíz; se ejecuta
-    entonces un total de $N - 1$ veces. En cada iteración, se recorre la
-    lista de adyacencia del nodo, buscando de forma lineal el peso de la
-    arista que une a este nodo con su predecesor. Esto tiene un costo, en el
-    peor caso, de $\ord(\operatorname{deg}(v_i))$. La complejidad total de
-    esta rutina es, entonces:
-    \[ \sum_{i=1}^{N} \ord(\operatorname{deg}(v_i)) =
-                \ord \left( \sum_{i=1}^{N} \operatorname{deg}(v_i) \right) =
-                \ord \left( 2M - \operatorname{deg}(v_0) \right) = \ord(M) \]
-
-    \vspace{1.25em}
-
-    De todos los cálculos anteriores, puede deducirse una cota teórica para
-    la complejidad temporal de la solución presentada de
-    \[ \ord(M \times \log(N) + M) = \ord(M \times \log(N)) \]
 
     % Realizar experimentación para medir la performance, usando un conjunto
     % de casos de test que permitan observar los tiempos de ejecución en
