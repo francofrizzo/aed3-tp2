@@ -104,32 +104,218 @@
     % conclusiones.
     \subsection{Experimentación}
 
-    % Ejemplo de gráfico para reutilizar:
-    % \begin{figure}[H]
-    %     \centering
-    %     \caption{}
-    %     \label{fig:exp1:tiempo_base}
-    %     \begin{tikzpicture}
-    %         \begin{axis}[
-    %                 title={},
-    %                 xlabel={Tamaño de entrada ($N$)},
-    %                 ylabel={Tiempo de ejecución (nanosegundos)},
-    %                 scaled x ticks=false,
-    %                 scaled y ticks=false,
-    %                 enlargelimits=0.05,
-    %                 width=0.5\textwidth,
-    %                 height=0.5\textwidth,
-    %                 legend pos=south east,
-    %                 legend cell align=left,
-    %                 xmin=1
-    %             ]
-    %             \addplot[color=black]
-    %                 table[x index=0,y index=1]
-    %                 {../exp/kaioKenOutput};
-    %             \addplot[color=red]
-    %                 table[x index=0, y expr={x*ln(x)*\constante}]
-    %                 {../exp/kaioKenOutput};
-    %             \legend{$T$, $c*N*log(N)$}
-    %         \end{axis}
-    %     \end{tikzpicture}
-    % \end{figure}
+    \newcommand\constante{400}
+
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp1:var-m-base}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Tamaño de entrada ($M$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=outer north east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=darkgray]
+                    table[x index=0, y expr={x*\constante}]
+                    {../exp/UnaNuevaEsperanza-varM-arboles};
+                \addplot[color=red]
+                    table[x index=0,y index=1]
+                    {../exp/UnaNuevaEsperanza-varM-inc-arboles};
+                \addplot[color=orange]
+                    table[x index=0,y index=1]
+                    {../exp/UnaNuevaEsperanza-varM-arboles};
+                \addplot[color=green]
+                    table[x index=0,y index=1]
+                    {../exp/UnaNuevaEsperanza-varM-completos};
+                \addplot[color=blue]
+                    table[x index=0,y index=1]
+                    {../exp/UnaNuevaEsperanza-varM-caminos};
+                \addplot[color=violet]
+                    table[x index=0,y index=1]
+                    {../exp/UnaNuevaEsperanza-varM-m-arios};
+                \legend{$c \times M$, $T_{A_i}$, $T_{A_r}$, $T_{C}$, $T_{P}$, $T_{K}$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp1:var-m-div-const}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Tamaño de entrada ($M$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=outer north east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=darkgray]
+                    table[x index=0, y expr={\constante}]
+                    {../exp/UnaNuevaEsperanza-varM-arboles};
+                \addplot[color=red]
+                    table[x index=0,y expr={\thisrowno{1} / x}]
+                    {../exp/UnaNuevaEsperanza-varM-inc-arboles};
+                \addplot[color=orange]
+                    table[x index=0,y expr={\thisrowno{1} / x}]
+                    {../exp/UnaNuevaEsperanza-varM-arboles};
+                \addplot[color=green]
+                    table[x index=0,y expr={\thisrowno{1} / x}]
+                    {../exp/UnaNuevaEsperanza-varM-completos};
+                \addplot[color=blue]
+                    table[x index=0,y expr={\thisrowno{1} / x}]
+                    {../exp/UnaNuevaEsperanza-varM-caminos};
+                \addplot[color=violet]
+                    table[x index=0,y expr={\thisrowno{1} / x}]
+                    {../exp/UnaNuevaEsperanza-varM-m-arios};
+                \legend{$c$, $T_{A_i}/M$, $T_{A_r}/M$, $T_{C}/M$, $T_{P}/M$, $T_{K}/M$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp1:aleatorios-arb}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    mark size=1pt,
+                    xlabel={Número de instancia},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=outer north east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=blue,only marks]
+                    table[x expr=\coordindex, y index=1]
+                    {../exp/UnaNuevaEsperanza-aleatorios-arb-m100k};
+                \addplot[color=green,only marks]
+                    table[x expr=\coordindex, y index=1]
+                    {../exp/UnaNuevaEsperanza-aleatorios-arb-m200k};
+                \addplot[color=orange,only marks]
+                    table[x expr=\coordindex, y index=1]
+                    {../exp/UnaNuevaEsperanza-aleatorios-arb-m400k};
+                \addplot[color=red,only marks]
+                    table[x expr=\coordindex,y index=1]
+                    {../exp/UnaNuevaEsperanza-aleatorios-arb-m800k};
+                \legend{$M = 100000$, $M = 200000$, $M = 400000$, $M = 800000$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp1:aleatorios-arb}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    mark size=1pt,
+                    xlabel={Número de instancia},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=outer north east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=blue,only marks]
+                    table[x expr=\coordindex, y index=1]
+                    {../exp/UnaNuevaEsperanza-aleatorios-comp-m100k};
+                \addplot[color=green,only marks]
+                    table[x expr=\coordindex, y index=1]
+                    {../exp/UnaNuevaEsperanza-aleatorios-comp-m200k};
+                \addplot[color=orange,only marks]
+                    table[x expr=\coordindex, y index=1]
+                    {../exp/UnaNuevaEsperanza-aleatorios-comp-m400k};
+                \addplot[color=red,only marks]
+                    table[x expr=\coordindex,y index=1]
+                    {../exp/UnaNuevaEsperanza-aleatorios-comp-m800k};
+                \legend{$M = 100000$, $M = 200000$, $M = 400000$, $M = 800000$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp1:aristas-esp}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Proporción de aristas especiales ($c$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=north east,
+                    legend cell align=left,
+                ]
+                \addplot[color=red]
+                    table[x index=0,y index=1]
+                    {../exp/UnaNuevaEsperanza-aristas-esp-arb-m200k};
+                \addplot[color=blue]
+                    table[x index=0,y index=1]
+                    {../exp/UnaNuevaEsperanza-aristas-esp-comp-m200k};
+                \addplot[color=red]
+                    table[x index=0,y index=1]
+                    {../exp/UnaNuevaEsperanza-aristas-esp-arb-m400k};
+                \addplot[color=blue]
+                    table[x index=0,y index=1]
+                    {../exp/UnaNuevaEsperanza-aristas-esp-comp-m400k};
+                \legend{Árboles aleatorios, Grafos completos}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp1:k-arios}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={$k/M$},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                ]
+                \addplot[color=red]
+                    table[x expr={\thisrowno{0}/200000},y index=1]
+                    {../exp/UnaNuevaEsperanza-k-arios-m200k};
+                \addplot[color=blue]
+                    table[x expr={\thisrowno{0}/400000},y index=1]
+                    {../exp/UnaNuevaEsperanza-k-arios-m400k};
+                \legend{$M=200000$, $M=400000$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
