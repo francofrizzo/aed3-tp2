@@ -457,7 +457,90 @@
     % conclusiones.
     \subsection{Experimentación}
 
-    \newcommand\constante{400}
+    Una vez completada la implementación de la solución, se llevaron a cabo
+    pruebas experimentales con el objetivo de verificar que se cumpliera la
+    cota teórica prevista para la complejidad asintótica de $\ord(M)$, siendo
+    $M$ la cantidad de aristas del grafo tomado como entrada.
+
+    Las pruebas realizadas pueden dividirse en dos grupos. Por un lado, se
+    midió el tiempo de ejecución para diferentes familias de instancias
+    generadas de forma aleatoria, para corroborar así que en todas ellas la
+    complejidad mostrara el comportamiento previsto. Por otra parte, se
+    llevaron a cabo pruebas soporte de las anteriores, para confirmar
+    hipótesis acerca de la relación entre el rendimiento temporal del
+    algoritmo y la modificación de ciertas variables de los datos de entrada.
+
+    \subsubsection{Experimentos principales}
+
+    \newcommand\constante{300}
+
+    Se construyeron generadores de escenarios de prueba aleatorios para distintas
+    instancias del problema, permitiendo modificar el parámetro $M$, es decir,
+    la cantidad de aristas de los grafos generados. Se procuró que las familias
+    de grafos generadas para cada escenario resultaran \emph{coherentes}, en
+    el sentido de que se intentó que la complejidad de su resolución dependiera
+    solo de la cantidad de aristas y no de otros factores inherentes a su
+    construcción.
+
+    Un factor que resultó especialmente complejo fue la distribución de las
+    aristas especiales en los grafos generados. Se decidió, entre las alternativas
+    posibles, generar a los grafos con una proporción fija $p$ de aristas
+    especiales sobre el total de aristas, elegidas al azar; es decir, durante
+    la generación de las instancias, cada arista que se agrega se marca como
+    especial con una probabilidad de $p$. De esta manera se intenta
+    homogeneizar las instancias tanto como sea posible. En las pruebas
+    adicionales, se experimenta con el efecto que tienen diversos valores de
+    $p$ sobre el tiempo de ejecución del algoritmo; en estas pruebas, se
+    utilizó un valor fijo de $p = 0.3$.
+
+    A continuación se detallan las características de los distintos escenarios
+    generados, junto con la notación utilizada en los gráficos para referirse
+    a los mismos.
+    \begin{itemize}
+        \item $T_r$: Árboles generados de forma aleatoria. Para cada valor de
+        $M$, se genera un grafo de $N = M+1$ nodos. A continuación, se van
+        agregando aristas al grafo de forma aleatoria, asegurándose de que no
+        se formen ciclos, hasta completar $M$ aristas. La metodología para
+        hacerlo es similar al algoritmo de Prim: en cada paso se elige al azar
+        un nodo que ya forme parte del árbol y uno que no, y se los conecta
+        por medio de una arista.
+        \item $T_i$: Árboles generados de forma incremental. Para el primer
+        valor de $M$ considerado, se genera un árbol según la metodología
+        anterior. Para los valores de $M$ siguientes, se considera el grafo
+        generado para el valor previo, completándolo a $M+1$ nodos y agregando
+        aristas de forma aleatoria hasta formar un nuevo árbol con $M$
+        aristas.
+        \item $K$: Grafo completo. Para cada valor de $M$ se considera un
+        grafo completo con $\frac{1 + \sqrt{1 + 8 \times M}}{2}$ nodos. Los
+        valores de $M$ considerados se seleccionan de forma tal que el
+        resultado de esta fórmula sea un número entero. En este caso, al
+        igual que en los dos siguientes, el elemento de azar se
+        reduce a la selección del subconjunto de aristas especiales.
+        \item $P$: Camino simple de $M$ aristas, cuyos extremos son los nodos 
+        $0$ y $N-1$.
+        \item $A$: Árbol $M$-ario completo de $M$ aristas. Se construye un
+        árbol donde el nodo $0$ resulta adyacente a todos los demás.
+    \end{itemize}
+
+    Cabe destacar que el escenario $K$ tiene una cantidad de nodos
+    considerablemente menor que todos los demás (del orden de $\sqrt{M}$
+    frete a $M$), lo cual hace esperable que su tiempo de ejecución resulte
+    también relativamente menor. No obstante, los escenarios $P$ y $A$ se ven
+    favorecidos por la simpleza de su resolución.
+    % CHAMUYAR ALGO ACÁ. En el caso $A$, dado que
+    % todos los nodos están unidos al nodo $0$, son encolados juntos durante la
+    % primera iteración del algoritmo. Luego se itera sobre ellos sin volver a
+    % agregar nodos a la cola, . En el caso $P$, se da la situación opuesta,
+    % dado que
+    % Los dos escenarios con árboles aleatorios ($T_r$ y $T_i$), por su parte,
+    % además de tener una cantidad de nodos del orden de $M$, pueden requerir
+    % gran cantidad de 
+
+    En la Figura \ref{fig:exp1:var-m-base} pueden observarse los resultados
+    del tiempo de ejecución observado para todos los escenarios, considerando
+    valores de $M$ entre $20000$ y $800000$. Se ilustra también la cota
+    teórica mediante una función lineal $c \times M$; el valor de $c$
+    utilizado es $\constante$.
 
     \begin{figure}[H]
         \centering
@@ -495,10 +578,17 @@
                 \addplot[color=violet]
                     table[x index=0,y index=1]
                     {../exp/UnaNuevaEsperanza-varM-m-arios};
-                \legend{$c \times M$, $T_{A_i}$, $T_{A_r}$, $T_{C}$, $T_{P}$, $T_{K}$}
+                \legend{$c \times M$, $T_{T_i}$, $T_{T_r}$, $T_{K}$, $T_{P}$,
+                $T_{A}$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
+
+    En la Figura \ref{fig:exp1:var-m-div-const} se ilustra el resultado de
+    dividir todos los tiempos observados por su correspondiente valor de $M$.
+    Puede notarse claramente que el crecimiento de todas las funciones
+    observadas queda acotado por la constante $c$, corroborando en forma
+    empírica la complejidad de $\ord(M)$ estimada en forma teórica.
 
     \begin{figure}[H]
         \centering
@@ -541,6 +631,31 @@
         \end{tikzpicture}
     \end{figure}
 
+    \subsubsection{Experimentos adicionales}
+
+    Como se mencionó anteriormente, una de las cualidades deseables en las
+    familias de grafos elegidas para realizar los experimentos es que la
+    complejidad de su resolución no se vea afectada por variables externas al
+    experimento y que resulten imposibles de controlar. Esto resulta
+    especialmente difícil de verificar en el caso de las instancias generadas
+    de forma totalmente aleatoria, como sucede con el escenario $T_r$. Es por
+    esto que se decidió realizar, en forma complementaria, una prueba
+    experimental para corroborar que diferentes grafos generados de esta forma
+    no produjeran tiempos de ejecución excesivamente diferentes para idénticos
+    valores de $M$.
+
+    Para esto, se seleccionaron cuatro valores de $M$, $100000$, $2000000$,
+    $400000$ y $800000$, y para todos ellos se generaron $200$ grafos
+    distintos utilizando los procedimientos aleatorios antes descriptos, para
+    los escenarios $T_r$ y $K$. Así, se logró verificar que las instancias
+    generadas para estos escenarios se comportan de una forma uniforme,
+    validando su utilización en el experimento anterior.
+
+    La Figura \ref{fig:exp1:aleatorios-arb} muestra los resultados obtenidos
+    para el escenario $T_r$ (árboles), mientras que la Figura
+    \ref{fig:exp1:aleatorios-comp} hace lo propio con el escenario $K$ 
+    (grafos completos).
+
     \begin{figure}[H]
         \centering
         \caption{}
@@ -580,7 +695,7 @@
     \begin{figure}[H]
         \centering
         \caption{}
-        \label{fig:exp1:aleatorios-arb}
+        \label{fig:exp1:aleatorios-comp}
         \begin{tikzpicture}
             \begin{axis}[
                     title={},
