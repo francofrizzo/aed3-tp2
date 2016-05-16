@@ -324,8 +324,16 @@
 
     % Deducir una cota de complejidad temporal del algoritmo propuesto (en función de los parámetros que se consideren correctos) y justificar por qué el algoritmo la cumple. Utilizar el modelo uniforme.
     \subsection{Complejidad teórica}
+	Inicializar la matriz de subsoluciones $DP$ de $N$ filas y $M$ columnas
+	tiene un costo de $\ord(N \times M)$.
 
-    Calcular el salto vertical u horizontal tiene un costo de $\ord(1)$. Calcular la primera fila tiene costo $\ord(M)$, ya que se debe recorrer la primera fila y almacenar en la matriz de subsoluciones ($DP$), la suma de la anterior más el salto horizontal. Calcular la primera la primera columna cuesta $\ord(N)$, ya que se debe recorrer la primera columna e ir guardando en la matriz $DP$, para cada elemento, la suma del resultado anterior más el costo del salto vertical.
+	Calcular el salto vertical u horizontal tiene un costo de $\ord(1)$.
+	Calcular la primera fila tiene costo $\ord(M)$, ya que crece únicamente en
+	función del tamaño de la fila la cantidad de operaciones constantes
+	necesarias para calcular y almacenar en la matriz de subsoluciones ($DP$).
+	Calcular la primera columna cuesta $\ord(N)$, ya que crece únicamente en
+	función del tamaño de la columna el número de operaciones constantes
+	necesarias.
 
     Para llenar el resto de la grilla $DP$, se la debe recorrer en orden creciente por columnas, a partir de la segunda fila y desde la segunda columna. En cada iteración se toma el mínimo entre dos valores: el costo del salto vertical más la subsolución correspondiente a la posición de arriba en la grilla, y el costo del salto horizontal más la subsolución correspondiente a la posición de la izquierda. Todas estas operaciones tienen un costo de $\ord(1)$, dando una complejidad total para terminar de llenar la grilla $DP$ de $\ord(N \times M)$.
 
@@ -340,7 +348,7 @@
     \begin{itemize}
         \item Variar $N$: Se varía entre 1 y 50000, con saltos de a 200 ($T_N$).
         \item Variar $M$: Se varía entre 1 y 50000, con saltos de a 200 ($T_M$).
-        \item Variar $N$ y $M$: Se varía entre 1 y 500, con saltos de a 10 ($T_{M \times N}$), $N$ y $M$ toman el mismo valor.
+        \item Variar $N$ y $M$: Se varía entre 1 y 1000, con saltos de a 10 ($T_{M \times N}$), $N$ y $M$ toman el mismo valor.
         \item Variar $H$: Se varía entre 1 y 50000, con saltos de a 200 ($T_H$), fijando el $M$ y el $N$ en $50000$.
     \end{itemize}
 
@@ -358,14 +366,14 @@
                     enlargelimits=0.05,
                     width=0.5\textwidth,
                     height=0.5\textwidth,
-                    legend pos=south east,
+                    legend pos=north west,
                     legend cell align=left,
                     xmin=1
                 ]
-                \addplot[color=red] table[x index=0, y expr={x*125}]{../exp/elRetornoDelJediFilas};
                 \addplot[color=green] table[x index=0,y index=1]{../exp/elRetornoDelJediFilas};
                 \addplot[color=blue] table[x index=0,y index=1]{../exp/elRetornoDelJediColumnas};
-                \legend{$T_N$,$T_M$, $c*K$}
+                \addplot[color=red] table[x index=0, y expr={x*125}]{../exp/elRetornoDelJediFilas};
+                \legend{$T_N$,$T_M$, $c \times N$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -386,14 +394,14 @@
                     enlargelimits=0.05,
                     width=0.5\textwidth,
                     height=0.5\textwidth,
-                    legend pos=south east,
+                    legend pos=north west,
                     legend cell align=left,
                     xmin=1
                 ]
-               \addplot[color=red] table[x index=0, y expr={125}]{../exp/elRetornoDelJediFilas};
                 \addplot[color=green] table[x index=0,y expr={\thisrowno{1}/x}]{../exp/elRetornoDelJediFilas};
                 \addplot[color=blue] table[x index=0,y expr={\thisrowno{1}/x}]{../exp/elRetornoDelJediColumnas};
-                \legend{$T_M/M$,$T_N/N$,$c$}
+                \addplot[color=red] table[x index=0, y expr={125}]{../exp/elRetornoDelJediFilas};
+                \legend{$T_N/N$,$T_M/M$,$c$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -413,13 +421,13 @@
                     enlargelimits=0.05,
                     width=0.5\textwidth,
                     height=0.5\textwidth,
-                    legend pos=south east,
+                    legend pos=north west,
                     legend cell align=left,
                     xmin=1
                 ]
                 \addplot[color=black] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas};
                 \addplot[color=red] table[x index=0, y expr={x*x*20}]{../exp/elRetornoDelJediFilasYColumnas};
-                \legend{$T$, $c*N*N$}
+                \legend{$T$, $cN^{2}$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -439,19 +447,20 @@
                     enlargelimits=0.05,
                     width=0.5\textwidth,
                     height=0.5\textwidth,
-                    legend pos=south east,
+                    legend pos=north west,
                     legend cell align=left,
                     xmin=1,
                     ymax=100
                 ]
                 \addplot[color=black] table[x index=0,y expr={\thisrowno{1}/(x*x)}]{../exp/elRetornoDelJediFilasYColumnas};
                 \addplot[color=red] table[x index=0, y expr={35}]{../exp/elRetornoDelJediFilasYColumnas};
-                \legend{$T_{M \times N}/(N*N)$, $c*N*N$}
+                \legend{$T_{M \times N}/N^{2}$, $c$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
 
-    En el gráfico de la Figura \ref{fig:exp3:var-nxn-divconst} se puede ver que al dividir por $N \times N$, queda acotable por una constante, lo cual confirma que $T_{M \times N}$ tiene complejidad $O(M \times N)$.
+    En el gráfico de la Figura \ref{fig:exp3:var-nxn-divconst} se puede ver que
+	al dividir por $N^{2}$, queda acotable por una constante, lo cual confirma que $T_{M \times N}$ tiene complejidad $O(M \times N)$.
 
     \begin{figure}[H]
         \centering
@@ -467,7 +476,7 @@
                     enlargelimits=0.05,
                     width=0.5\textwidth,
                     height=0.5\textwidth,
-                    legend pos=south east,
+                    legend pos=north west,
                     legend cell align=left,
                     xmin=1,
                     ymax=1250000
