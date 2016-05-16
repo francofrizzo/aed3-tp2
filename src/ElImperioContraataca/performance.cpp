@@ -308,17 +308,17 @@ void correr_pruebas_performance() {
 
     ofstream archivoSalida;
 
-    // archivoSalida.open("../exp/elImperioContraatacaMFijo");
-    // ejecutarPruebaConMFijo(archivoSalida, quiet, M_FIJO);
-    // archivoSalida.close();
+    archivoSalida.open("../exp/elImperioContraatacaMFijo");
+    ejecutarPruebaConMFijo(archivoSalida, quiet, M_FIJO);
+    archivoSalida.close();
 
-    // archivoSalida.open("../exp/elImperioContraatacaNFijo");
-    // ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
-    // archivoSalida.close();
+    archivoSalida.open("../exp/elImperioContraatacaNFijo");
+    ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
+    archivoSalida.close();
 
-    // archivoSalida.open("../exp/elImperioContraatacaArboles");
-    // ejecutarPruebaArboles(archivoSalida, quiet);
-    // archivoSalida.close();
+    archivoSalida.open("../exp/elImperioContraatacaArboles");
+    ejecutarPruebaArboles(archivoSalida, quiet);
+    archivoSalida.close();
 
     archivoSalida.open("../exp/elImperioContraatacaCompletos");
     ejecutarPruebaCompletos(archivoSalida, quiet);
