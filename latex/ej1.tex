@@ -427,13 +427,26 @@
     % función de los parámetros que se consideren correctos) y justificar por
     % qué el algoritmo la cumple. Utilizar el modelo uniforme.
     \subsection{Complejidad teórica}
-    Crear el vector de representación para los estados de los nodos e instaciarlo en $-1$ tiene un costo de $O(3N)$.  
+    Crear el vector de representación para los estados de los nodos tiene un
+	costo de $\ord(3N)$.
 
-    Se encola el primer nodo, luego por cada nodo desencolado, se recorre sus vecinos, si es camino especial se ira al nodo del siguiente nivel, si ya fue visitado no se agrega a la cola ($O(1)$).En el peor de los casos por cada nodo de cada nivel, se recorre todas sus aristas y por cada arista se hace algo de complejidad $O(1)$, Entonces nos queda $O(3M)$.
+	En el peor caso, el \emph{BFS} va a marcar todos los nodos en cada estado
+	posible. Este escenario implica que para cada nodo en todos sus posibles
+	estados tendrá que consultar si alguno de sus vecinos se encuentra o no
+	marcado. Esto resulta en la suma de los grados de todos los nodos:
 
-    Por último se arma el camino óptimo partiendo del nodo destino en el tercer nivel y se va agregando de donde venia y me muevo a él hasta llegar al nodo incial, esto tiene complejidad $O(N + N')$, donde $N' < N$, porque si el camino minimo del nodo inicial al nodo final tiene uno ó más caminos especiales nos queda $O(N)$, caso contrario tendria ir a un camino especial ($O(N')$) y luego a el nodo destino ($O(N)$) .
+	\begin{equation*}
+		\ord(\sum_{i=1}^{n=3 N} d(v_i)) = \ord(2 \times 3M) = \ord(6M)
+	\end{equation*}
 
-    La complejidad total nos queda $O(3N + 3M + N + N') = O(M)$, ya que como el grafo es conexo como minimo tengo $N-1$ aristas osea $M > N-1$.
+	Por último se arma el camino óptimo trepando del nodo destino $N - 1$ en el
+	tercer estado hasta el nodo origen en estado inicial. Esto en el peor caso
+	resulta en un camino con $3N$ nodos, que es la longitud del mayor camino
+	simple posible. Por lo tanto para la construcción del camino óptimo se
+	tiene $\ord(3N)$.
+
+	La complejidad total queda $\ord(6N + 6M) = \ord(N + M)$ donde al ser el
+	grafo conexo se cumple que $M \geq N - 1$, con lo cual la cota final resulta $\ord(M)$.
 
     % Realizar experimentación para medir la performance, usando un conjunto
     % de casos de test que permitan observar los tiempos de ejecución en
