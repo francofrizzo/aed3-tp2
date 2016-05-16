@@ -147,7 +147,7 @@
 	Teniendo esta representación, se procede a explicar el algoritmo y
 	solución desarrollada. Existen dos objetivos: que Luke atraviese al menos 2
 	caminos especiales, que el camino que tome para lograr eso sea mínimo. Para
-	lo segundo, como las aristas no poséen pesos, se puede utilizar
+	lo segundo, como las aristas no poseen pesos, se puede utilizar
 	\emph{Breadth First Search}, que permite obtener la distancia de un nodo
 	cualquiera hacia el resto. Sin embargo esto solo no alcanza, ya que es
 	requisito el recorrer al menos 2 caminos especiales. Para cumplir con esta
@@ -317,7 +317,7 @@
 			\end{enumerate}
 		}
 		\item{
-			El nodo encolado pertence al segundo estado. Nuevamente existen dos
+			El nodo encolado pertenece al segundo estado. Nuevamente existen dos
 			posibles formas de operar en función de si la arista que lo conecta
 			a un vecino es especial:
 
@@ -367,7 +367,7 @@
 	\subsubsection*{Existencia de un camino mínimo al nodo $N - 1$ en el tercer
 	estado}
 
-	Como se dijo previamente, se probará que todo nodo pertenciente al tercer
+	Como se dijo previamente, se probará que todo nodo perteneciente al tercer
 	estado se encuentra marcado con su respectiva distancia. Supongamos que esto
 	no es cierto, que existe al menos un nodo sin marcar. Esto podría ser
 	resultado de uno de los siguientes escenarios:
@@ -419,8 +419,8 @@
 
 	Así se prueba entonces que ninguno de los escenarios planteados pueden
 	suceder, con lo cual todos los nodos en el tercer estado están marcados y
-	poséen un camino mínimo hasta el nodo inicial en el primer estado. Como
-	consecuencia de esto, en particual de seguro existe un camino mínimo del
+	poseen un camino mínimo hasta el nodo inicial en el primer estado. Como
+	consecuencia de esto, en particular de seguro existe un camino mínimo del
 	nodo incial en el primer estado al nodo $N - 1$ en el tercer estado.
 
     % Deducir una cota de complejidad temporal del algoritmo propuesto (en
