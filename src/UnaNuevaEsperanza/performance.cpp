@@ -10,6 +10,79 @@
 
 using namespace std;
 typedef vector<vector<pair<int, bool>>> listas_ady;
+typedef vector<pair<double,vector<double>>> vec_tiempos;
+
+
+/* --------------------
+ * Funciones auxiliares
+ * -------------------- */
+
+void imprimir_grafo(ostream& os, listas_ady grafo) {
+    for (uint i = 0; i < grafo.size(); i++) {
+        os << i << ": ";
+        for (uint j = 0; j < grafo[i].size(); j++) {
+            os << " " << grafo[i][j].first << "(" << grafo[i][j].second << ")";
+        }
+        os << endl;
+    }
+}
+
+void imprimir_tiempos_resumen(ostream& os, vec_tiempos tiempos) {
+    for (uint i = 0; i < tiempos.size(); i++) {
+        float x           = tiempos[i].first;
+        vector<double> ys = tiempos[i].second;
+
+        double promedio = 0;
+        double desv_estandar = 0;
+
+        for (uint j = 0; j < ys.size(); j++) {
+            promedio += ys[j];
+        }
+        promedio = promedio / ys.size();
+
+        for (uint j = 0; j < ys.size(); j++) {
+            desv_estandar += pow(ys[j] - promedio, 2);
+        }
+        desv_estandar = sqrt(desv_estandar / ys.size());
+
+        os << x << " " << promedio << " " << desv_estandar << endl;
+    }
+}
+
+void imprimir_tiempos_completo(ostream& os, vec_tiempos tiempos) {
+    for (uint i = 0; i < tiempos.size(); i++) {
+        os << tiempos[i].first;
+
+        for (uint j = 0; j < tiempos[i].second.size(); j++) {
+            os << " " << tiempos[i].second[j];
+        }
+
+        os << endl;
+    }
+}
+
+
+/* ------------------------------
+ * Generadores de casos de prueba
+ * ------------------------------ */
+
+listas_ady generar_camino_simple(int N) {
+    listas_ady grafo(N);
+
+    grafo[0] = {{1, 0}};
+
+    for (int i = 1; i < N - 2; i ++) {
+        grafo[i] = {{i - 1, 0}, {i + 1, 0}};
+    }
+
+    if (N > 2) {
+        grafo[N - 2] = {{N - 3, 0}, {N - 1, 1}};
+    }
+
+    grafo[N - 1] = {{N - 2, 1}};
+
+    return grafo;
+}
 
 listas_ady generar_arbol_aleatorio(int N, float c) {
     vector<int> nodos_usados;
@@ -52,6 +125,50 @@ listas_ady generar_arbol_aleatorio(int N, float c) {
     return grafo;
 }
 
+listas_ady& expandir_arbol_aleatorio(
+    listas_ady& grafo,
+    int cant_nuevos_nodos,
+    float c
+) {
+    int N = grafo.size();
+
+    for (int i = 0; i < cant_nuevos_nodos; i++) {
+        int nodo1 = (rand() % N);
+        int nodo2 = N + 1;
+        bool especial = rand() < RAND_MAX * c;
+
+        grafo[nodo1].push_back({nodo2, especial});
+        grafo.push_back({{nodo1, especial}});
+
+        N++;
+    }
+
+    return grafo;
+}
+
+listas_ady generar_arbol_k_ario(int N, int k, float c) {
+    listas_ady grafo(N);
+    int padre = 0;
+    int hermanos = 0;
+
+    for (int i = 1; i < N; i++) {
+        if (hermanos < k) {
+            hermanos++;
+        } else {
+            padre++;
+            hermanos = 1;
+        }
+
+        // bool especial = (rand() < RAND_MAX * c);
+        bool especial = (i == N - 1);
+
+        grafo[padre].push_back({i, especial});
+        grafo[i].push_back({padre, especial});
+    }
+
+    return grafo;
+}
+
 listas_ady generar_completo_aleatorio(int N, float c) {
     listas_ady grafo(N);
 
@@ -70,7 +187,53 @@ listas_ady generar_completo_aleatorio(int N, float c) {
     return grafo;
 }
 
-enum tipo_prueba {arboles, completos};
+listas_ady generar_conexo_aleatorio(int N, int M, float c) {
+    listas_ady grafo(N);
+    vector<vector<bool>> matr_ady(N, vector<bool>(N, false));
+
+    grafo = generar_arbol_aleatorio(N, c);
+
+    for (int i = 0; i < N; i++) {
+        for (uint j = 0; j < grafo[i].size(); j++) {
+            matr_ady[i][grafo[i][j].first] = true;
+        }
+    }
+
+    for (int i = N - 1; i < M; i++) {
+        int nodo1, nodo2, aux1, aux2, j;
+        do {
+            nodo1 = rand() % N;
+        } while (grafo[nodo1].size() == N - 1);
+
+        aux1 = rand() % (N - 1 - grafo[nodo1].size());
+        aux2 = 0;
+        nodo2 = 0;
+
+        while (aux2 <= aux1) {
+            if (! matr_ady[nodo1][nodo2]) {
+                aux2++;
+            }
+            nodo2++;
+        }
+        nodo2--;
+
+        bool especial = rand() < RAND_MAX * c;
+
+        grafo[nodo1].push_back({nodo2, especial});
+        grafo[nodo2].push_back({nodo1, especial});
+        matr_ady[nodo1][nodo2] = true;
+        matr_ady[nodo2][nodo1] = true;
+    }
+
+    return grafo;
+}
+
+
+/* --------------------
+ * Escenarios de prueba
+ * -------------------- */
+
+enum tipo_prueba {caminos, arboles, completos};
 
 vector<pair<int,vector<double>>> prueba_variando_M(
     tipo_prueba tipo,
