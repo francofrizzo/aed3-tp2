@@ -525,16 +525,11 @@
     Cabe destacar que el escenario $K$ tiene una cantidad de nodos
     considerablemente menor que todos los demás (del orden de $\sqrt{M}$
     frente a $M$), lo cual hace esperable que su tiempo de ejecución resulte
-    también relativamente menor. No obstante, los escenarios $P$ y $A$ se ven
-    favorecidos por la simpleza de su resolución.
-    % CHAMUYAR ALGO ACÁ. En el caso $A$, dado que
-    % todos los nodos están unidos al nodo $0$, son encolados juntos durante la
-    % primera iteración del algoritmo. Luego se itera sobre ellos sin volver a
-    % agregar nodos a la cola, . En el caso $P$, se da la situación opuesta,
-    % dado que
-    % Los dos escenarios con árboles aleatorios ($T_r$ y $T_i$), por su parte,
-    % además de tener una cantidad de nodos del orden de $M$, pueden requerir
-    % gran cantidad de
+    también relativamente menor. No obstante, los escenarios $P$ y $A$
+    podrían verse favorecidos por la simpleza de su resolución. Los dos
+    escenarios con árboles aleatorios ($T_r$ y $T_i$) parecen ser los que
+    presentan un mayor desafío desde el punto de vista computacional, debido a
+    su gran cantidad de nodos y su morfología compleja.
 
     En la Figura \ref{fig:exp1:var-m-base} pueden observarse los resultados
     del tiempo de ejecución observado para todos los escenarios, considerando
@@ -589,6 +584,30 @@
     Puede notarse claramente que el crecimiento de todas las funciones
     observadas queda acotado por la constante $c$, corroborando en forma
     empírica la complejidad de $\ord(M)$ estimada en forma teórica.
+
+    Se observa que los escenarios $A$ y $P$ presentan un rendimiento
+    superior al escenario $K$, incluso aunque sus instancias cuentan con una
+    mayor cantidad de nodos. A continuación se exponen hipótesis acerca de
+    las razones por las que esto pudo haber ocurrido. En el caso $A$, dado que
+    todos los nodos están unidos al nodo $0$, son encolados todos juntos en
+    una misma iteración, reduciendo la cantidad total de veces que debe
+    repetirse el procedimiento. El caso $P$, por su parte, se ve favorecido
+    porque desde cada nodo puede visitarse un único vecino. Si la arista que
+    lo une con dicho vecino resulta ser especial, la primera ``copia'' del
+    grafo será abandonada definitivamente (todos los nodos siguientes
+    estarán automáticamente en el estado ``\emph{se recorrió un pasillo
+    especial}''), evitando una gran cantidad de iteraciones sobre los
+    mismos.
+
+    Un detalle a destacar es que el escenario $T_i$ presentó un rendimiento
+    notablemente inferior al del escenario $T_r$, pese a que \emph{a priori}
+    las instancias consideradas para ambos casos parecen ser similares. Una
+    hipótesis posible es que el método de construcción de los árboles $T_r$
+    incrementa la probabilidad de que la distancia entre los nodos $0$ y
+    $N-1$ sea baja, y que esto repercute positivamente en el desempeño del
+    algoritmo. No obstante, sería necesario realizar experimentos adicionales
+    y analizar con mucho más detalle el comportamiento de estas instancias
+    para corroborar la validez de esta hipótesis.
 
     \begin{figure}[H]
         \centering
@@ -784,4 +803,13 @@
 
     Se observa claramente que los tiempos de ejecución son considerablemente
     más altos para valores bajos de $p$, es decir, cuando las aristas
-    especiales son escasas.
+    especiales son escasas. Esto resulta razonable teniendo en cuenta que
+    una alta densidad de aristas especiales hace que el algoritmo pase
+    rápidamente a las nuevas ``copias'' del grafo, evitando tener que iterar
+    sobre gran parte de los nodos hasta encontrar las mismas. También se
+    observa, no obstante, que el valor óptimo para esta proporción se
+    encuentra en todos los casos aproximadamente entre $0.2$ y $0.3$,
+    notándose en los tiempos de ejecución una ligera tendencia a empeorar para
+    valores mayores. Si bien queda fuera de los límites del alcance de
+    este trabajo, podría resultar de interés profundizar a futuro la
+    experimentación para determinar las causas de este fenómeno.
