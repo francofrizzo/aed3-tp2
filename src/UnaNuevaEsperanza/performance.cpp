@@ -689,110 +689,110 @@ vec_tiempos prueba_variando_N(
 void correr_pruebas_performance() {
     vec_tiempos tiempos;
 
-    // // EXPERIMENTO Ia
-    // tiempos = prueba_variando_M_nuevos (
-    //     arboles,        // tipo,
-    //     20000,          // min_M,
-    //     800000,         // max_M,
-    //     40,             // cant_muestras,
-    //     20,             // cant_descartadas,
-    //     40,             // cant_repeticiones,
-    //     .3              // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-varM-arboles", tiempos);
+     // EXPERIMENTO Ia
+     tiempos = prueba_variando_M_nuevos (
+         arboles,        // tipo,
+         20000,          // min_M,
+         800000,         // max_M,
+         40,             // cant_muestras,
+         20,             // cant_descartadas,
+         40,             // cant_repeticiones,
+         .3              // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-varM-arboles", tiempos);
 
-    // // EXPERIMENTO II
-    // tiempos = prueba_variando_M_incrementales (
-    //     20000,          // min_M,
-    //     800000,         // max_M,
-    //     40,             // cant_muestras,
-    //     20,             // cant_descartadas,
-    //     40,             // cant_repeticiones,
-    //     .3              // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-varM-inc-arboles", tiempos);
+     // EXPERIMENTO II
+     tiempos = prueba_variando_M_incrementales (
+         20000,          // min_M,
+         800000,         // max_M,
+         40,             // cant_muestras,
+         20,             // cant_descartadas,
+         40,             // cant_repeticiones,
+         .3              // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-varM-inc-arboles", tiempos);
 
-    // // EXPERIMENTO Ib
-    // tiempos = prueba_variando_M_nuevos (
-    //     completos,      // tipo,
-    //     20000,          // min_M,
-    //     800000,         // max_M,
-    //     40,             // cant_muestras,
-    //     20,             // cant_descartadas,
-    //     40,             // cant_repeticiones,
-    //     .3              // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-varM-completos", tiempos);
+     // EXPERIMENTO Ib
+     tiempos = prueba_variando_M_nuevos (
+         completos,      // tipo,
+         20000,          // min_M,
+         800000,         // max_M,
+         40,             // cant_muestras,
+         20,             // cant_descartadas,
+         40,             // cant_repeticiones,
+         .3              // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-varM-completos", tiempos);
 
-    // // EXPERIMENTO Ic
-    // tiempos = prueba_variando_M_nuevos (
-    //     caminos,        // tipo,
-    //     20000,          // min_M,
-    //     800000,         // max_M,
-    //     40,             // cant_muestras,
-    //     20,             // cant_descartadas,
-    //     40,             // cant_repeticiones,
-    //     .3              // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-varM-caminos", tiempos);
+     // EXPERIMENTO Ic
+     tiempos = prueba_variando_M_nuevos (
+         caminos,        // tipo,
+         20000,          // min_M,
+         800000,         // max_M,
+         40,             // cant_muestras,
+         20,             // cant_descartadas,
+         40,             // cant_repeticiones,
+         .3              // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-varM-caminos", tiempos);
 
-    // // EXPERIMENTO Ic-alt
-    // tiempos = prueba_variando_M_nuevos (
-    //     caminos_alt,    // tipo,
-    //     20000,          // min_M,
-    //     800000,         // max_M,
-    //     40,             // cant_muestras,
-    //     20,             // cant_descartadas,
-    //     40,             // cant_repeticiones,
-    //     .3              // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-varM-caminos-alt", tiempos);
+     // EXPERIMENTO Ic-alt
+     tiempos = prueba_variando_M_nuevos (
+         caminos_alt,    // tipo,
+         20000,          // min_M,
+         800000,         // max_M,
+         40,             // cant_muestras,
+         20,             // cant_descartadas,
+         40,             // cant_repeticiones,
+         .3              // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-varM-caminos-alt", tiempos);
 
-    // // EXPERIMENTO Id
-    // tiempos = prueba_variando_M_nuevos (
-    //     m_arios,        // tipo,
-    //     20000,          // min_M,
-    //     800000,         // max_M,
-    //     40,             // cant_muestras,
-    //     20,             // cant_descartadas,
-    //     40,             // cant_repeticiones,
-    //     .3              // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-varM-m-arios", tiempos);
+     // EXPERIMENTO Id
+     tiempos = prueba_variando_M_nuevos (
+         m_arios,        // tipo,
+         20000,          // min_M,
+         800000,         // max_M,
+         40,             // cant_muestras,
+         20,             // cant_descartadas,
+         40,             // cant_repeticiones,
+         .3              // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-varM-m-arios", tiempos);
 
-    // // EXPERIMENTO IIIa
+     // EXPERIMENTO IIIa
 
-    // tiempos = prueba_aleatorios(
-    //     arboles,        // tipo,
-    //     100000,         // M,
-    //     200,            // cant_muestras,
-    //     .3              // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-aleatorios-arb-m100k", tiempos);
+     tiempos = prueba_aleatorios(
+         arboles,        // tipo,
+         100000,         // M,
+         200,            // cant_muestras,
+         .3              // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-aleatorios-arb-m100k", tiempos);
 
-    // tiempos = prueba_aleatorios(
-    //     arboles,        // tipo,
-    //     200000,         // M,
-    //     200,            // cant_muestras,
-    //     .3              // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-aleatorios-arb-m200k", tiempos);
+     tiempos = prueba_aleatorios(
+         arboles,        // tipo,
+         200000,         // M,
+         200,            // cant_muestras,
+         .3              // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-aleatorios-arb-m200k", tiempos);
 
-    // tiempos = prueba_aleatorios(
-    //     arboles,        // tipo,
-    //     400000,         // M,
-    //     200,            // cant_muestras,
-    //     .3              // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-aleatorios-arb-m400k", tiempos);
+     tiempos = prueba_aleatorios(
+         arboles,        // tipo,
+         400000,         // M,
+         200,            // cant_muestras,
+         .3              // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-aleatorios-arb-m400k", tiempos);
 
-    // tiempos = prueba_aleatorios(
-    //     arboles,        // tipo,
-    //     800000,         // M,
-    //     200,            // cant_muestras,
-    //     .3              // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-aleatorios-arb-m800k", tiempos);
+     tiempos = prueba_aleatorios(
+         arboles,        // tipo,
+         800000,         // M,
+         200,            // cant_muestras,
+         .3              // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-aleatorios-arb-m800k", tiempos);
 
     // EXPERIMENTO IIIb
 
@@ -916,22 +916,22 @@ void correr_pruebas_performance() {
 
     // EXPERIMENTO IV
 
-    // tiempos = prueba_variando_N(
-    //     100000,        // M,
-    //     20,            // cant_muestras,
-    //     20,            // cant_descartadas,
-    //     40,            // cant_repeticiones,
-    //     .3             // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-varN-n100k", tiempos);
+     tiempos = prueba_variando_N(
+         100000,        // M,
+         20,            // cant_muestras,
+         20,            // cant_descartadas,
+         40,            // cant_repeticiones,
+         .3             // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-varN-n100k", tiempos);
 
-    // tiempos = prueba_variando_N(
-    //     200000,        // M,
-    //     20,            // cant_muestras,
-    //     20,            // cant_descartadas,
-    //     40,            // cant_repeticiones,
-    //     .3             // prop_aristas_esp
-    // );
-    // guardar_resultados("../exp/UnaNuevaEsperanza-varN-n200k", tiempos);
+     tiempos = prueba_variando_N(
+         200000,        // M,
+         20,            // cant_muestras,
+         20,            // cant_descartadas,
+         40,            // cant_repeticiones,
+         .3             // prop_aristas_esp
+     );
+     guardar_resultados("../exp/UnaNuevaEsperanza-varN-n200k", tiempos);
 
 }
