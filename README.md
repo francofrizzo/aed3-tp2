@@ -1,6 +1,26 @@
 Trabajo práctico 2
 ==================
 
+Correciones pendientes
+----------------------
+
+* Ejercicio 1
+	* gráfico mostrando solución
+	* ver cola en gráficos de bfs
+	* demo
+	* explicar por qué vale cota grafos completos
+	* que se vea c=300
+* Ejercicio 2
+	* graficar ejemplo
+	* experimentación
+* Ejercicio 3
+	* detalle solución propuesta
+	* inducción en la suma de n+m
+	* comentar pseudocódigo
+	* experimentación
+
+[Imágenes con correcciones](https://goo.gl/photos/g3n5pGzrrPFs3LYE9)
+
 **Fecha de entrega:** lunes 16 de mayo, hasta las 18:00 hs.
 
 Este trabajo práctico consta de varios problemas y para aprobar el mismo se requiere aprobar todos los problemas. La nota final será un promedio ponderado de las notas finales de los ejercicios y el trabajo práctico se aprobará con una nota de 5 (_cinco_) o superior. De ser necesario (o si el grupo lo desea), el trabajo podrá reentregarse una vez corregido por los docentes y en ese caso la reentrega deberá estar acompañada por un _informe de modificaciones_. Este informe deberá detallar brevemente las diferencias entre las dos entregas, especificando los cambios, agregados y/o partes eliminadas. Cualquier cambio que no se encuentre en dicho informe podrá no ser tenido en cuenta en la corrección de la reentrega. Para la reentrega del trabajo práctico **podrían pedirse ejercicios adicionales**.
