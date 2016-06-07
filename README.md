@@ -7,7 +7,7 @@ Correciones pendientes
 * Ejercicio 1
 	* gráfico mostrando solución
 	* ver cola en gráficos de bfs
-	* demo
+	* ~~demo~~
 	* explicar por qué vale cota grafos completos
 	* que se vea c=300
 * Ejercicio 2

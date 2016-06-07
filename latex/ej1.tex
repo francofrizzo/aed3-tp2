@@ -247,8 +247,8 @@
 	\subsubsection*{Correctitud del ciclo}
 
 	El invariante a demostrar será el siguiente: al terminar el ciclo $k$ del
-	\emph{BFS} modificado se obtienen todos los nodos a distancia a lo sumo
-	$k$ del inicial en alguno de los estados posibles. Esto se probará
+	\emph{BFS} modificado se obtienen todos los nodos a distancia a lo sumo $k$
+	del inicial en alguno de los estados posibles y ninguno más. Esto se probará
 	mediante inducción en los ciclos del algoritmo.
 
 	~
@@ -275,7 +275,8 @@
 	\end{enumerate}
 
 	De esta forma una vez finalizada la iteración $k = 1$ se obtienen todos los
-	nodos que están a distancia 1 del nodo inicial.
+	nodos que están a distancia 1 del nodo inicial en uno de los dos estados
+	posibles.
 
 	~
 
@@ -284,7 +285,8 @@
 	Como hipótesis inductiva se cuenta con que vale el invariante para $k - 1$,
 	por lo tanto se tiene la distancia para todos los nodos a lo sumo
 	a distancia $k - 1$ para alguno de los estados descritos y además se
-	tienen encolados para visitar los que están a distancia $k$.
+	tienen encolados para visitar los que están a distancia $k$ (no así los que
+	se encuentran a distancia mayor o igual a $k + 1$).
 
 	Ahora acá existen distintas posibilidades por el hecho de que a diferencia
 	del caso base, los nodos encolados no tienen por qué necesariamente
@@ -304,14 +306,15 @@
 				\item{
 					El vecino está conectado mediante un pasadizo común, con lo
 					cual en el grafo del primer estado se observa si ya se
-					encuentra marcado. En caso de no estar marcado, en ese
-					mismo grafo se le asigna la distancia $k$ y encolan sus
-					vecinos.
+					encuentra marcado. En caso de no estar marcado, como
+					proviene de un nodo a distancia $k - 1$, en ese mismo grafo
+					se le asigna la distancia $k$ y encolan sus vecinos.
 				}
 				\item{
 					El vecino está conectado mediante un pasadizo especial, con
 					lo cual en el grafo del segundo estado se observa si ya se
-					encuentra marcado. En caso de no estar marcado en ese mismo
+					encuentra marcado. En caso de no estar marcado, como
+					proviene de un nodo a distancia $k - 1$, en ese mismo
 					grafo se le asigna la distancia $k$ y encolan sus vecinos.
 				}
 			\end{enumerate}
@@ -325,13 +328,15 @@
 				\item{
 					El vecino está conectado mediante un pasadizo común, con lo
 					cual en el grafo del segundo estado se observa si ya se
-					encuentra marcado. En caso de no estar marcado, en ese mismo
-					grafo se le asigna distancia $k$ y encolan sus vecinos.
+					encuentra marcado. En caso de no estar marcado, como
+					proviene de un nodo a distancia $k - 1$, en ese mismo
+					grafo se le asigna la distancia $k$ y encolan sus vecinos.
 				}
 				\item{
 					El vecino está conectado mediante un pasadizo especial, con
 					lo cual en el grafo del tercer estado se observa si ya se
-					encuentra marcado. En caso de no estar marcado en ese mismo
+					encuentra marcado. En caso de no estar marcado, como
+					proviene de un nodo a distancia $k - 1$, en ese mismo
 					grafo se le asigna la distancia $k$ y encolan sus vecinos.
 				}
 			\end{enumerate}
@@ -343,8 +348,8 @@
 			un estado sucesor.
 
 			Si en el grafo del tercer estado alguno de los vecinos no se
-			encuentra marcado, se le asigna distancia $k$ y es encolado para ser
-			visitado.
+			encuentra marcado, como proviene de un nodo a distancia $k - 1$, se
+			le asigna distancia $k$ y es encolado para ser visitado.
 		}
 	\end{enumerate}
 
@@ -354,7 +359,8 @@
 
 	Por inducción en los ciclos del algoritmo, se demuestra que para
 	toda iteración se cumple el invariante, con lo cual al finalizar se obtiene
-	la distancia de todos los nodos para alguno de los estados descritos.
+	la distancia de todos los nodos para alguno de los estados descritos y
+	ninguno más.
 
 	Queda probar entonces que si existe al menos una arista especial entonces
 	siempre se obtendrá la distancia hasta el nodo $N - 1$ en el tercer estado,
@@ -369,14 +375,29 @@
 
 	Como se dijo previamente, se probará que todo nodo perteneciente al tercer
 	estado se encuentra marcado con su respectiva distancia. Supongamos que esto
-	no es cierto, que existe al menos un nodo sin marcar. Esto podría ser
-	resultado de uno de los siguientes escenarios:
+	no es cierto, que existe al menos un nodo sin marcar o con un valor que no
+	es su distancia. Esto podría ser resultado de uno de los siguientes
+	escenarios:
 
 	\begin{itemize}
-		\item{Nunca se salta al tercer estado, en este caso resultando en que no
-			haya ningún nodo marcado en el mismo.}
-		\item{Se llega al tercer estado pero no se recorren todos sus nodos.}
+		\item{
+			Existe al menos un nodo sin marcar
+			\begin{itemize}
+				\item{Nunca se salta al tercer estado, en este caso resultando en que no
+					haya ningún nodo marcado en el mismo.}
+				\item{Se llega al tercer estado pero no se recorren todos sus nodos.}
+			\end{itemize}
+		}
+		\item{
+			Existe al menos un nodo cuyo valor no representa su distancia al
+			nodo inicial
+			\begin{itemize}
+				\item{Tiene un valor mayor o menor a la distancia.}
+			\end{itemize}
+		}
 	\end{itemize}
+
+	\underline{Existe al menos un nodo sin marcar}
 
 	Si se considera el primer escenario, esto implica que jamás se saltó del
 	segundo al tercer estado. Sin embargo para que esto ocurriese se debería
@@ -416,6 +437,17 @@
 	hay manera que queden nodos sin visitar, ya que o bien están marcados de
 	forma directa como vecinos de un nodo del segundo estado, o son alcanzados por
 	el avance del \emph{BFS} de alguno de los nodos provenientes de un salto del segundo estado.
+
+	\underline{Existe al menos un nodo cuyo valor no representa su distancia al nodo inicial}
+
+	Si hay un nodos con valor distinto a su distancia existen dos casos
+	a contemplar: que el mismo sea mayor o menor.
+
+	Para ambos escenarios se estaría rompiendo el invariante del \emph{BFS}
+	modificado. Si el valor del nodo es mayor o menor entonces en
+	la iteración $k$ correspondiente a la distancia se procedió de forma
+	incorrecta asignándole un valor distinto de $k$. Como se demostró que vale el
+	invariante, no es posible que esto ocurra.
 
 	Así se prueba entonces que ninguno de los escenarios planteados pueden
 	suceder, con lo cual todos los nodos en el tercer estado están marcados y
