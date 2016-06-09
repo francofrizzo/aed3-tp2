@@ -16,7 +16,7 @@ Correciones pendientes
 * Ejercicio 3
 	* detalle solución propuesta
 	* inducción en la suma de n+m
-	* comentar pseudocódigo
+	* ~~comentar pseudocódigo~~
 	* experimentación
 
 [Imágenes con correcciones](https://goo.gl/photos/g3n5pGzrrPFs3LYE9)
