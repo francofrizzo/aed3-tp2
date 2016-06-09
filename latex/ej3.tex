@@ -124,6 +124,15 @@
 		f(i, j) &= \text{mín}\left \{ f(i - 1, j) + g(i, j, i - 1, j), f(i, j - 1) + g(i, j, i, j - 1) \right \} \\
 	\end{align*}
 
+	La función propuesta devuelve el valor que minimiza la suma
+	entre la llamada recursiva en los posibles casilleros anteriores más el
+	costo de su respectivo salto. Esto requiere que se contemplen por separado
+	los bordes por el hecho de que tienen un único casillero anterior posible.
+	El caso base es $f(1, 1) = 0$ dado que es el punto de partida del
+	problema, su costo asociado es nulo. Lo importante aquí es que cuando se tienen
+	dos posibles antecesores es necesario contemplar tanto el valor de la
+	función como el costo del salto.
+
 	Esta recurrencia es una solución al problema únicamente si se cumple el principio
 	de optimalidad. Si el mismo se cumple, entonces las subsoluciones al problema son
 	óptimas, pudiendo así operar y reutilizar valores que se tiene la certeza

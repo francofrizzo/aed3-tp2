@@ -14,7 +14,7 @@ Correciones pendientes
 	* ~~graficar ejemplo~~
 	* experimentación
 * Ejercicio 3
-	* detalle solución propuesta
+	* ~~detalle solución propuesta~~
 	* inducción en la suma de n+m
 	* ~~comentar pseudocódigo~~
 	* experimentación
