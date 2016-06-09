@@ -279,7 +279,21 @@
 		\caption{Visualización del cálculo de subsoluciones.}
 	\end{figure}
 
-	Esto se logra mediante el siguiente algoritmo:
+	Por último, una vez que se tienen los valores finales de todos los
+	casilleros calculados, se desea generar el camino buscado.
+
+	Primero es necesario destacar que para cada posición de la
+	grilla (además del costo) se guarda la dirección: \texttt{Y} corresponde a
+	un salto horizontal, \texttt{X} vertical. De esta forma, al momento de
+	construir el recorrido final, lo que se busca es tomar la dirección en la
+	posición $(N, M)$ y dependiendo de la misma continuar el proceso
+	en el casillero correspondiente ($(N, M - 1)$ si fuera \texttt{Y}, $(N - 1,
+	M)$ caso contrario) guardando en cada paso la dirección tomada.
+
+	Al finalizar se obtiene una secuencia con la dirección a tomar
+	en cada paso para obtener el recorrido de costo óptimo.
+
+	Todos los pasos descritos anteriormente se llevan a cabo mediante el siguiente algoritmo:
 
 	\begin{algorithm}[H]
 		\caption{Solución \emph{bottom-up} al problema}
