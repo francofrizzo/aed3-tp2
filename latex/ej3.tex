@@ -480,6 +480,38 @@
 	Dadas las irregularidades en $T_{M \times N}$, se corrió el mismo escenario 
 	varias veces para analizar dichos picos.
 
+	\begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp3:var-nxn-divconst}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Tamaño de entrada ($N$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=north west,
+                    legend cell align=left,
+                    restrict x to domain=5:1000,
+                    xmin=100
+                ]
+                \addplot[color=black] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas1};
+                \addplot[color=red] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas2};
+                \addplot[color=blue] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas3};
+                \addplot[color=violet] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas4};
+                \addplot[color=green] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas5};
+               \legend{$T_{M \times N}_1$, $T_{M \times N}_2$,$T_{M \times N}_3$,$T_{M \times N}_4$,$T_{M \times N}_5$}
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Tiempos de ejecución observados al variar los valores de $N$ ($T_{M \times N}$)  5 veces 
+        }
+    \end{figure}
+
+    Como se ve los picos bla bla bla ...
 
 
 	\begin{figure}[H]
