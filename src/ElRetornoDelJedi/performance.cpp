@@ -10,8 +10,8 @@ using namespace std;
 
 #define MAX_N                 50000
 #define MAX_NxM               1000
-#define CANT_REPETICIONES     60
-#define CANT_INST_DESCARTADAS 50
+#define CANT_REPETICIONES     50
+#define CANT_INST_DESCARTADAS 25
 #define CANT_REP_COMPLETAS     1
 
 #define PRUEBA_VARIAR_FILAS                   0
