@@ -150,13 +150,16 @@
 	$(N - 1, M)$ o $(N, M - 1)$ sea óptimo.
 
 	Este es el concepto de subproblemas, el hecho de considerar todo camino a
-	$(i, j)$ como una subsolución al problema principal. Para probar que con la
-	función recursiva se obtienen estas subsoluciones óptimas se realiza
-	inducción sobre $N$ y $M$.
+	$(i, j)$ como una subsolución al problema principal. La propiedad a probar
+	es que todo subcamino es óptimo y será demostrada mediante inducción sobre
+	$N + M$.
 
 	~
 
-	\textbf{Caso base: } $N = M = 1$
+	\textbf{Caso base: } $N + M = 2$
+
+	$N + M = 2$ sólo cuando $N = M = 1$ (ya que es su mínimo valor posible)
+	por lo tanto se estudia la posición inicial $(1, 1)$.
 
 	Por definición de la recurrencia, $f(1, 1) = 0$ lo cual es válido ya que si
 	Luke no tiene que moverse en ninguna dirección, no necesita realizar ningún
@@ -165,16 +168,19 @@
 
 	~
 
-	\textbf{Paso inductivo}
+	\textbf{Paso inductivo} $N + M > 2$
 
 	Para el paso inductivo es necesario contemplar por separado los casos
 	bordes, con lo cual se analizarán tres situaciones posibles.
 
 	\begin{enumerate}
 		\item{
-			\textbf{Columna lateral izquierda: } $f(i, 1)$ con $1 < i < N$
+			\textbf{Columna lateral izquierda: } $(N + M > 2) \land (M = 1)$
 
-			Como hipótesis inductiva, se asume $f(i - 1, 1)$ óptimo.
+			Fijando $M = 1$ se tienen todos los casilleros $(i, 1)$ donde $1 < i
+			\leq N$. Por hipótesis inductiva, vale $N + M - 1$, donde al tener
+			$M = 1$ esto corresponde a $(i - 1, 1)$. Por lo tanto se asume $f(i
+			- 1, 1)$ óptimo.
 
 			Luke únicamente puede avanzar en orden creciente tanto en $i$
 			o en $j$, la única forma de acceder a los casilleros de la primer
@@ -190,9 +196,12 @@
 			se obtiene la subsolución $f(i, 1)$.
 		}
 		\item{
-			\textbf{Fila superior: } $f(1, j)$ con $1 < j < M$
+			\textbf{Fila superior: } $(N + M > 2) \land (N = 1)$
 
-			Como hipótesis inductiva, se asume $f(1, j - 1)$ óptimo.
+			Fijando $N = 1$ se tienen todos los casilleros $(1, j)$ donde $1 < j
+			\leq M$. Por hipótesis inductiva, vale $N + M - 1$, donde al tener
+			$M = 1$ esto corresponde a $(1, j - 1)$. Por lo tanto se asume $f(1
+			, j - 1)$ óptimo.
 
 			Similar al punto anterior, por la restricción que tiene Luke para
 			desplazarse, estas posiciones sólo pueden accederse avanzando sólo
@@ -205,9 +214,13 @@
 			sumarle el salto se obtiene la subsolución $f(1, j)$.
 		}
 		\item{
-			\textbf{Elementos restantes: } $f(i, j)$ con $1 < i \leq N$ y $1 < j \leq M$
+			\textbf{Elementos restantes: } $(N + M > 2) \land (N > 1) \land (M > 1)$
 
-			Como hipótesis inductiva, se asumen $f(i - 1, j)$ y $f(i, j - 1)$
+			Con $N, M > 1$ ahora se contemplan todos los casilleros que no sean
+			parte de los bordes tratados anteriormente, de forma tal que se tienen los
+			casilleros $(i, j)$ donde $1 < i \leq N$ y $1 < j \leq M$. Por
+			hipótesis inductiva, vale $N + M - 1$ que puede corresponder tanto a $(i -
+			1, j)$ como $(i, j - 1)$. Por lo tanto se asumen $f(i - 1, j)$ y $f(i, j - 1)$
 			óptimos.
 
 			Habiendo considerado ya los casos bordes, ahora es posible para el
@@ -232,7 +245,7 @@
 		}
 	\end{enumerate}
 
-	Se concluye por inducción sobre $N$ y $M$ que para todo $(i, j)$ con $1 \leq
+	Se concluye por inducción sobre $N + M$ que para todo $(i, j)$ con $1 \leq
 	i \leq N$ y $1 \leq j \leq M$, $f(i, j)$ es una subsolución óptima. En
 	particular, tomando $f(N, M)$ se obtiene el costo mínimo del problema
 	planteado.

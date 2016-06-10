@@ -15,7 +15,7 @@ Correciones pendientes
 	* experimentación
 * Ejercicio 3
 	* ~~detalle solución propuesta~~
-	* inducción en la suma de n+m
+	* ~~inducción en la suma de n+m~~
 	* ~~comentar pseudocódigo~~
 	* experimentación
 
