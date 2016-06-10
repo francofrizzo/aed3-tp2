@@ -11,7 +11,7 @@ using namespace std;
 #define MAX_N                 50000
 #define MAX_NxM               1000
 #define CANT_REPETICIONES     50
-#define CANT_INST_DESCARTADAS 30
+#define CANT_INST_DESCARTADAS 25
 #define CANT_REP_COMPLETAS     1
 
 #define PRUEBA_VARIAR_FILAS                   0
@@ -126,20 +126,45 @@ void correr_pruebas_performance() {
     ofstream archivoSalida;
     for (int i = 0; i < CANT_REP_COMPLETAS; i++) {
 
-        archivoSalida.open("../exp/elRetornoDelJediFilas");
-        ejecutarPruebas(PRUEBA_VARIAR_FILAS, archivoSalida, quiet,MAX_N,200);
-        archivoSalida.close();
+        // archivoSalida.open("../exp/elRetornoDelJediFilas");
+        // ejecutarPruebas(PRUEBA_VARIAR_FILAS, archivoSalida, quiet,MAX_N,200);
+        // archivoSalida.close();
 
-        archivoSalida.open("../exp/elRetornoDelJediColumnas");
-        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS, archivoSalida, quiet,MAX_N,200);
-        archivoSalida.close();
+        // archivoSalida.open("../exp/elRetornoDelJediColumnas");
+        // ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS, archivoSalida, quiet,MAX_N,200);
+        // archivoSalida.close();
 
-        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas");
+        // archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas");
+        // ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
+        // archivoSalida.close();
+
+
+        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas1");
         ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
         archivoSalida.close();
 
-        archivoSalida.open("../exp/elRetornoDelJediNivelDeEntrenamiento");
-        ejecutarPruebas(PRUEBA_VARIAR_NIVEL_DE_ENTRENAMIENTO, archivoSalida, quiet,MAX_N,200);
+
+        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas2");
+        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
         archivoSalida.close();
+
+        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas3");
+        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
+        archivoSalida.close();
+
+
+        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas4");
+        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
+        archivoSalida.close();
+
+
+        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas5");
+        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
+        archivoSalida.close();
+
+
+        // archivoSalida.open("../exp/elRetornoDelJediNivelDeEntrenamiento");
+        // ejecutarPruebas(PRUEBA_VARIAR_NIVEL_DE_ENTRENAMIENTO, archivoSalida, quiet,MAX_N,200);
+        // archivoSalida.close();
     }
 }

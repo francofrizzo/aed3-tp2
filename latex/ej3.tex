@@ -387,10 +387,15 @@
         \item Variar $N$ y $M$: Se varía entre 1 y 1000, con saltos de a 10 ($T_{M \times N}$), $N$ y $M$ toman el mismo valor.
         \item Variar $H$: Se varía entre 1 y 50000, con saltos de a 200 ($T_H$), fijando el $M$ y el $N$ en $50000$.
     \end{itemize}
+    En todos estos experimentos, el contenido de cada casilla de la matriz
+    fue elegido aleatoriamente.
+
+    \subsubsection{Resultados}
 
     \begin{figure}[H]
         \centering
-        \caption{}
+		\caption{Tiempos de ejecución observados al variar los valores de $M$
+        ($T_M$) y de $N$ ($T_N$). Se considera $c_1 = 70$ y $c_2 = 10$.}
         \label{fig:exp3:var-nym-base}
         \begin{tikzpicture}
             \begin{axis}[
@@ -409,16 +414,18 @@
                 \addplot[color=green] table[x index=0,y index=1]{../exp/elRetornoDelJediFilas};
                 \addplot[color=blue] table[x index=0,y index=1]{../exp/elRetornoDelJediColumnas};
                 \addplot[color=red] table[x index=0, y expr={x*70}]{../exp/elRetornoDelJediFilas};
-                \legend{$T_N$,$T_M$, $c \times N$}
+                \addplot[color=violet] table[x index=0, y expr={x*10}]{../exp/elRetornoDelJediColumnas};
+                \legend{$T_N$,$T_M$, $c_1 \times N$, $c_2 \times M$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
 
-	En el gráfico de la Figura \ref{fig:exp3:var-nym-base} se puede ver que al
-	variar el valor de $N$ o de $M$, $T_N$ y $T_M$ son acotables por una recta
-	con constante $c = 70$, lo cual prueba empíricamente la hipótesis de que la
-	complejidad del algoritmo tiene una relación lineal con los valores tanto de
-	$M$ como de $N$. Las rectas $T_N$ y $T_M$ difieren en la constante; esto se
+	En el gráfico de la Figura \ref{fig:exp3:var-nym-base} se puede ver que al 
+	variar el valor de $N$, $T_N$  es acotable por por una recta con constante 
+	$c_1$ y al variar $M$, $T_M$ es acotable por una recta con constante $c_2$, lo 
+	cual prueba empíricamente la hipótesis de que la complejidad del algoritmo 
+	tiene una relación lineal con los valores tanto de $M$ como de $N$. 
+	Las rectas $T_N$ y $T_M$ difieren en la constante; esto se
 	debe a las estructuras de datos utilizadas durante la resolución, ya que al
 	aumentar el valor de $M$ se utiliza siempre un único vector grande, mientras
 	que, al aumentar el $N$ se tienen $N$ vectores con un único elemento, lo
@@ -428,12 +435,14 @@
 
     \begin{figure}[H]
         \centering
-        \caption{}
+	    \caption{Cociente entre los tiempos de ejecución observados, $T_M$ y
+        $T_N$ y los valores correspondientes de $M$ y de $N$, respectivamente.
+        Se considera $c_1 = 70$ y $c_2 = 10$.}
         \label{fig:exp3:var-nym-divconst}
         \begin{tikzpicture}
             \begin{axis}[
                     title={},
-                    xlabel={Cantidad de filas ($N$) o de columnas ($M$)},
+                    xlabel={Cantidad de filas ($N$) o de columnas ($M$), para $c = 70$},
                     ylabel={Tiempo de ejecución (nanosegundos)},
                     scaled x ticks=false,
                     scaled y ticks=false,
@@ -443,24 +452,59 @@
                     legend pos=north west,
                     legend cell align=left,
                     restrict x to domain=2000:50000,
-                    ymax=200,
+                    ymax=100,
                     xmin=1
                 ]
                 \addplot[color=green] table[x index=0,y expr={\thisrowno{1}/x}]{../exp/elRetornoDelJediFilas};
                 \addplot[color=blue] table[x index=0,y expr={\thisrowno{1}/x}]{../exp/elRetornoDelJediColumnas};
                 \addplot[color=red] table[x index=0, y expr={70}]{../exp/elRetornoDelJediFilas};
-                \legend{$T_N/N$,$T_M/M$,$c$}
+                \addplot[color=violet] table[x index=0, y expr={10}]{../exp/elRetornoDelJediFilas};
+                \legend{$T_N/N$,$T_M/M$,$c_1$,$c_2$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
 
-	En el gráfico de la figura \ref{fig:exp3:var-nym-divconst}, se puede ver que
-	si se lo divide por $N$ o $M$, el tiempo de ejecución queda acotable por la
-	misma constante del gráfico anterior, lo cual confirma la linealidad de $T_N$ y $T_M$.
+
+	En el gráfico de la Figura \ref{fig:exp3:var-nym-divconst}, se puede ver que
+	si se lo divide por $N$ o $M$, el tiempo de ejecución de $T_N$ queda acotable 
+	por $c_1$ y $T_M$ por $c_2$ , lo cual confirma sus linealidades.
 	\begin{figure}[H]
         \centering
-        \caption{}
+		\caption{Tiempos de ejecución observados al variar los valores de $N$
+        ($T_{M \times N}$) . Se considera $c = 20$ .}
         \label{fig:exp3:var-nxn-base}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Tamaño de entrada ($N = M$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=north west,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=black] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas};
+                \addplot[color=red] table[x index=0, y expr={x*x*20}]{../exp/elRetornoDelJediFilasYColumnas};
+                \legend{$T_{M \times N}$, $cN^{2}$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+	En la Figura \ref{fig:exp3:var-nxn-base} se puede ver que al variar el $N$
+	(y simultáneamente el $M$, ya que se considera $M = N$), $T_{M \times N}$ se
+	puede acotar por una función cuadrática con constante $c$.  
+
+	Dadas las irregularidades en $T_{M \times N}$, se corrió el mismo escenario 
+	varias veces para analizar dichos picos.
+
+	\begin{figure}[H]
+        \centering
+        \caption{Tiempos de ejecución observados al variar los valores de $N$ ($T_{M \times N}$)  5 veces}
+        \label{fig:exp3:var-nxn-base-varios}
         \begin{tikzpicture}
             \begin{axis}[
                     title={},
@@ -473,20 +517,31 @@
                     height=0.5\textwidth,
                     legend pos=north west,
                     legend cell align=left,
-                    xmin=1
+                    restrict x to domain=5:1000,
+                    xmin=100
                 ]
-                \addplot[color=black] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas};
-                \addplot[color=red] table[x index=0, y expr={x*x*12}]{../exp/elRetornoDelJediFilasYColumnas};
-                \legend{$T$, $cN^{2}$}
+                \addplot[color=black,only marks] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas1};
+                \addplot[color=red,only marks] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas2};
+                \addplot[color=blue,only marks] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas3};
+                \addplot[color=violet,only marks] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas4};
+                \addplot[color=green,only marks] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas5};
+				\legend{$T_{{M \times N}_1}$, $T_{{M \times N}_2}$,$T_{{M \times
+				N}_3}$,$T_{{M \times N}_4}$,$T_{{M \times N}_5}$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
 
-	En la Figura \ref{fig:exp3:var-nxn-base} se puede ver que al variar el $N$
-	(y simultáneamente el $M$, ya que se considera $M = N$), $T_{M \times N}$ se
-	puede acotar por una función cuadrática con constante $c = 12$.  \begin{figure}[H]
+    En la Figura \ref{fig:exp3:var-nxn-base-varios} se puede apreciar que para
+    cada $N$ los picos difieren entre las diferentes corridas. Este análisis
+    escapa al control de las variables que poseemos, ya que estos experimentos
+    fueron corridos con los mismos parámetros. Por lo cual se esperaba que los
+    picos de dicho gráfico sean idénticos o muy parecidos entre sí. Entonces
+    estas irregularidades son independientes de los valores de entrada.
+
+	\begin{figure}[H]
         \centering
-        \caption{}
+        \caption{Cociente entre los tiempos de ejecución observados, $T_{M \times N}$ 
+        y el valor correspondiente de $N$, respectivamente. Se considera $c = 20$.}
         \label{fig:exp3:var-nxn-divconst}
         \begin{tikzpicture}
             \begin{axis}[
@@ -505,7 +560,7 @@
                     ymax=100
                 ]
                 \addplot[color=black] table[x index=0,y expr={\thisrowno{1}/(x*x)}]{../exp/elRetornoDelJediFilasYColumnas};
-                \addplot[color=red] table[x index=0, y expr={12}]{../exp/elRetornoDelJediFilasYColumnas};
+                \addplot[color=red] table[x index=0, y expr={20}]{../exp/elRetornoDelJediFilasYColumnas};
                 \legend{$T_{M \times N}/N^{2}$, $c$}
             \end{axis}
         \end{tikzpicture}
@@ -517,7 +572,8 @@
 
     \begin{figure}[H]
         \centering
-        \caption{}
+		\caption{Tiempos de ejecución observados al variar los valores de $K$
+        ($T_K$). Se considera $c = 1.3 \times 10^7$.}
         \label{fig:exp3:varh}
         \begin{tikzpicture}
             \begin{axis}[
@@ -545,3 +601,16 @@
 	En el gráfico de la Figura \ref{fig:exp3:varh}, por último, se puede ver que
 	$T_H$ es acotable por por una constante ($c = 1.3 \times 10^7)$, lo cual corrobora que variar el $H$
 	no afecta la complejidad del algoritmo.
+
+	\subsubsection{Conclusiones}
+
+	Observando los resultados, es posible corroborar que se cumple la cota
+	teórica de complejidad $\ord(N + M)$. También se puede notar que resulta
+	peor aumentar el número de filas que el de columnas; entonces, si se
+	tienen más filas que columnas, se podría invertir la matriz, y eso bajaría
+	el tiempo de ejecución.
+
+	Como se pudo observar, variar $H$ o el contenido de las casillas de la
+	matriz no afecta la complejidad en ningún aspecto. Entonces, para $N$ y
+	$M$ fijos no hay mejor ni peor caso desde el punto de vista del
+	rendimiento temporal.
