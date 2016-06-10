@@ -134,9 +134,34 @@ void correr_pruebas_performance() {
         // ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS, archivoSalida, quiet,MAX_N,200);
         // archivoSalida.close();
 
-        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas");
+        // archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas");
+        // ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
+        // archivoSalida.close();
+
+
+        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas1");
         ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
         archivoSalida.close();
+
+
+        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas2");
+        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
+        archivoSalida.close();
+
+        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas3");
+        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
+        archivoSalida.close();
+
+
+        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas4");
+        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
+        archivoSalida.close();
+
+
+        archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas5");
+        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
+        archivoSalida.close();
+
 
         // archivoSalida.open("../exp/elRetornoDelJediNivelDeEntrenamiento");
         // ejecutarPruebas(PRUEBA_VARIAR_NIVEL_DE_ENTRENAMIENTO, archivoSalida, quiet,MAX_N,200);
