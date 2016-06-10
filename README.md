@@ -12,7 +12,7 @@ Correciones pendientes
 	* que se vea c=300
 * Ejercicio 2
 	* ~~graficar ejemplo~~
-	* experimentación
+	* ~~experimentación~~
 * Ejercicio 3
 	* ~~detalle solución propuesta~~
 	* ~~inducción en la suma de n+m~~
