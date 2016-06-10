@@ -372,6 +372,9 @@
 
     \begin{figure}[H]
         \centering
+		\caption{Tiempos de ejecución observados al variar los valores de $M$
+        ($T_M$) y de $N$ ($T_N$). Se considera $c_1 = 70$ y $c_2 = 10$.}
+        \label{fig:exp3:var-nym-base}
         \begin{tikzpicture}
             \begin{axis}[
                     title={},
@@ -393,9 +396,6 @@
                 \legend{$T_N$,$T_M$, $c_1 \times N$, $c_2 \times M$}
             \end{axis}
         \end{tikzpicture}
-        \caption{Tiempos de ejecución observados al variar los valores de $M$
-        ($T_M$) y de $N$ ($T_N$). Se considera $c_1 = 70$ y $c_2 = 10$.}
-        \label{fig:exp3:var-nym-base}
     \end{figure}
 
 	En el gráfico de la Figura \ref{fig:exp3:var-nym-base} se puede ver que al 
@@ -413,6 +413,10 @@
 
     \begin{figure}[H]
         \centering
+	    \caption{Cociente entre los tiempos de ejecución observados, $T_M$ y
+        $T_N$ y los valores correspondientes de $M$ y de $N$, respectivamente.
+        Se considera $c_1 = 70$ y $c_2 = 10$.}
+        \label{fig:exp3:var-nym-divconst}
         \begin{tikzpicture}
             \begin{axis}[
                     title={},
@@ -436,10 +440,6 @@
                 \legend{$T_N/N$,$T_M/M$,$c_1$,$c_2$}
             \end{axis}
         \end{tikzpicture}
-        \caption{Cociente entre los tiempos de ejecución observados, $T_M$ y
-        $T_N$ y los valores correspondientes de $M$ y de $N$, respectivamente.
-        Se considera $c_1 = 70$ y $c_2 = 10$.}
-        \label{fig:exp3:var-nym-divconst}
     \end{figure}
 
 
@@ -448,7 +448,8 @@
 	por $c_1$ y $T_M$ por $c_2$ , lo cual confirma sus linealidades  .
 	\begin{figure}[H]
         \centering
-        \caption{}
+		\caption{Tiempos de ejecución observados al variar los valores de $N$
+        ($T_{M \times N}$) . Se considera $c = 20$ .}
         \label{fig:exp3:var-nxn-base}
         \begin{tikzpicture}
             \begin{axis}[
@@ -469,8 +470,6 @@
                 \legend{$T_{M \times N}$, $cN^{2}$}
             \end{axis}
         \end{tikzpicture}
-        \caption{Tiempos de ejecución observados al variar los valores de $N$
-        ($T_{M \times N}$) . Se considera $c = 20$ .}
     \end{figure}
 
 	En la Figura \ref{fig:exp3:var-nxn-base} se puede ver que al variar el $N$
@@ -482,8 +481,8 @@
 
 	\begin{figure}[H]
         \centering
-        \caption{}
-        \label{fig:exp3:var-nxn-divconst}
+        \caption{Tiempos de ejecución observados al variar los valores de $N$ ($T_{M \times N}$)  5 veces}
+        \label{fig:exp3:var-nxn-base-varios}
         \begin{tikzpicture}
             \begin{axis}[
                     title={},
@@ -508,11 +507,9 @@
 				N}_3}$,$T_{{M \times N}_4}$,$T_{{M \times N}_5}$}
             \end{axis}
         \end{tikzpicture}
-        \caption{Tiempos de ejecución observados al variar los valores de $N$ ($T_{M \times N}$)  5 veces 
-        }
     \end{figure}
 
-    En la Figura \ref{fig:exp3:var-nxn-base} se puede apreciar que para cada N los picos difieren entre las diferentes corridas. 
+    En la Figura \ref{fig:exp3:var-nxn-base-varios} se puede apreciar que para cada N los picos difieren entre las diferentes corridas. 
     Este analisis, escapa al control de las variables que poseemos, ya que estos experimentos fueron corridos con 
     los mismo parametros. Por lo cual se esperaba que los picos de dicho grafico sean identicos o muy parecedios entre si. Entoces 
     estas irregularidades son idependientes de los valores de entrada.  
@@ -520,7 +517,8 @@
 
 	\begin{figure}[H]
         \centering
-        \caption{}
+        \caption{Cociente entre los tiempos de ejecución observados, $T_{M \times N}$ 
+        y el valor correspondiente de $N$, respectivamente. Se considera $c = 20$.}
         \label{fig:exp3:var-nxn-divconst}
         \begin{tikzpicture}
             \begin{axis}[
@@ -543,8 +541,6 @@
                 \legend{$T_{M \times N}/N^{2}$, $c$}
             \end{axis}
         \end{tikzpicture}
-        \caption{Cociente entre los tiempos de ejecución observados, $T_{M \times N}$ 
-        y el valor correspondiente de $N$, respectivamente. Se considera $c = 20$.}
     \end{figure}
 
     En el gráfico de la Figura \ref{fig:exp3:var-nxn-divconst} se puede ver que
@@ -553,7 +549,8 @@
 
     \begin{figure}[H]
         \centering
-        \caption{}
+		\caption{Tiempos de ejecución observados al variar los valores de $K$
+        ($T_K$). Se considera $c = 1.3 \times 10^7$.}
         \label{fig:exp3:varh}
         \begin{tikzpicture}
             \begin{axis}[
@@ -576,8 +573,6 @@
                 \legend{$T_H$, $c$}
             \end{axis}
         \end{tikzpicture}
-        \caption{Tiempos de ejecución observados al variar los valores de $K$
-        ($T_K$). Se considera $c = 1.3 \times 10^7$.}
     \end{figure}
 
 	En el gráfico de la Figura \ref{fig:exp3:varh}, por último, se puede ver que
