@@ -364,69 +364,13 @@
 
     Todas las instancias utilizadas para estas pruebas se generaron de manera aleatoria.
 
-    Los resultados obtenidos se exponen en las Figuras \ref{fig:exp2:n_fijo} y \ref{fig:exp2:m_fijo}.
+    A continuación se detalla la notación utilizada en los gráficos para referirse a los mismos.
 
-    \renewcommand\constante{12}
-
-    En la Figura \ref{fig:exp2:n_fijo} se reflejan los resultados de mantener una cantidad $N$ de nodos fija, variando la cantidad de aristas $M$ de los grafos. El valor en el que se fijó $N$ fue de 400. Los valores de $M$ se encuentran entre 399 y 79800. Estos valores corresponden a la mínima y máxima cantidad de aristas que un grafo conexo con $N$ fijo puede tener, respectivamente. Notar que necesitamos que el grafo sea conexo para cumplir con los requisitos del enunciado del problema. La mínima cantidad de aristas de un grafo conexo de $N$ nodos es de $M = N - 1$, y la máxima es el grafo completo, $M = \frac{N(N - 1)}{2}$.
-
-    La complejidad del algoritmo es de orden $\ord(M \times log(N))$, pero como en esta prueba $N$ es constante, la complejidad temporal debería ser lineal en la cantidad de aristas. Es por eso que se ilustra la cota teórica de $c \times M$ (el valor de $c$ utilizado es \constante).
-
-    \begin{figure}[H]
-        \centering
-        \caption{}
-        \label{fig:exp2:n_fijo}
-        \begin{tikzpicture}
-            \begin{axis}[
-                    title={Cantidad de nodos fija $N = 400$},
-                    xlabel={Cantidad de aristas($M$)},
-                    ylabel={Tiempo de ejecución (nanosegundos)},
-                    scaled x ticks=false,
-                    scaled y ticks=false,
-                    enlargelimits=0.05,
-                    width=0.5\textwidth,
-                    height=0.5\textwidth,
-                    legend pos=south east,
-                    legend cell align=left,
-                    xmin=1
-                ]
-                \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaNFijo};
-                \addplot[color=red] table[x index=0, y expr={x*\constante}]{../exp/elImperioContraatacaNFijo};
-                \legend{$T$, $c \times M$}
-            \end{axis}
-        \end{tikzpicture}
-    \end{figure}
-
-    \renewcommand\constante{24000000}
-
-    En la Figura \ref{fig:exp2:m_fijo} se reflejan los resultados de mantener una cantidad $M$ de aristas fija, variando la cantidad de nodos $N$ de los grafos. El valor en el que se fijó $M$ fue de 400000. Los valores de $N$ se encuentran entre 895 y 400001. Estos valores corresponden a la mínima y máxima cantidad de nodos que un grafo conexo con $M$ fijo puede tener, respectivamente. La mínima cantidad de nodos de un grafo conexo de $M$ aristas es el grafo completo, $N = \frac{1 + \sqrt{1 + 8M}}{2}$, y la máxima es de $N = M + 1$.
-
-    Así como en el experimento anterior, la complejidad temporal del experimento varía de la del algoritmo, ya que $M$ se mantiene constante. Esta debería ser logarítmica en la cantidad de nodos. Es por eso que se ilustra la cota teórica de $c \times log(N)$ (el valor de $c$ utilizado es \constante).
-
-    \begin{figure}[H]
-        \centering
-        \caption{}
-        \label{fig:exp2:m_fijo}
-        \begin{tikzpicture}
-            \begin{axis}[
-                    title={Cantidad de nodos fija $M = 400000$},
-                    xlabel={Cantidad de nodos($N$)},
-                    ylabel={Tiempo de ejecución (nanosegundos)},
-                    scaled x ticks=false,
-                    scaled y ticks=false,
-                    enlargelimits=0.05,
-                    width=0.5\textwidth,
-                    height=0.5\textwidth,
-                    legend pos=south east,
-                    legend cell align=left,
-                    xmin=1
-                ]
-                \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaMFijo};
-                \addplot[color=red] table[x index=0, y expr={ln(x)*\constante}]{../exp/elImperioContraatacaMFijo};
-                \legend{$T$, $c \times log(N)$}
-            \end{axis}
-        \end{tikzpicture}
-    \end{figure}
+    \begin{itemize}
+        \item $A$: Árbol generado de manera aleatoria. Para cada valor de $M$, se genera un grafo de $N = M+1$ nodos. A continuación, se van agregando aristas al grafo de forma aleatoria, asegurándose de que no se formen ciclos, hasta completar $M$ aristas.
+        \item $G$: Grafo conexo generado de manera aleatoria. Se genera un árbol de forma aleatoria al cual se le agregan aristas, también al azar, hasta completar las $M$ aristas.
+        \item $K$: Grafo completo. Para cada valor de $M$ se considera un grafo completo con $\frac{1 + \sqrt{1 + 8 \times M}}{2}$ nodos.
+    \end{itemize}
 
     \renewcommand\constante{5}
 
@@ -452,7 +396,7 @@
                 ]
                 \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaArboles};
                 \addplot[color=red] table[x index=0, y expr={x*ln(x + 1)*\constante}]{../exp/elImperioContraatacaArboles};
-                \legend{$T$, $c \times M \times log(N)$}
+                \legend{$A$ (Árbol), $c \times M \times log(N)$ ($c = \constante$)}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -469,7 +413,7 @@
             \begin{axis}[
                     title={},
                     xlabel={Cantidad de aristas($M$)},
-                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    ylabel={nanosegundos $/$ $(M \times log(N))$},
                     scaled x ticks=false,
                     scaled y ticks=false,
                     enlargelimits=0.05,
@@ -483,7 +427,7 @@
                 ]
                 \addplot[color=black] table[x index=0,y expr={\thisrowno{1} / (x * ln(x + 1))}]{../exp/elImperioContraatacaArboles};
                 \addplot[color=red] table[x index=0, y expr={\constante}]{../exp/elImperioContraatacaArboles};
-                \legend{$\frac{T}{M \times log(N)}$, $c$}
+                \legend{$\frac{A}{M \times log(N)}$, $c = \constante$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -512,7 +456,7 @@
                 ]
                 \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaCompletos};
                 \addplot[color=red] table[x index=0, y expr={(x - 1)*x/2*ln(x)*\constante}]{../exp/elImperioContraatacaCompletos};
-                \legend{$T$, $c \times M \times log(N)$}
+                \legend{$K$ (Grafo completo), $c \times M \times log(N)$ ($c = \constante$)}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -529,7 +473,7 @@
             \begin{axis}[
                     title={},
                     xlabel={Cantidad de nodos($N$)},
-                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    ylabel={nanosegundos $/$ $(M \times log(N))$},
                     scaled x ticks=false,
                     scaled y ticks=false,
                     enlargelimits=0.05,
@@ -542,9 +486,104 @@
                 ]
                 \addplot[color=black] table[x index=0,y expr={\thisrowno{1} / ((x - 1) * x * ln(x))}]{../exp/elImperioContraatacaCompletos};
                 \addplot[color=red] table[x index=0, y expr={\constante}]{../exp/elImperioContraatacaCompletos};
-                \legend{$\frac{T}{M \times log(N)}$, $c$}
+                \legend{$\frac{K}{M \times log(N)}$, $c = \constante$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
+
+    En la Figura \ref{fig:exp2:comparacion} se grafican y contraponen los resultados de los experimentos entre árboles y grafos completos. La hipótesis formulada es que para una misma cantidad de nodos, el tiempo de ejecución de los árboles será menor que el de los grafos completos, ya que para una mimsma cantidad de nodos el grafo completo tiene muchas más aristas. De hecho tiene la máxima cantidad de aristas, y el árbol la mínima.
+
+    \begin{figure}[H]
+        \centering
+        \caption{}
+        \label{fig:exp2:comparacion}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    title={},
+                    xlabel={Cantidad de nodos($N$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1,
+                    ymin=0,
+                    ymode=log
+                ]
+                \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaArbolesComp};
+                \addplot[color=red] table[x index=0,y index=1]{../exp/elImperioContraatacaCompletos};
+                \legend{$A$ (Árbol), $G$ (Grafo completo)}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    Como vemos la hipótesis se verifica, los grafos completos requieren un mucho mayor tiempo de ejecución. Para ahondar en la comparación entre los posibles extremos de un grafo en cuanto a aristas, realizamos otros dos experimentos en donde se mantiene fija la cantidad de nodos y la de aristas, respectivamente, mientras que se aumenta la otra variable en cuestión. Esto nos permite analizar el comportamiento de los grafos en cuanto a la distribución de aristas, de un extremo al otro, ya que manteniendo una variable constante e incrementando la otra los grafos comienzan siendo árboles hasta llegar a ser completos.
+
+    Además se emplearán los experimentos para corroborar que el algoritmo cumple con la complejidad temporal.
+
+    \renewcommand\constante{10}
+
+    En la Figura \ref{fig:exp2:n_fijo} se reflejan los resultados de mantener una cantidad $N$ de nodos fija, variando la cantidad de aristas $M$ de los grafos. El valor en el que se fijó $N$ fue de 400. Los valores de $M$ se encuentran entre 399 y 79800. Estos valores corresponden a la mínima y máxima cantidad de aristas que un grafo conexo con $N$ fijo puede tener, respectivamente. Notar que necesitamos que el grafo sea conexo para cumplir con los requisitos del enunciado del problema. La mínima cantidad de aristas de un grafo conexo de $N$ nodos es de $M = N - 1$, y la máxima es el grafo completo, $M = \frac{N(N - 1)}{2}$.
+
+    La complejidad del algoritmo es de orden $\ord(M \times log(N))$, pero como en esta prueba $N$ es constante, la complejidad temporal debería ser lineal en la cantidad de aristas. Es por eso que se ilustra la cota teórica de $c \times M$ (el valor de $c$ utilizado es \constante).
+
+    \begin{figure}[H]
+        \centering
+        \caption{Cantidad de nodos fija $N = 1000$}
+        \label{fig:exp2:n_fijo}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    xlabel={Cantidad de aristas($M$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaNFijo};
+                \addplot[color=red] table[x index=0, y expr={x*\constante}]{../exp/elImperioContraatacaNFijo};
+                \legend{$G$ (Grafo conexo), $c \times M$ ($c = \constante$)}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    \renewcommand\constante{24000000}
+
+    En la Figura \ref{fig:exp2:m_fijo} se reflejan los resultados de mantener una cantidad $M$ de aristas fija, variando la cantidad de nodos $N$ de los grafos. El valor en el que se fijó $M$ fue de 400000. Los valores de $N$ se encuentran entre 895 y 400001. Estos valores corresponden a la mínima y máxima cantidad de nodos que un grafo conexo con $M$ fijo puede tener, respectivamente. La mínima cantidad de nodos de un grafo conexo de $M$ aristas es el grafo completo, $N = \frac{1 + \sqrt{1 + 8M}}{2}$, y la máxima es de $N = M + 1$.
+
+    Así como en el experimento anterior, la complejidad temporal del experimento varía de la del algoritmo, ya que $M$ se mantiene constante. Esta debería ser logarítmica en la cantidad de nodos. Es por eso que se ilustra la cota teórica de $c \times log(N)$ (el valor de $c$ utilizado es \constante).
+
+    \begin{figure}[H]
+        \centering
+        \caption{Cantidad de aristas fija $M = 400000$}
+        \label{fig:exp2:m_fijo}
+        \begin{tikzpicture}
+            \begin{axis}[
+                    xlabel={Cantidad de nodos($N$)},
+                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    scaled x ticks=false,
+                    scaled y ticks=false,
+                    enlargelimits=0.05,
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                    legend pos=south east,
+                    legend cell align=left,
+                    xmin=1
+                ]
+                \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaMFijo};
+                \addplot[color=red] table[x index=0, y expr={ln(x)*\constante}]{../exp/elImperioContraatacaMFijo};
+                \legend{$G$ (Grafo conexo), $c \times log(N)$ ($c = \constante$)}
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    En este gráfico se puede observar que se produce un pico cerca de la máxima cantidad de nodos posibles. Cuanto mayor sea la cantidad de nodos de un grafo para una cantidad de aristas fija, el grado de los nodos irá disminuyendo, ya que esa misma cantidad debe distribuirse entre una mayor cantidad de nodos, aproximándose cada vez más a un árbol. Nuestra hipótesis al respecto es que llegando a convertirse el grafo en un árbol, su estructura contrarresta (en medida de tiempo de ejecución) al aumento en la cantidad de nodos. En otras palabras, para una cantidad alta de nodos respecto a las aristas (esta cantidad es el pico observado), es conveniente aumentar la cantidad de nodos y redistribuir las aristas entre ellos.
 
     El análisis expuesto de los datos recopilados presenta evidencia empírica sobre la pertinencia de la cota de complejidad demostrada teóricamente.
