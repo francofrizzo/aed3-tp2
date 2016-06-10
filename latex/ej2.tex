@@ -364,9 +364,15 @@
 
     Todas las instancias utilizadas para estas pruebas se generaron de manera aleatoria.
 
-    Los resultados obtenidos se exponen en las Figuras \ref{fig:exp2:n_fijo} y \ref{fig:exp2:m_fijo}.
+    A continuación se detalla la notación utilizada en los gráficos para referirse a los mismos.
 
-    \renewcommand\constante{12}
+    \begin{itemize}
+        \item $A$: Árbol generado de manera aleatoria. Para cada valor de $M$, se genera un grafo de $N = M+1$ nodos. A continuación, se van agregando aristas al grafo de forma aleatoria, asegurándose de que no se formen ciclos, hasta completar $M$ aristas.
+        \item $G$: Grafo conexo generado de manera aleatoria. Se genera un árbol de forma aleatoria al cual se le agregan aristas, también al azar, hasta completar las $M$ aristas.
+        \item $K$: Grafo completo. Para cada valor de $M$ se considera un grafo completo con $\frac{1 + \sqrt{1 + 8 \times M}}{2}$ nodos.
+    \end{itemize}
+
+    \renewcommand\constante{10}
 
     En la Figura \ref{fig:exp2:n_fijo} se reflejan los resultados de mantener una cantidad $N$ de nodos fija, variando la cantidad de aristas $M$ de los grafos. El valor en el que se fijó $N$ fue de 400. Los valores de $M$ se encuentran entre 399 y 79800. Estos valores corresponden a la mínima y máxima cantidad de aristas que un grafo conexo con $N$ fijo puede tener, respectivamente. Notar que necesitamos que el grafo sea conexo para cumplir con los requisitos del enunciado del problema. La mínima cantidad de aristas de un grafo conexo de $N$ nodos es de $M = N - 1$, y la máxima es el grafo completo, $M = \frac{N(N - 1)}{2}$.
 
@@ -378,7 +384,7 @@
         \label{fig:exp2:n_fijo}
         \begin{tikzpicture}
             \begin{axis}[
-                    title={Cantidad de nodos fija $N = 400$},
+                    title={Cantidad de nodos fija $N = 1000$},
                     xlabel={Cantidad de aristas($M$)},
                     ylabel={Tiempo de ejecución (nanosegundos)},
                     scaled x ticks=false,
@@ -392,7 +398,7 @@
                 ]
                 \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaNFijo};
                 \addplot[color=red] table[x index=0, y expr={x*\constante}]{../exp/elImperioContraatacaNFijo};
-                \legend{$T$, $c \times M$}
+                \legend{$G$ (Grafo conexo), $c \times M$ ($c = \constante$)}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -423,7 +429,7 @@
                 ]
                 \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaMFijo};
                 \addplot[color=red] table[x index=0, y expr={ln(x)*\constante}]{../exp/elImperioContraatacaMFijo};
-                \legend{$T$, $c \times log(N)$}
+                \legend{$G$ (Grafo conexo), $c \times log(N)$ ($c = \constante$)}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -452,7 +458,7 @@
                 ]
                 \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaArboles};
                 \addplot[color=red] table[x index=0, y expr={x*ln(x + 1)*\constante}]{../exp/elImperioContraatacaArboles};
-                \legend{$T$, $c \times M \times log(N)$}
+                \legend{$A$ (Árbol), $c \times M \times log(N)$ ($c = \constante$)}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -469,7 +475,7 @@
             \begin{axis}[
                     title={},
                     xlabel={Cantidad de aristas($M$)},
-                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    ylabel={nanosegundos $/$ $(M \times log(N))$},
                     scaled x ticks=false,
                     scaled y ticks=false,
                     enlargelimits=0.05,
@@ -483,7 +489,7 @@
                 ]
                 \addplot[color=black] table[x index=0,y expr={\thisrowno{1} / (x * ln(x + 1))}]{../exp/elImperioContraatacaArboles};
                 \addplot[color=red] table[x index=0, y expr={\constante}]{../exp/elImperioContraatacaArboles};
-                \legend{$\frac{T}{M \times log(N)}$, $c$}
+                \legend{$\frac{A}{M \times log(N)}$, $c = \constante$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -512,7 +518,7 @@
                 ]
                 \addplot[color=black] table[x index=0,y index=1]{../exp/elImperioContraatacaCompletos};
                 \addplot[color=red] table[x index=0, y expr={(x - 1)*x/2*ln(x)*\constante}]{../exp/elImperioContraatacaCompletos};
-                \legend{$T$, $c \times M \times log(N)$}
+                \legend{$K$ (Grafo completo), $c \times M \times log(N)$ ($c = \constante$)}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
@@ -529,7 +535,7 @@
             \begin{axis}[
                     title={},
                     xlabel={Cantidad de nodos($N$)},
-                    ylabel={Tiempo de ejecución (nanosegundos)},
+                    ylabel={nanosegundos $/$ $(M \times log(N))$},
                     scaled x ticks=false,
                     scaled y ticks=false,
                     enlargelimits=0.05,
@@ -542,7 +548,7 @@
                 ]
                 \addplot[color=black] table[x index=0,y expr={\thisrowno{1} / ((x - 1) * x * ln(x))}]{../exp/elImperioContraatacaCompletos};
                 \addplot[color=red] table[x index=0, y expr={\constante}]{../exp/elImperioContraatacaCompletos};
-                \legend{$\frac{T}{M \times log(N)}$, $c$}
+                \legend{$\frac{K}{M \times log(N)}$, $c = \constante$}
             \end{axis}
         \end{tikzpicture}
     \end{figure}
