@@ -6,7 +6,7 @@ Correciones pendientes
 
 * Ejercicio 1
 	* gráfico mostrando solución
-	* ver cola en gráficos de bfs
+	* ~~ver cola en gráficos de bfs~~
 	* ~~demo~~
 	* explicar por qué vale cota grafos completos
 	* que se vea c=300
@@ -14,9 +14,9 @@ Correciones pendientes
 	* ~~graficar ejemplo~~
 	* experimentación
 * Ejercicio 3
-	* detalle solución propuesta
-	* inducción en la suma de n+m
-	* comentar pseudocódigo
+	* ~~detalle solución propuesta~~
+	* ~~inducción en la suma de n+m~~
+	* ~~comentar pseudocódigo~~
 	* experimentación
 
 [Imágenes con correcciones](https://goo.gl/photos/g3n5pGzrrPFs3LYE9)

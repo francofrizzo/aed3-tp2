@@ -173,7 +173,7 @@
 		\centering
 		\includegraphics{imagenes/ej1_modelo_2.pdf}
 		\caption{Visualización del \emph{BFS} marcando con verde los nodos
-		visitados.}
+		visitados y el estado de la cola.}
 		\label{ej1:bfs}
 	\end{figure}
 
@@ -543,10 +543,12 @@
         aristas de forma aleatoria hasta formar un nuevo árbol con $M$
         aristas.
         \item $K$: Grafo completo. Para cada valor de $M$ se considera un
-        grafo completo con $\frac{1 + \sqrt{1 + 8 \times M}}{2}$ nodos. Los
-        valores de $M$ considerados se seleccionan de forma tal que el
-        resultado de esta fórmula sea un número entero. En este caso, al
-        igual que en los dos siguientes, el elemento de azar se
+        grafo completo. Del hecho de que un grafo completo de $N$ nodos tiene
+        $M = \frac{N \times (N - 1)}{2}$ aristas, se deduce que un grafo
+        completo de $M$ aristas deberá tener $\frac{1 + \sqrt{1 + 8 \times
+        M}}{2}$ nodos. Los valores de $M$ considerados se aproximan de forma
+        tal que el resultado de esta fórmula sea un número entero. En este
+        caso, al igual que en los dos siguientes, el elemento de azar se
         reduce a la selección del subconjunto de aristas especiales.
         \item $P$: Camino simple de $M$ aristas, cuyos extremos son los nodos
         $0$ y $N-1$.
@@ -571,7 +573,8 @@
 
     \begin{figure}[H]
         \centering
-        \caption{Tiempos de ejecución según la cantidad de aristas}
+        \caption{Tiempos de ejecución según la cantidad de aristas
+        ($c=\constante$)}
         \label{fig:exp1:var-m-base}
         \begin{tikzpicture}
             \begin{axis}[
@@ -643,7 +646,8 @@
 
     \begin{figure}[H]
         \centering
-        \caption{Cociente entre tiempo de ejecución y tamaño de la instancia}
+        \caption{Cociente entre tiempo de ejecución y tamaño de la instancia
+        ($c=\constante$)}
         \label{fig:exp1:var-m-div-const}
         \begin{tikzpicture}
             \begin{axis}[
