@@ -2,6 +2,7 @@
 #include "./UnaNuevaEsperanza.h"
 
 #include <algorithm>       // random_shuffle
+#include <cmath>
 
 /*
 **  Ejercicio 1: Una nueva esperanza

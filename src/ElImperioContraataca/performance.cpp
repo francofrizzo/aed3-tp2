@@ -250,6 +250,61 @@ void ejecutarPruebaArboles(ofstream& archivoSalida, bool quiet) {
     }
 }
 
+void ejecutarPruebaArbolesComp(ofstream& archivoSalida, bool quiet) {
+    if (!quiet){
+        cout << "Escenario: Arboles" << endl;
+        cout << "   #    aristas       nodos   OK" << endl;
+    }
+
+    vector<vector<pair<int, int>>> rutas;
+    int rangoAristas =  N_FINAL - N_INICIAL;
+    int m = N_INICIAL;
+    int n = m + 1;
+
+    for (unsigned int i = 0; i < CANT_INSTANCIAS; i++) {
+        double tiempos[CANT_REPETICIONES];
+        double tiempo_promedio = 0;
+        double desv_estandar = 0;
+
+        if(!quiet)
+            cout << setfill(' ') << setw(4) << i << "    " << setfill(' ') << setw(7) << m << "     " << setfill(' ') << setw(7) << n << "     " << flush;
+        
+        for (int r = -CANT_INST_DESCARTADAS; r < CANT_REPETICIONES; r++) {
+            if (!quiet)
+                cout << "\b\b\b" << setfill(' ') << setw(3) << r << flush;
+
+            rutas = generarCasoRandom(n, m);
+            
+            vector<int> agm;
+            double tiempo;
+            start_timer();
+            resolver(rutas, agm);
+            tiempo = stop_timer();
+
+            if (r >= 0) {
+                tiempos[r] = tiempo;
+                tiempo_promedio += tiempos[r];
+            }
+        }
+
+        tiempo_promedio = tiempo_promedio / CANT_REPETICIONES;
+
+        for (unsigned int r = 0; r < CANT_REPETICIONES; r++)
+            desv_estandar += pow(tiempos[r] - tiempo_promedio, 2);
+
+        desv_estandar = sqrt(desv_estandar / CANT_REPETICIONES);
+
+        archivoSalida << m  << " " << tiempo_promedio << " " << desv_estandar << endl;
+
+        if (!quiet)
+            cout << "\b\b\b  ✓" << endl;
+
+        m += rangoAristas / CANT_INSTANCIAS;
+        n = m + 1;
+    
+    }
+}
+
 void ejecutarPruebaCompletos(ofstream& archivoSalida, bool quiet) {
     if (!quiet){
         cout << "Escenario: Completos" << endl;
@@ -312,9 +367,9 @@ void correr_pruebas_performance() {
     // ejecutarPruebaConMFijo(archivoSalida, quiet, M_FIJO);
     // archivoSalida.close();
 
-    archivoSalida.open("../exp/elImperioContraatacaNFijo");
-    ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
-    archivoSalida.close();
+    // archivoSalida.open("../exp/elImperioContraatacaNFijo");
+    // ejecutarPruebaConNFijo(archivoSalida, quiet, N_FIJO);
+    // archivoSalida.close();
 
     // archivoSalida.open("../exp/elImperioContraatacaArboles");
     // ejecutarPruebaArboles(archivoSalida, quiet);
@@ -323,4 +378,9 @@ void correr_pruebas_performance() {
     // archivoSalida.open("../exp/elImperioContraatacaCompletos");
     // ejecutarPruebaCompletos(archivoSalida, quiet);
     // archivoSalida.close();
+
+    archivoSalida.open("../exp/elImperioContraatacaArbolesComp");
+    ejecutarPruebaArbolesComp(archivoSalida, quiet);
+    archivoSalida.close();
+
 }
