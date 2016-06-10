@@ -465,20 +465,22 @@
                     xmin=1
                 ]
                 \addplot[color=black] table[x index=0,y index=1]{../exp/elRetornoDelJediFilasYColumnas};
-                \addplot[color=red] table[x index=0, y expr={x*x*15}]{../exp/elRetornoDelJediFilasYColumnas};
+                \addplot[color=red] table[x index=0, y expr={x*x*20}]{../exp/elRetornoDelJediFilasYColumnas};
                 \legend{$T_{M \times N}$, $cN^{2}$}
             \end{axis}
         \end{tikzpicture}
         \caption{Tiempos de ejecución observados al variar los valores de $N$
-        ($T_{M \times N}$) . Se considera $c = 15$ .}
+        ($T_{M \times N}$) . Se considera $c = 20$ .}
     \end{figure}
 
 	En la Figura \ref{fig:exp3:var-nxn-base} se puede ver que al variar el $N$
 	(y simultáneamente el $M$, ya que se considera $M = N$), $T_{M \times N}$ se
 	puede acotar por una función cuadrática con constante $c$.  
 
-	Dado las irregularidades en $T_{M \times N}$, se corrieron el mismo escenario 
+	Dadas las irregularidades en $T_{M \times N}$, se corrió el mismo escenario 
 	varias veces para analizar dichos picos.
+
+
 
 	\begin{figure}[H]
         \centering
@@ -501,12 +503,12 @@
                     ymax=100
                 ]
                 \addplot[color=black] table[x index=0,y expr={\thisrowno{1}/(x*x)}]{../exp/elRetornoDelJediFilasYColumnas};
-                \addplot[color=red] table[x index=0, y expr={12}]{../exp/elRetornoDelJediFilasYColumnas};
+                \addplot[color=red] table[x index=0, y expr={20}]{../exp/elRetornoDelJediFilasYColumnas};
                 \legend{$T_{M \times N}/N^{2}$, $c$}
             \end{axis}
         \end{tikzpicture}
         \caption{Cociente entre los tiempos de ejecución observados, $T_{M \times N}$ 
-        y el valor correspondiente de $N$, respectivamente. Se considera $c = 15$.}
+        y el valor correspondiente de $N$, respectivamente. Se considera $c = 20$.}
     \end{figure}
 
     En el gráfico de la Figura \ref{fig:exp3:var-nxn-divconst} se puede ver que

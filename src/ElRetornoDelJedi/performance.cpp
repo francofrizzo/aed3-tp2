@@ -135,7 +135,7 @@ void correr_pruebas_performance() {
         // archivoSalida.close();
 
         archivoSalida.open("../exp/elRetornoDelJediFilasYColumnas");
-        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,20);
+        ejecutarPruebas(PRUEBA_VARIAR_COLUMNAS_Y_FILAS, archivoSalida, quiet,MAX_NxM,10);
         archivoSalida.close();
 
         // archivoSalida.open("../exp/elRetornoDelJediNivelDeEntrenamiento");
